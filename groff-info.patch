@@ -1,0 +1,24 @@
+--- groff-1.16.1.new/doc/groff.texinfo	Thu Nov 30 03:02:24 2000
++++ groff-1.16.1.new/doc/groff.texinfo.new	Thu Nov 30 03:02:40 2000
+@@ -7,7 +7,7 @@
+ @c
+ 
+ @c %**start of header (This is for running Texinfo on a region.)
+-@setfilename  groff
++@setfilename  groff.info
+ @settitle The GNU Troff Manual
+ @setchapternewpage odd
+ @footnotestyle separate
+@@ -70,9 +70,10 @@
+ @c XXX comment all examples
+ 
+ 
+-@dircategory Miscellaneous
++@dircategory Text Processing Tools:
+ @direntry
+-* Groff: (groff).  The GNU troff document formatting system.
++* Groff: (groff).			The GNU troff document formatting
++					system
+ @end direntry
+ 
+ 
