@@ -22,31 +22,31 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
 Groff is a document formatting system. Groff takes standard text and
-formatting commands as input and produces formatted output. The created
-documents can be shown on a display or printed on a printer. Groff's
-formatting commands allow you to specify font type and size, bold type,
-italic type, the number and size of columns on a page, and more. You should
-install groff if you want to use it as a document formatting system. Groff
-can also be used to format man pages. If you are going to use groff with
-the X Window System, you'll also need to install the groff-gxditview
-package.
+formatting commands as input and produces formatted output. The
+created documents can be shown on a display or printed on a printer.
+Groff's formatting commands allow you to specify font type and size,
+bold type, italic type, the number and size of columns on a page, and
+more. You should install groff if you want to use it as a document
+formatting system. Groff can also be used to format man pages. If you
+are going to use groff with the X Window System, you'll also need to
+install the groff-gxditview package.
 
 %description -l de
 Groff ist ein Dokumentformatierungssystem. Groff liest Text und
-Formatierungskommandos ein, und gibt formatierte Ausgabe aus. Die erzeugten
-Dokumente können angezeigt oder ausgedruckt werden. Groffs
+Formatierungskommandos ein, und gibt formatierte Ausgabe aus. Die
+erzeugten Dokumente können angezeigt oder ausgedruckt werden. Groffs
 Formatierungsbefehle erlauben Ihnen, Schriftart und -größe, Fettdruck,
 Kursivdruck, und die Anzahl der Spalten pro Seite usw. zu setzen. Sie
-sollten groff installieren, wenn Sie es als Dokumentformatierungssystem
-benutzen wollen. Groff ann auch benutzt werden, um man-pages anzuziegen.
-Wenn Sie groff in X11 benutzen wollten, brauchen Sie auch das
-groff-gxditview-Paket.
+sollten groff installieren, wenn Sie es als
+Dokumentformatierungssystem benutzen wollen. Groff ann auch benutzt
+werden, um man-pages anzuziegen. Wenn Sie groff in X11 benutzen
+wollten, brauchen Sie auch das groff-gxditview-Paket.
 
 %description -l fr
-Le système de formatage de texte groff peut être utilisé pour créer des
-documents d'aspect professionnel sur papier et à l'écran. Toutes les pages
-man sont traitées avec groff, vous avez donc besoin de ce paquetage pour
-les visualiser.
+Le système de formatage de texte groff peut être utilisé pour créer
+des documents d'aspect professionnel sur papier et à l'écran. Toutes
+les pages man sont traitées avec groff, vous avez donc besoin de ce
+paquetage pour les visualiser.
 
 %description -l pl
 System formatowania tekstu groff mo¿e byæ u¿ywany do tworzenia
@@ -57,9 +57,9 @@ czytania podrêczników ekranowych.
 
 %description -l tr
 groff metin biçemleme sistemi kaðýt veya bilgisayar ekraný üzerinde
-profesyonel görünüme sahip belgeler yaratmaya yarar. Bütün kýlavuz (man)
-sayfalarý groff ile hazýrlanmýþtýr. man sayfalarýný okuyabilmek için groff
-paketine gereksiniminiz olacaktýr.
+profesyonel görünüme sahip belgeler yaratmaya yarar. Bütün kýlavuz
+(man) sayfalarý groff ile hazýrlanmýþtýr. man sayfalarýný okuyabilmek
+için groff paketine gereksiniminiz olacaktýr.
 
 %package gxditview
 Summary:	An X previewer for groff text processor output
@@ -72,10 +72,11 @@ Group(pl):	Aplikacje/Publikowanie
 Requires:	%{name} = %{version}
 
 %description gxditview
-Gxditview displays the groff text processor's output on an X Window System
-display. If you are going to use groff as a text processor, you should
-install gxditview so that you preview your processed text files in X.
-You'll also need to install the groff package and the X Window System.
+Gxditview displays the groff text processor's output on an X Window
+System display. If you are going to use groff as a text processor, you
+should install gxditview so that you preview your processed text files
+in X. You'll also need to install the groff package and the X Window
+System.
 
 %description -l de gxditview
 Gxditview zeigt groff-Ausgaben auf einem X-Window-Display an. Wenn Sie
@@ -83,9 +84,9 @@ groff als Textprozessor benutzen wollen, und X11 benutzen, sollten Sie
 gxditview installieren.
 
 %description -l fr gxditview
-Ce paquetage contient le programme gxditview, qui peut servir à formater et
-viusaliser les documents groff sous X Window. Les pages peuvent, par
-exemple, être lues avec gxditview.
+Ce paquetage contient le programme gxditview, qui peut servir à
+formater et viusaliser les documents groff sous X Window. Les pages
+peuvent, par exemple, être lues avec gxditview.
 
 %description -l pl gxditview
 Pakiet ten zawiera program gxditview, który pozwoli Ci na formatowanie
@@ -93,7 +94,8 @@ dokumentów pod X'ami. Na przyk³ad, do czytania porêczników ekranowych.
 
 %description -l tr gxditview
 Bu paket groff belgelerini görüntüleyip deðiþtirmeye yarayan gxditview
-programýný içerir. Örneðin man sayfalarý gxditview kullanýlarak okunabilir.
+programýný içerir. Örneðin man sayfalarý gxditview kullanýlarak
+okunabilir.
 
 %package perl
 Summary:	Parts of the groff formatting system that require Perl
@@ -105,15 +107,16 @@ Requires:	%{name} = %{version}
 %description perl
 groff-perl contains the parts of the groff text processor package that
 require Perl. These include the afmtodit font processor used to create
-PostScript font files, the grog utility that can be used to automatically
-determine groff command-line options, and the troff-to-ps print filter.
+PostScript font files, the grog utility that can be used to
+automatically determine groff command-line options, and the
+troff-to-ps print filter.
 
 %description -l pl perl
 groff-perl zawiera czê¶æ zasobów groff-a która wymaga Perla. Skrypt
 afmtodit jest procesorem fontów u¿ywanym do tworzenia plików fontów w
-formacie PostScript, a skrypt grok u¿ywany jest do automatycznego doboru
-parametrów dla groff przy konwersji troff -> PostScript (zwykle u¿ywany
-przy drukowaniu).
+formacie PostScript, a skrypt grok u¿ywany jest do automatycznego
+doboru parametrów dla groff przy konwersji troff -> PostScript (zwykle
+u¿ywany przy drukowaniu).
 
 %prep
 %setup -q
