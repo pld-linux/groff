@@ -146,7 +146,7 @@ install -d $RPM_BUILD_ROOT%{_libdir}/rhs/rhs-printfilters
 make install DESTDIR=$RPM_BUILD_ROOT
 
 # fix: tmac.m is incorrectly installed
-mv $RPM_BUILD_ROOT/usr/lib/groff/tmac/tmac. $RPM_BUILD_ROOT/usr/lib/groff/tmac/tmac.m
+mv $RPM_BUILD_ROOT%{_datadir}/groff/tmac/tmac. $RPM_BUILD_ROOT%{_datadir}/groff/tmac/tmac.m
 
 cd xditview
 make DESTDIR=$RPM_BUILD_ROOT install install.man
