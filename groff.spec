@@ -13,7 +13,7 @@ Summary(tr):	GNU groff metin biГemleme paketi
 Summary(uk):	GNU groff - пакет для форматування тексту
 Name:		groff
 Version:	1.19
-Release:	1
+Release:	2
 License:	GPL
 Group:		Applications/Publishing
 Source0:	ftp://ftp.ffii.org/pub/groff/%{name}-%{version}.tar.gz
