@@ -1,16 +1,18 @@
 diff -Nru groff-1.16.1/Makefile.comm groff-1.16.1.new/Makefile.comm
---- groff-1.16.1/Makefile.comm	Thu Nov 30 03:24:08 2000
-+++ groff-1.16.1.new/Makefile.comm	Thu Nov 30 03:26:34 2000
-@@ -52,6 +52,8 @@
+--- groff-1.16.1/Makefile.comm	Tue Dec  5 09:02:32 2000
++++ groff-1.16.1.new/Makefile.comm	Tue Dec  5 08:33:29 2000
+@@ -52,6 +52,10 @@
  all install install_bin install_data TAGS depend distfiles uninstall_sub:
  
  install: prefix_must_exist install_bin install_data
-+	make -C doc install
++	make -C $(top_srcdir)/doc install \
++		DESTDIR="$(DESTDIR)" \
++		infodir="$(infodir)"
 +
  uninstall: uninstall_sub
  pure:
  
-@@ -144,29 +146,25 @@
+@@ -144,29 +148,25 @@
  
  .PHONY: install_man
  install_man:
@@ -46,7 +48,7 @@ diff -Nru groff-1.16.1/Makefile.comm groff-1.16.1.new/Makefile.comm
  	 echo $(INSTALL_DATA) $$p $$target; \
  	 $(INSTALL_DATA) $$p $$target; \
  	done
-@@ -175,59 +173,54 @@
+@@ -175,59 +175,54 @@
  uninstall_man:
  	@-pages="$(MAN1)"; \
  	for p in $$pages; do \
@@ -123,9 +125,29 @@ diff -Nru groff-1.16.1/Makefile.comm groff-1.16.1.new/Makefile.comm
  
  .PHONY: depend_src
  depend_src: depend.temp
+diff -Nru groff-1.16.1/Makefile.in groff-1.16.1.new/Makefile.in
+--- groff-1.16.1/Makefile.in	Tue Dec  5 09:02:32 2000
++++ groff-1.16.1.new/Makefile.in	Tue Dec  5 09:02:19 2000
+@@ -149,6 +149,8 @@
+ man7ext=7
+ man7dir=$(manroot)/man$(man7ext)
+ 
++infodir=@infodir@
++
+ # DEFINES should include the following:
+ # -DHAVE_MMAP			if you have mmap() and <sys/mman.h>
+ # -DARRAY_DELETE_NEEDS_SIZE	if your C++ doesn't understand `delete []'
+@@ -272,6 +274,7 @@
+   "man5dir=$(man5dir)" \
+   "man7ext=$(man7ext)" \
+   "man7dir=$(man7dir)" \
++  "infodir=$(infodir)" \
+   "mkinstalldirs=$(mkinstalldirs)" \
+   "tmac_wrap=$(tmac_wrap)" \
+   "sys_tmac_prefix=$(sys_tmac_prefix)" \
 diff -Nru groff-1.16.1/contrib/mm/Makefile.sub groff-1.16.1.new/contrib/mm/Makefile.sub
---- groff-1.16.1/contrib/mm/Makefile.sub	Thu Nov 30 03:24:08 2000
-+++ groff-1.16.1.new/contrib/mm/Makefile.sub	Thu Nov 30 03:23:34 2000
+--- groff-1.16.1/contrib/mm/Makefile.sub	Tue Dec  5 09:02:32 2000
++++ groff-1.16.1.new/contrib/mm/Makefile.sub	Tue Dec  5 08:33:29 2000
 @@ -13,25 +13,22 @@
  install: install_mm
  
@@ -179,22 +201,22 @@ diff -Nru groff-1.16.1/contrib/mm/Makefile.sub groff-1.16.1.new/contrib/mm/Makef
 +	-rmdir $(DESTDIR)$(tmacdir)/mm
 +	-rm -f $(DESTDIR)$(bindir)/mmroff
 diff -Nru groff-1.16.1/doc/Makefile groff-1.16.1.new/doc/Makefile
---- groff-1.16.1/doc/Makefile	Thu Nov 30 03:24:09 2000
-+++ groff-1.16.1.new/doc/Makefile	Thu Nov 30 03:23:34 2000
+--- groff-1.16.1/doc/Makefile	Tue Dec  5 09:02:32 2000
++++ groff-1.16.1.new/doc/Makefile	Tue Dec  5 08:33:29 2000
 @@ -68,7 +68,9 @@
  groff: groff.texinfo
  	makeinfo groff.texinfo
  
 -install:
 +install: groff
-+	$(mkinstalldirs) $(DESTDIR)$(infordir)
-+	$(INSTALL_DATA) *info* $(DESTDIR)$(infordir)
++	$(mkinstalldirs) $(DESTDIR)$(infodir)
++	$(INSTALL_DATA) groff.info* $(DESTDIR)$(infodir)
  
  clean:
  	-rm -f *.ps *.html *.ascii *.png *.gif *.dit core
 diff -Nru groff-1.16.1/src/preproc/eqn/Makefile.sub groff-1.16.1.new/src/preproc/eqn/Makefile.sub
---- groff-1.16.1/src/preproc/eqn/Makefile.sub	Thu Nov 30 03:24:08 2000
-+++ groff-1.16.1.new/src/preproc/eqn/Makefile.sub	Thu Nov 30 03:23:34 2000
+--- groff-1.16.1/src/preproc/eqn/Makefile.sub	Tue Dec  5 09:02:32 2000
++++ groff-1.16.1.new/src/preproc/eqn/Makefile.sub	Tue Dec  5 08:33:29 2000
 @@ -50,8 +50,7 @@
  	chmod +x neqn
  
@@ -207,8 +229,8 @@ diff -Nru groff-1.16.1/src/preproc/eqn/Makefile.sub groff-1.16.1.new/src/preproc
 -	-rm -f $(bindir)/$(NAMEPREFIX)neqn
 +	-rm -f $(DESTDIR)$(bindir)/$(NAMEPREFIX)neqn
 diff -Nru groff-1.16.1/src/roff/grog/Makefile.sub groff-1.16.1.new/src/roff/grog/Makefile.sub
---- groff-1.16.1/src/roff/grog/Makefile.sub	Thu Nov 30 03:24:08 2000
-+++ groff-1.16.1.new/src/roff/grog/Makefile.sub	Thu Nov 30 03:23:34 2000
+--- groff-1.16.1/src/roff/grog/Makefile.sub	Tue Dec  5 09:02:32 2000
++++ groff-1.16.1.new/src/roff/grog/Makefile.sub	Tue Dec  5 08:33:29 2000
 @@ -16,9 +16,8 @@
  	chmod +x $@
  
@@ -223,8 +245,8 @@ diff -Nru groff-1.16.1/src/roff/grog/Makefile.sub groff-1.16.1.new/src/roff/grog
 -	-rm -f $(bindir)/grog
 +	-rm -f $(DESTDIR)$(bindir)/grog
 diff -Nru groff-1.16.1/src/roff/nroff/Makefile.sub groff-1.16.1.new/src/roff/nroff/Makefile.sub
---- groff-1.16.1/src/roff/nroff/Makefile.sub	Thu Nov 30 03:24:08 2000
-+++ groff-1.16.1.new/src/roff/nroff/Makefile.sub	Thu Nov 30 03:23:34 2000
+--- groff-1.16.1/src/roff/nroff/Makefile.sub	Tue Dec  5 09:02:32 2000
++++ groff-1.16.1.new/src/roff/nroff/Makefile.sub	Tue Dec  5 08:33:29 2000
 @@ -10,9 +10,8 @@
  	chmod +x $@
  
@@ -239,8 +261,8 @@ diff -Nru groff-1.16.1/src/roff/nroff/Makefile.sub groff-1.16.1.new/src/roff/nro
 -	-rm -f $(bindir)/$(NAMEPREFIX)nroff
 +	-rm -f $(DESTDIR)$(bindir)/$(NAMEPREFIX)nroff
 diff -Nru groff-1.16.1/src/roff/troff/Makefile.sub groff-1.16.1.new/src/roff/troff/Makefile.sub
---- groff-1.16.1/src/roff/troff/Makefile.sub	Thu Nov 30 03:24:08 2000
-+++ groff-1.16.1.new/src/roff/troff/Makefile.sub	Thu Nov 30 03:23:34 2000
+--- groff-1.16.1/src/roff/troff/Makefile.sub	Tue Dec  5 09:02:32 2000
++++ groff-1.16.1.new/src/roff/troff/Makefile.sub	Tue Dec  5 08:33:29 2000
 @@ -47,11 +47,8 @@
  	@echo const char \*revision = \"`cat $(top_srcdir)/REVISION`\"\; >>$@
  
@@ -257,8 +279,8 @@ diff -Nru groff-1.16.1/src/roff/troff/Makefile.sub groff-1.16.1.new/src/roff/tro
 -	-rm -f $(tmacdir)/hyphen.us
 +	-rm -f $(DESTDIR)$(tmacdir)/hyphen.us
 diff -Nru groff-1.16.1/src/utils/afmtodit/Makefile.sub groff-1.16.1.new/src/utils/afmtodit/Makefile.sub
---- groff-1.16.1/src/utils/afmtodit/Makefile.sub	Thu Nov 30 03:24:08 2000
-+++ groff-1.16.1.new/src/utils/afmtodit/Makefile.sub	Thu Nov 30 03:23:34 2000
+--- groff-1.16.1/src/utils/afmtodit/Makefile.sub	Tue Dec  5 09:02:32 2000
++++ groff-1.16.1.new/src/utils/afmtodit/Makefile.sub	Tue Dec  5 08:33:29 2000
 @@ -13,9 +13,8 @@
  	chmod +x afmtodit
  
@@ -273,8 +295,8 @@ diff -Nru groff-1.16.1/src/utils/afmtodit/Makefile.sub groff-1.16.1.new/src/util
 -	-rm -f $(bindir)/afmtodit
 +	-rm -f $(DESTDIR)$(bindir)/afmtodit
 diff -Nru groff-1.16.1/src/utils/indxbib/Makefile.sub groff-1.16.1.new/src/utils/indxbib/Makefile.sub
---- groff-1.16.1/src/utils/indxbib/Makefile.sub	Thu Nov 30 03:24:09 2000
-+++ groff-1.16.1.new/src/utils/indxbib/Makefile.sub	Thu Nov 30 03:23:34 2000
+--- groff-1.16.1/src/utils/indxbib/Makefile.sub	Tue Dec  5 09:02:32 2000
++++ groff-1.16.1.new/src/utils/indxbib/Makefile.sub	Tue Dec  5 08:33:29 2000
 @@ -14,17 +14,9 @@
  NAMEPREFIX=$(g)
  
@@ -298,8 +320,8 @@ diff -Nru groff-1.16.1/src/utils/indxbib/Makefile.sub groff-1.16.1.new/src/utils
 -	-rm -f $(common_words_file)
 +	-rm -f $(DESTDIR)$(common_words_file)
 diff -Nru groff-1.16.1/tmac/Makefile.sub groff-1.16.1.new/tmac/Makefile.sub
---- groff-1.16.1/tmac/Makefile.sub	Thu Nov 30 03:24:09 2000
-+++ groff-1.16.1.new/tmac/Makefile.sub	Thu Nov 30 03:23:34 2000
+--- groff-1.16.1/tmac/Makefile.sub	Tue Dec  5 09:02:32 2000
++++ groff-1.16.1.new/tmac/Makefile.sub	Tue Dec  5 08:33:29 2000
 @@ -31,36 +31,25 @@
  
  install_data: $(NORMALFILES) $(SPECIALFILES) \
