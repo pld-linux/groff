@@ -179,7 +179,7 @@ echo ".so tbl.1" >     $RPM_BUILD_ROOT%{_mandir}/man1/gtbl.1
 echo ".so troff.1" >   $RPM_BUILD_ROOT%{_mandir}/man1/gtroff.1
 
 gzip -9nf NEWS PROBLEMS PROJECTS README TODO BUG-REPORT ChangeLog \
-	xditview/{ChangeLog,README,TODO}
+	src/xditview/{ChangeLog,README,TODO}
 
 %post
 [ ! -x /usr/sbin/fix-info-dir ] || /usr/sbin/fix-info-dir -c %{_infodir} >/dev/null 2>&1
@@ -202,9 +202,11 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/gnroff
 %attr(755,root,root) %{_bindir}/gpic
 %attr(755,root,root) %{_bindir}/grefer
+%attr(755,root,root) %{_bindir}/grn
 %attr(755,root,root) %{_bindir}/grodvi
 %attr(755,root,root) %{_bindir}/groff
 %attr(755,root,root) %{_bindir}/grohtml
+%attr(755,root,root) %{_bindir}/grolbp
 %attr(755,root,root) %{_bindir}/grolj4
 %attr(755,root,root) %{_bindir}/grops
 %attr(755,root,root) %{_bindir}/grotty
@@ -219,7 +221,6 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/nroff
 %attr(755,root,root) %{_bindir}/pfbtops
 %attr(755,root,root) %{_bindir}/pic
-%attr(755,root,root) %{_bindir}/psbb
 %attr(755,root,root) %{_bindir}/refer
 %attr(755,root,root) %{_bindir}/soelim
 %attr(755,root,root) %{_bindir}/tbl
@@ -236,9 +237,11 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/gpic.1*
 %{_mandir}/man1/grefer.1*
 %{_mandir}/man1/grodvi.1*
+%{_mandir}/man1/grn.1*
 %{_mandir}/man1/groff.1*
 %{_mandir}/man1/grohtml.1*
 %{_mandir}/man1/grolj4.1*
+%{_mandir}/man1/grolbp.1*
 %{_mandir}/man1/grops.1*
 %{_mandir}/man1/grotty.1*
 %{_mandir}/man1/gsoelim.1*
@@ -251,7 +254,6 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/nroff.1*
 %{_mandir}/man1/pfbtops.1*
 %{_mandir}/man1/pic.1*
-%{_mandir}/man1/psbb.1*
 %{_mandir}/man1/refer.1*
 %{_mandir}/man1/soelim.1*
 %{_mandir}/man1/tbl.1*
@@ -262,15 +264,17 @@ rm -rf $RPM_BUILD_ROOT
 
 %files gxditview
 %defattr(644,root,root,755)
-%doc xditview/{ChangeLog,README,TODO}.gz
+%doc src/xditview/*.gz
 %attr(755,root,root) %{_prefix}/X11R6/bin/gxditview
 %{_prefix}/X11R6/lib/X11/app-defaults/GXditview
 %{_prefix}/X11R6/man/man1/*
 
 %files perl
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_bindir}/grog
 %attr(755,root,root) %{_bindir}/afmtodit
+%attr(755,root,root) %{_bindir}/grog
+%attr(755,root,root) %{_bindir}/mmroff
 %attr(755,root,root) %{_bindir}/trofftops
 %{_mandir}/man1/afmtodit.*
 %{_mandir}/man1/grog.*
+%{_mandir}/man7/mmroff.*
