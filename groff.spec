@@ -4,7 +4,7 @@ Summary(fr):	Paquetage de formatage de texte groff de GNU
 Summary(pl):	GNU groff - pakiet do formatowania tekstu
 Summary(tr):	GNU groff metin biçemleme paketi
 Name:		groff
-Version:	1.16.1
+Version:	1.17
 Release:	1
 License:	GPL
 Group:		Applications/Publishing
@@ -93,7 +93,7 @@ peuvent, par exemple, être lues avec gxditview.
 
 %description -l pl gxditview
 Pakiet ten zawiera program gxditview, który pozwoli Ci na formatowanie
-dokumentów pod X'ami. Na przyk³ad, do czytania porêczników ekranowych.
+dokumentów pod X. Na przyk³ad, do czytania porêczników ekranowych.
 
 %description -l tr gxditview
 Bu paket groff belgelerini görüntüleyip deðiþtirmeye yarayan gxditview
@@ -135,7 +135,7 @@ autoconf
 CXX="g++"
 CC="%{__cc}"
 CXXFLAGS="%{rpmcflags} -fno-rtti -fno-exceptions"
-export CXX CC CXXFLAGS
+export CXX CC
 %configure
 %{__make}
 
@@ -149,16 +149,15 @@ PATH=$PATH:%{_prefix}/X11R6/bin
 
 %{__make} install DESTDIR=$RPM_BUILD_ROOT
 
-# fix: tmac.m is incorrectly installed
 install %{SOURCE1} $RPM_BUILD_ROOT%{_bindir}/trofftops
 
-cd src/xditview
-%{__make} DESTDIR=$RPM_BUILD_ROOT install install.man
-cd ../..
+%{__make} -C src/xditview DESTDIR=$RPM_BUILD_ROOT install install.man
 
-ln -sf tmac.s	$RPM_BUILD_ROOT%{_datadir}/groff/tmac/tmac.gs
-ln -sf tmac.mse	$RPM_BUILD_ROOT%{_datadir}/groff/tmac/tmac.gmse
-ln -sf tmac.m	$RPM_BUILD_ROOT%{_datadir}/groff/tmac/tmac.gm
+%{__make} -C doc install DESTDIR=$RPM_BUILD_ROOT infodir="%{_infodir}"
+
+ln -sf s.tmac	$RPM_BUILD_ROOT%{_datadir}/groff/%{version}/tmac/gs.tmac
+ln -sf mse.tmac	$RPM_BUILD_ROOT%{_datadir}/groff/%{version}/tmac/gmse.tmac
+ln -sf m.tmac	$RPM_BUILD_ROOT%{_datadir}/groff/%{version}/tmac/gm.tmac
 ln -sf eqn	$RPM_BUILD_ROOT%{_bindir}/geqn
 ln -sf indxbib	$RPM_BUILD_ROOT%{_bindir}/gindxbib
 ln -sf lookbib	$RPM_BUILD_ROOT%{_bindir}/glookbib
@@ -208,7 +207,6 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/grn
 %attr(755,root,root) %{_bindir}/grodvi
 %attr(755,root,root) %{_bindir}/groff
-%attr(755,root,root) %{_bindir}/grohtml
 %attr(755,root,root) %{_bindir}/grolbp
 %attr(755,root,root) %{_bindir}/grolj4
 %attr(755,root,root) %{_bindir}/grops
@@ -224,6 +222,8 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/nroff
 %attr(755,root,root) %{_bindir}/pfbtops
 %attr(755,root,root) %{_bindir}/pic
+%attr(755,root,root) %{_bindir}/post-grohtml
+%attr(755,root,root) %{_bindir}/pre-grohtml
 %attr(755,root,root) %{_bindir}/refer
 %attr(755,root,root) %{_bindir}/soelim
 %attr(755,root,root) %{_bindir}/tbl

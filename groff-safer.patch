@@ -1,14 +1,5 @@
---- groff-1.16/src/roff/troff/input.cc.safer	Wed Jun  7 21:47:48 2000
-+++ groff-1.16/src/roff/troff/input.cc	Wed Jun  7 21:50:37 2000
-@@ -90,6 +90,8 @@
- static int inhibit_errors = 0;
- static int ignoring = 0;
- 
-+static int safer_flag = 1;     // safer by default
-+
- static void enable_warning(const char *);
- static void disable_warning(const char *);
- 
+--- groff-1.17/src/roff/troff/input.cc.safer	Wed Jun  7 21:47:48 2000
++++ groff-1.17/src/roff/troff/input.cc	Wed Jun  7 21:50:37 2000
 @@ -4404,12 +4406,28 @@
    else {
      while (!tok.newline() && !tok.eof())
@@ -44,11 +35,3 @@
      tok.next();
    }
  }
-@@ -5669,7 +5687,6 @@
-   int tflag = 0;
-   int fflag = 0;
-   int nflag = 0;
--  int safer_flag = 1;		// safer by default
-   int no_rc = 0;		// don't process troffrc and troffrc-end
-   int next_page_number;
-   opterr = 0;
