@@ -92,6 +92,7 @@ programýný içerir. Örneðin man sayfalarý gxditview kullanýlarak okunabilir.
 %patch4 -p1
 
 %build
+rm -f config.cache
 PATH=$PATH:/usr/X11R6/bin
 autoconf
 CXX="g++"
