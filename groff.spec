@@ -1,21 +1,19 @@
 Summary:	A document formatting system
 Summary(de):	Ein Dokumentformatierungssystem
 Summary(fr):	Paquetage de formatage de texte groff de GNU
-Summary(pl):	GNU groff - pakiet do formatowania tekstu 
+Summary(pl):	GNU groff - pakiet do formatowania tekstu
 Summary(tr):	GNU groff metin biçemleme paketi
 Name:		groff
-Version:	1.11.1
-Release:	1
-Copyright:	GPL
+Version:	1.15
+Release:	2
+License:	GPL
 Group:		Applications/Publishing
 Group(pl):	Aplikacje/Publikowanie
 Source0:	ftp://prep.ai.mit.edu/pub/gnu/groff/%{name}-%{version}.tar.gz
 Source1:	troff-to-ps.fpi
 Patch0:		groff-fhs.patch
 Patch1:		groff-safer.patch
-Patch2:		groff-X11.patch
-Patch3:		groff-include-opt.patch
-Patch4:		groff-DESTDIR.patch
+Patch2:		groff-DESTDIR.patch
 BuildRequires:	XFree86-devel
 BuildRequires:	libstdc++-devel
 Requires:	mktemp
@@ -27,37 +25,35 @@ Groff is a document formatting system. Groff takes standard text and
 formatting commands as input and produces formatted output. The created
 documents can be shown on a display or printed on a printer.  Groff's
 formatting commands allow you to specify font type and size, bold type,
-italic type, the number and size of columns on a page, and more.
-
-You should install groff if you want to use it as a document formatting
-system. Groff can also be used to format man pages. If you are going to use
-groff with the X Window System, you'll also need to install the
-groff-gxditview package.
+italic type, the number and size of columns on a page, and more.  You
+should install groff if you want to use it as a document formatting system.
+Groff can also be used to format man pages. If you are going to use groff
+with the X Window System, you'll also need to install the groff-gxditview
+package.
 
 %description -l de
 Groff ist ein Dokumentformatierungssystem. Groff liest Text und
 Formatierungskommandos ein, und gibt formatierte Ausgabe aus. Die erzeugten
 Dokumente können angezeigt oder ausgedruckt werden.  Groffs
 Formatierungsbefehle erlauben Ihnen, Schriftart und -größe, Fettdruck,
-Kursivdruck, und die Anzahl der Spalten pro Seite usw. zu setzen.
-
-Sie sollten groff installieren, wenn Sie es als Dokumentformatierungssystem
-benutzen wollen. Groff ann auch benutzt werden, um man-pages anzuziegen. 
+Kursivdruck, und die Anzahl der Spalten pro Seite usw. zu setzen.  Sie
+sollten groff installieren, wenn Sie es als Dokumentformatierungssystem
+benutzen wollen. Groff ann auch benutzt werden, um man-pages anzuziegen.
 Wenn Sie groff in X11 benutzen wollten, brauchen Sie auch das
 groff-gxditview-Paket.
 
 %description -l fr
 Le système de formatage de texte groff peut être utilisé pour créer des
 documents d'aspect professionnel sur papier et à l'écran. Toutes les pages
-man sont traitées avec groff, vous avez donc besoin de ce paquetage pour les
-visualiser.
+man sont traitées avec groff, vous avez donc besoin de ce paquetage pour
+les visualiser.
 
 %description -l pl
 System formatowania tekstu groff mo¿e byæ u¿ywany do tworzenia
-profesjonalnie wygl±daj±cego dokumentu zarówno na papierze jak i na konsoli.
-Wszystkie podrêczniki ekranowe (man) potrzebuj± groff'a do formatowania
-tekstu na ekranie. Tak wiêc potrzebujesz tego pakietu do czytania
-podrêczników ekranowych.
+profesjonalnie wygl±daj±cego dokumentu zarówno na papierze jak i na
+konsoli. Wszystkie podrêczniki ekranowe (man) potrzebuj± groff'a do
+formatowania tekstu na ekranie. Tak wiêc potrzebujesz tego pakietu do
+czytania podrêczników ekranowych.
 
 %description -l tr
 groff metin biçemleme sistemi kaðýt veya bilgisayar ekraný üzerinde
@@ -76,17 +72,14 @@ Group(pl):	Aplikacje/Publikowanie
 
 %description gxditview
 Gxditview displays the groff text processor's output on an X Window System
-display.
-
-If you are going to use groff as a text processor, you should install
-gxditview so that you preview your processed text files in X.  You'll also
-need to install the groff package and the X Window System.
+display.  If you are going to use groff as a text processor, you should
+install gxditview so that you preview your processed text files in X.
+You'll also need to install the groff package and the X Window System.
 
 %description -l de gxditview
-Gxditview zeigt groff-Ausgaben auf einem X-Window-Display an.
-
-Wenn Sie groff als Textprozessor benutzen wollen, und X11 benutzen, sollten
-Sie gxditview installieren.
+Gxditview zeigt groff-Ausgaben auf einem X-Window-Display an.  Wenn Sie
+groff als Textprozessor benutzen wollen, und X11 benutzen, sollten Sie
+gxditview installieren.
 
 %description -l fr gxditview
 Ce paquetage contient le programme gxditview, qui peut servir à formater et
@@ -106,8 +99,6 @@ programýný içerir. Örneðin man sayfalarý gxditview kullanýlarak okunabilir.
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
-%patch3 -p1
-%patch4 -p1
 
 %build
 rm -f config.cache
@@ -123,7 +114,7 @@ make
 
 cd xditview
 xmkmf
-make 
+make
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -134,7 +125,7 @@ install -d $RPM_BUILD_ROOT%{_libdir}/rhs/rhs-printfilters
 make install DESTDIR=$RPM_BUILD_ROOT
 
 cd xditview
-make DESTDIR=$RPM_BUILD_ROOT install install.man 
+make DESTDIR=$RPM_BUILD_ROOT install install.man
 cd ..
 
 strip $RPM_BUILD_ROOT{%{_bindir}/*,/usr/X11R6/bin/*} || :
@@ -167,7 +158,7 @@ echo ".so troff.1" >   $RPM_BUILD_ROOT%{_mandir}/man1/gtroff.1
 install $RPM_SOURCE_DIR/troff-to-ps.fpi \
 	$RPM_BUILD_ROOT%{_libdir}/rhs/rhs-printfilters
 
-gzip -9fn $RPM_BUILD_ROOT{%{_mandir}/man1/*,/usr/X11R6/man/man1/*} \
+gzip -9nf $RPM_BUILD_ROOT{%{_mandir}/man1/*,/usr/X11R6/man/man1/*} \
 	NEWS PROBLEMS PROJECTS README TODO BUG-REPORT ChangeLog \
 	xditview/{ChangeLog,README,TODO}
 
