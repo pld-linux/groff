@@ -25,7 +25,7 @@ Patch0:		%{name}-safer.patch
 Patch1:		%{name}-DESTDIR.patch
 Patch2:		%{name}-info.patch
 Patch3:		%{name}-colours.patch
-%{!?_without_xditview:BuildRequires:	XFree86-devel
+%{!?_without_xditview:BuildRequires:	XFree86-devel}
 BuildRequires:	autoconf
 BuildRequires:	libstdc++-devel
 %{!?_without_xditview:BuildRequires:	netpbm-progs}
