@@ -1,7 +1,7 @@
 #
-# _without_xditview         - disable xditwiev
+# Conditional build:
+# _without_xditview         - disable xditview (which requires X11)
 #
-
 Summary:	A document formatting system
 Summary(de):	Ein Dokumentformatierungssystem
 Summary(es):	Paquete groff GNU - formateador de texto
@@ -206,7 +206,6 @@ export CXX CC
 %configure
 %{__make}
 
-
 %if %{!?_without_xditview:1}%{?_without_xditview:0}
 cd src/xditview
 xmkmf
@@ -340,7 +339,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/tfmtodit.1*
 %{_mandir}/man1/troff.1*
 %{_mandir}/man5/*
-%{_mandir}/man7/[^m]*
+%{_mandir}/man7/[!m]*
 
 %lang(de) %{_mandir}/de/man1/groff.1*
 
@@ -379,7 +378,7 @@ rm -rf $RPM_BUILD_ROOT
 %lang(ja) %{_mandir}/ja/man1/tfmtodit.1*
 %lang(ja) %{_mandir}/ja/man1/troff.1*
 %lang(ja) %{_mandir}/ja/man5/*
-%lang(ja) %{_mandir}/ja/man7/[^m]*
+%lang(ja) %{_mandir}/ja/man7/[!m]*
 
 %lang(pl) %{_mandir}/pl/man1/gnroff.1*
 %lang(pl) %{_mandir}/pl/man1/groff.1*
@@ -391,8 +390,8 @@ rm -rf $RPM_BUILD_ROOT
 
 %{_infodir}/*info*
 
+%if 0%{!?_without_xditview:1}
 %files gxditview
-%if %{!?_without_xditview:1}%{?_without_xditview:0}
 %defattr(644,root,root,755)
 %doc src/xditview/{ChangeLog,README,TODO}
 %attr(755,root,root) %{_xbindir}/gxditview
