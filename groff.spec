@@ -4,8 +4,8 @@ Summary(fr):	Paquetage de formatage de texte groff de GNU
 Summary(pl):	GNU groff - pakiet do formatowania tekstu
 Summary(tr):	GNU groff metin biçemleme paketi
 Name:		groff
-Version:	1.17
-Release:	4
+Version:	1.18
+Release:	1
 License:	GPL
 Group:		Applications/Publishing
 Source0:	ftp://ftp.ffii.org/pub/groff/%{name}-%{version}.tar.gz
@@ -14,15 +14,20 @@ Source2:	http://www.mif.pg.gda.pl/homepages/ankry/man-PLD/%{name}-non-english-ma
 Patch0:		%{name}-safer.patch
 Patch1:		%{name}-DESTDIR.patch
 Patch2:		%{name}-info.patch
-Patch3:		%{name}-defs.patch
 BuildRequires:	XFree86-devel
-BuildRequires:	libstdc++-devel
 BuildRequires:	autoconf
+BuildRequires:	libstdc++-devel
+BuildRequires:	netpbm-progs
 BuildRequires:	texinfo
 Requires:	mktemp
 Obsoletes:	groff-tools
 Obsoletes:	groff-for-man
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
+
+%define		_xprefix	/usr/X11R6
+%define		_xbindir	%{_xprefix}/bin
+%define		_xlibdir	%{_xprefix}/lib
+%define		_xmandir	%{_xprefix}/man
 
 %description
 Groff is a document formatting system. Groff takes standard text and
@@ -125,7 +130,6 @@ u¿ywany przy drukowaniu).
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
-%patch3 -p1
 
 %build
 rm -f config.cache
@@ -151,8 +155,6 @@ PATH=$PATH:%{_prefix}/X11R6/bin
 install %{SOURCE1} $RPM_BUILD_ROOT%{_bindir}/trofftops
 
 %{__make} -C src/xditview DESTDIR=$RPM_BUILD_ROOT install install.man
-
-%{__make} -C doc install DESTDIR=$RPM_BUILD_ROOT infodir="%{_infodir}"
 
 ln -sf s.tmac	$RPM_BUILD_ROOT%{_datadir}/groff/%{version}/tmac/gs.tmac
 ln -sf mse.tmac	$RPM_BUILD_ROOT%{_datadir}/groff/%{version}/tmac/gmse.tmac
@@ -180,9 +182,7 @@ echo ".so tbl.1" >     $RPM_BUILD_ROOT%{_mandir}/man1/gtbl.1
 echo ".so troff.1" >   $RPM_BUILD_ROOT%{_mandir}/man1/gtroff.1
 
 bzip2 -dc %{SOURCE2} | tar xf - -C $RPM_BUILD_ROOT%{_mandir}
-
-gzip -9nf NEWS PROBLEMS PROJECTS README TODO BUG-REPORT ChangeLog \
-	src/xditview/{ChangeLog,README,TODO}
+mv -f $RPM_BUILD_ROOT%{_mandir}/ja/{man7/mmroff.7,man1/mmroff.1}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -195,7 +195,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc {NEWS,PROBLEMS,PROJECTS,README,TODO,BUG-REPORT,ChangeLog}.gz
+%doc NEWS PROBLEMS PROJECTS README TODO BUG-REPORT ChangeLog
 %attr(755,root,root) %{_bindir}/addftinfo
 %attr(755,root,root) %{_bindir}/eqn
 %attr(755,root,root) %{_bindir}/geqn
@@ -317,10 +317,10 @@ rm -rf $RPM_BUILD_ROOT
 
 %files gxditview
 %defattr(644,root,root,755)
-%doc src/xditview/*.gz
-%attr(755,root,root) %{_prefix}/X11R6/bin/gxditview
-%{_prefix}/X11R6/lib/X11/app-defaults/GXditview
-%{_prefix}/X11R6/man/man1/*
+%doc src/xditview/{ChangeLog,README,TODO}
+%attr(755,root,root) %{_xbindir}/gxditview
+%{_xlibdir}/X11/app-defaults/GXditview
+%{_xmandir}/man1/*
 
 %files perl
 %defattr(644,root,root,755)
@@ -330,9 +330,9 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/trofftops
 %{_mandir}/man1/afmtodit.*
 %{_mandir}/man1/grog.*
-%{_mandir}/man7/mmroff.*
+%{_mandir}/man1/mmroff.*
 
 %lang(fi) %{_mandir}/fi/man1/afmtodit.*
 
 %lang(ja) %{_mandir}/ja/man1/grog.*
-%lang(ja) %{_mandir}/ja/man7/mmroff.*
+%lang(ja) %{_mandir}/ja/man1/mmroff.*
