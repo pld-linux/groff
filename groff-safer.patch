@@ -1,5 +1,5 @@
---- groff-1.17/src/roff/troff/input.cc.safer	Wed Jun  7 21:47:48 2000
-+++ groff-1.17/src/roff/troff/input.cc	Wed Jun  7 21:50:37 2000
+--- groff-1.17/src/roff/troff/input.cpp.safer	Wed Jun  7 21:47:48 2000
++++ groff-1.17/src/roff/troff/input.cpp	Wed Jun  7 21:50:37 2000
 @@ -4404,12 +4406,28 @@
    else {
      while (!tok.newline() && !tok.eof())
