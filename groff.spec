@@ -101,21 +101,21 @@ install -d $RPM_BUILD_ROOT%{_libdir}/rhs/rhs-printfilters
 make install prefix=$RPM_BUILD_ROOT/usr
 ( cd xditview; make DESTDIR=$RPM_BUILD_ROOT install install.man )
 
-strip $RPM_BUILD_ROOT/usr/bin/* || :
+strip $RPM_BUILD_ROOT%{_bindir}/* || :
 
 ln -s tmac.s	$RPM_BUILD_ROOT%{_libdir}/groff/tmac/tmac.gs
 ln -s tmac.mse  $RPM_BUILD_ROOT%{_libdir}/groff/tmac/tmac.gmse
 ln -s tmac.m	$RPM_BUILD_ROOT%{_libdir}/groff/tmac/tmac.gm
-ln -s eqn	$RPM_BUILD_ROOT/usr/bin/geqn
-ln -s indxbib	$RPM_BUILD_ROOT/usr/bin/gindxbib
-ln -s lookbib	$RPM_BUILD_ROOT/usr/bin/glookbib
-ln -s neqn	$RPM_BUILD_ROOT/usr/bin/gneqn
-ln -s nroff	$RPM_BUILD_ROOT/usr/bin/gnroff
-ln -s troff	$RPM_BUILD_ROOT/usr/bin/gtroff
-ln -s tbl	$RPM_BUILD_ROOT/usr/bin/gtbl
-ln -s pic	$RPM_BUILD_ROOT/usr/bin/gpic
-ln -s refer	$RPM_BUILD_ROOT/usr/bin/grefer
-ln -s soelim	$RPM_BUILD_ROOT/usr/bin/gsoelim
+ln -s eqn	$RPM_BUILD_ROOT%{_bindir}/geqn
+ln -s indxbib	$RPM_BUILD_ROOT%{_bindir}/gindxbib
+ln -s lookbib	$RPM_BUILD_ROOT%{_bindir}/glookbib
+ln -s neqn	$RPM_BUILD_ROOT%{_bindir}/gneqn
+ln -s nroff	$RPM_BUILD_ROOT%{_bindir}/gnroff
+ln -s troff	$RPM_BUILD_ROOT%{_bindir}/gtroff
+ln -s tbl	$RPM_BUILD_ROOT%{_bindir}/gtbl
+ln -s pic	$RPM_BUILD_ROOT%{_bindir}/gpic
+ln -s refer	$RPM_BUILD_ROOT%{_bindir}/grefer
+ln -s soelim	$RPM_BUILD_ROOT%{_bindir}/gsoelim
 
 echo ".so eqn.1" >     $RPM_BUILD_ROOT%{_mandir}/man1/geqn.1
 echo ".so indxbib.1" > $RPM_BUILD_ROOT%{_mandir}/man1/gindxbib.1
@@ -141,39 +141,39 @@ rm -rf $RPM_BUILD_ROOT
 
 %{_libdir}/groff
 
-%attr(755,root,root) /usr/bin/addftinfo
-%attr(755,root,root) /usr/bin/afmtodit
-%attr(755,root,root) /usr/bin/eqn
-%attr(755,root,root) /usr/bin/geqn
-%attr(755,root,root) /usr/bin/gindxbib
-%attr(755,root,root) /usr/bin/glookbib
-%attr(755,root,root) /usr/bin/gneqn
-%attr(755,root,root) /usr/bin/gnroff
-%attr(755,root,root) /usr/bin/gpic
-%attr(755,root,root) /usr/bin/grefer
-%attr(755,root,root) /usr/bin/grodvi
-%attr(755,root,root) /usr/bin/groff
-%attr(755,root,root) /usr/bin/grog
-%attr(755,root,root) /usr/bin/grolj4
-%attr(755,root,root) /usr/bin/grops
-%attr(755,root,root) /usr/bin/grotty
-%attr(755,root,root) /usr/bin/gsoelim
-%attr(755,root,root) /usr/bin/gtbl
-%attr(755,root,root) /usr/bin/gtroff
-%attr(755,root,root) /usr/bin/hpftodit
-%attr(755,root,root) /usr/bin/indxbib
-%attr(755,root,root) /usr/bin/lkbib
-%attr(755,root,root) /usr/bin/lookbib
-%attr(755,root,root) /usr/bin/neqn
-%attr(755,root,root) /usr/bin/nroff
-%attr(755,root,root) /usr/bin/pfbtops
-%attr(755,root,root) /usr/bin/pic
-%attr(755,root,root) /usr/bin/psbb
-%attr(755,root,root) /usr/bin/refer
-%attr(755,root,root) /usr/bin/soelim
-%attr(755,root,root) /usr/bin/tbl
-%attr(755,root,root) /usr/bin/tfmtodit
-%attr(755,root,root) /usr/bin/troff
+%attr(755,root,root) %{_bindir}/addftinfo
+%attr(755,root,root) %{_bindir}/afmtodit
+%attr(755,root,root) %{_bindir}/eqn
+%attr(755,root,root) %{_bindir}/geqn
+%attr(755,root,root) %{_bindir}/gindxbib
+%attr(755,root,root) %{_bindir}/glookbib
+%attr(755,root,root) %{_bindir}/gneqn
+%attr(755,root,root) %{_bindir}/gnroff
+%attr(755,root,root) %{_bindir}/gpic
+%attr(755,root,root) %{_bindir}/grefer
+%attr(755,root,root) %{_bindir}/grodvi
+%attr(755,root,root) %{_bindir}/groff
+%attr(755,root,root) %{_bindir}/grog
+%attr(755,root,root) %{_bindir}/grolj4
+%attr(755,root,root) %{_bindir}/grops
+%attr(755,root,root) %{_bindir}/grotty
+%attr(755,root,root) %{_bindir}/gsoelim
+%attr(755,root,root) %{_bindir}/gtbl
+%attr(755,root,root) %{_bindir}/gtroff
+%attr(755,root,root) %{_bindir}/hpftodit
+%attr(755,root,root) %{_bindir}/indxbib
+%attr(755,root,root) %{_bindir}/lkbib
+%attr(755,root,root) %{_bindir}/lookbib
+%attr(755,root,root) %{_bindir}/neqn
+%attr(755,root,root) %{_bindir}/nroff
+%attr(755,root,root) %{_bindir}/pfbtops
+%attr(755,root,root) %{_bindir}/pic
+%attr(755,root,root) %{_bindir}/psbb
+%attr(755,root,root) %{_bindir}/refer
+%attr(755,root,root) %{_bindir}/soelim
+%attr(755,root,root) %{_bindir}/tbl
+%attr(755,root,root) %{_bindir}/tfmtodit
+%attr(755,root,root) %{_bindir}/troff
 
 %{_mandir}/man1/*
 
