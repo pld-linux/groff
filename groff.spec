@@ -25,9 +25,9 @@ Patch0:		%{name}-safer.patch
 Patch1:		%{name}-DESTDIR.patch
 Patch2:		%{name}-info.patch
 Patch3:		%{name}-colours.patch
-BuildRequires:	XFree86-devel
+%{!?_without_xditview:BuildRequires:	XFree86-devel
 BuildRequires:	autoconf
-%{!?_without_xditview:BuildRequires:	libstdc++-devel}
+BuildRequires:	libstdc++-devel
 %{!?_without_xditview:BuildRequires:	netpbm-progs}
 BuildRequires:	texinfo >= 4.5
 Requires:	mktemp
