@@ -5,7 +5,7 @@ Summary(pl):	GNU groff - pakiet do formatowania tekstu
 Summary(tr):	GNU groff metin biçemleme paketi
 Name:		groff
 Version:	1.11a
-Release:	14
+Release:	15
 Copyright:	GPL
 Group:		Applications/Publishing
 Group(pl):	Aplikacje/Publikowanie
@@ -14,6 +14,7 @@ Source1:	troff-to-ps.fpi
 Patch0:		%{name}-fhs.patch
 Patch1:		%{name}-1.11-safer.patch
 Patch2:		%{name}-X11.patch
+Patch3:		%{name}-include-opt.patch
 BuildPreReq:	XFree86-devel
 BuildPreReq:	libstdc++-devel
 Requires:	mktemp
@@ -86,6 +87,7 @@ programýný içerir. Örneðin man sayfalarý gxditview kullanýlarak okunabilir.
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
+%patch3 -p1
 
 %build
 PATH=$PATH:/usr/X11R6/bin
