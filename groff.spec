@@ -9,12 +9,13 @@ Release:	16
 Copyright:	GPL
 Group:		Applications/Publishing
 Group(pl):	Aplikacje/Publikowanie
-Source0:	ftp://prep.ai.mit.edu/pub/gnu/%{name}-%{version}.tar.gz
+Source0:	ftp://prep.ai.mit.edu/pub/gnu/groff/%{name}-%{version}.tar.gz
 Source1:	troff-to-ps.fpi
-Patch0:		%{name}-fhs.patch
-Patch1:		%{name}-1.11-safer.patch
-Patch2:		%{name}-X11.patch
-Patch3:		%{name}-include-opt.patch
+Patch0:		groff-fhs.patch
+Patch1:		groff-safer.patch
+Patch2:		groff-X11.patch
+Patch3:		groff-include-opt.patch
+Patch4:		groff-DESTDIR.patch
 BuildRequires:	XFree86-devel
 BuildRequires:	libstdc++-devel
 Requires:	mktemp
@@ -50,7 +51,7 @@ profesyonel görünüme sahip belgeler yaratmaya yarar. Bütün kýlavuz (man)
 sayfalarý groff ile hazýrlanmýþtýr. man sayfalarýný okuyabilmek için groff
 paketine gereksiniminiz olacaktýr.
 
-%package	gxditview
+%package gxditview
 Summary:	GNU groff X previewer
 Summary(de):	GNU groff-X-Previewer
 Summary(fr):	Le visualiseur de fichier groff de GNU, sous X.
@@ -88,13 +89,17 @@ programýný içerir. Örneðin man sayfalarý gxditview kullanýlarak okunabilir.
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
+%patch4 -p1
 
 %build
 PATH=$PATH:/usr/X11R6/bin
-CXX='g++' CC='gcc' CFLAGS="$RPM_OPT_FLAGS" CXXFLAGS="$RPM_OPT_FLAGS" \
-LDFLAGS=-s \
-./configure %{_target_platform} \
-	--prefix=%{_prefix}
+autoconf
+CXX="g++"
+CC="gcc"
+CXXFLAGS="$RPM_OPT_FLAGS -fno-rtti -fno-exceptions"
+LDFLAGS="-s"
+export CXX CC CXXFLAGS LDFLAGS
+%configure
 make
 
 cd xditview
@@ -107,13 +112,13 @@ PATH=$PATH:/usr/X11R6/bin
 
 install -d $RPM_BUILD_ROOT%{_libdir}/rhs/rhs-printfilters
 
-make install prefix=$RPM_BUILD_ROOT%{_prefix}
+make install DESTDIR=$RPM_BUILD_ROOT
 
 cd xditview
 make DESTDIR=$RPM_BUILD_ROOT install install.man 
 cd ..
 
-strip $RPM_BUILD_ROOT%{_prefix}/{bin/*,X11R6/bin/*} || :
+#strip $RPM_BUILD_ROOT{%{_bindir}/*,/usr/X11R6/bin/*} || :
 
 ln -s tmac.s	$RPM_BUILD_ROOT%{_datadir}/groff/tmac/tmac.gs
 ln -s tmac.mse  $RPM_BUILD_ROOT%{_datadir}/groff/tmac/tmac.gmse
@@ -141,7 +146,7 @@ echo ".so tbl.1" >     $RPM_BUILD_ROOT%{_mandir}/man1/gtbl.1
 echo ".so troff.1" >   $RPM_BUILD_ROOT%{_mandir}/man1/gtroff.1
 
 install $RPM_SOURCE_DIR/troff-to-ps.fpi \
-    $RPM_BUILD_ROOT%{_libdir}/rhs/rhs-printfilters
+	$RPM_BUILD_ROOT%{_libdir}/rhs/rhs-printfilters
 
 gzip -9fn $RPM_BUILD_ROOT{%{_mandir}/man1/*,/usr/X11R6/man/man1/*}
 
@@ -153,39 +158,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %{_datadir}/groff
 
-%attr(755,root,root) %{_bindir}/addftinfo
-%attr(755,root,root) %{_bindir}/afmtodit
-%attr(755,root,root) %{_bindir}/eqn
-%attr(755,root,root) %{_bindir}/geqn
-%attr(755,root,root) %{_bindir}/gindxbib
-%attr(755,root,root) %{_bindir}/glookbib
-%attr(755,root,root) %{_bindir}/gneqn
-%attr(755,root,root) %{_bindir}/gnroff
-%attr(755,root,root) %{_bindir}/gpic
-%attr(755,root,root) %{_bindir}/grefer
-%attr(755,root,root) %{_bindir}/grodvi
-%attr(755,root,root) %{_bindir}/groff
-%attr(755,root,root) %{_bindir}/grog
-%attr(755,root,root) %{_bindir}/grolj4
-%attr(755,root,root) %{_bindir}/grops
-%attr(755,root,root) %{_bindir}/grotty
-%attr(755,root,root) %{_bindir}/gsoelim
-%attr(755,root,root) %{_bindir}/gtbl
-%attr(755,root,root) %{_bindir}/gtroff
-%attr(755,root,root) %{_bindir}/hpftodit
-%attr(755,root,root) %{_bindir}/indxbib
-%attr(755,root,root) %{_bindir}/lkbib
-%attr(755,root,root) %{_bindir}/lookbib
-%attr(755,root,root) %{_bindir}/neqn
-%attr(755,root,root) %{_bindir}/nroff
-%attr(755,root,root) %{_bindir}/pfbtops
-%attr(755,root,root) %{_bindir}/pic
-%attr(755,root,root) %{_bindir}/psbb
-%attr(755,root,root) %{_bindir}/refer
-%attr(755,root,root) %{_bindir}/soelim
-%attr(755,root,root) %{_bindir}/tbl
-%attr(755,root,root) %{_bindir}/tfmtodit
-%attr(755,root,root) %{_bindir}/troff
+%attr(755,root,root) %{_bindir}/*
 
 %{_mandir}/man1/*
 
