@@ -81,6 +81,7 @@ programýný içerir. Örneðin man sayfalarý gxditview kullanýlarak okunabilir.
 %setup -q -n groff-1.11
 %patch -p1
 %patch1 -p1
+%patch2 -p1
 
 %build
 PATH=$PATH:/usr/X11R6/bin
