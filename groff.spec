@@ -118,7 +118,7 @@ cd xditview
 make DESTDIR=$RPM_BUILD_ROOT install install.man 
 cd ..
 
-#strip $RPM_BUILD_ROOT{%{_bindir}/*,/usr/X11R6/bin/*} || :
+strip $RPM_BUILD_ROOT{%{_bindir}/*,/usr/X11R6/bin/*} || :
 
 ln -s tmac.s	$RPM_BUILD_ROOT%{_datadir}/groff/tmac/tmac.gs
 ln -s tmac.mse  $RPM_BUILD_ROOT%{_datadir}/groff/tmac/tmac.gmse
