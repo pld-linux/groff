@@ -188,26 +188,3 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) /usr/X11R6/bin/gxditview
 %attr(644,root,root) %config /usr/X11R6/lib/X11/app-defaults/GXditview
 /usr/X11R6/man/man1/*
-
-%changelog
-* Wed Sep 30 1998 Wojtek ¦lusarczyk <wojtek@shadow.eu.org>
-  [1.11a-8d]
-- build against new PLD,
-- fixed files permissions,
-- macro %%{name} in Patch,
-- minor modifications of the spec file.
-
-* Thu Sep  8 1998 Tomasz K³oczko <kloczek@rudy.mif.pg.gda.pl>
-  [1.11a-8]
-- some man page is now maked as nroff include instead
-  making sym link (this allow compress man pages in future).
-
-* Mon Jun 29 1998 Wojtek ¦lusarczyk <wojtek@shadow.eu.org>
-  [1.11a-7]
-- added pl translation,
-- added %defattr support,
-- build from non root's account.
-
-* Mon Jun 29 1998 Wojtek ¦lusarczyk <wojtek@shadow.eu.org>
-- build agains glibc-2.1
-- start at RH spec file.
