@@ -8,7 +8,7 @@ Summary(ru):	GNU groff - пакет для форматирования текста
 Summary(tr):	GNU groff metin biГemleme paketi
 Summary(uk):	GNU groff - пакет для форматування тексту
 Name:		groff
-Version:	1.18.1
+Version:	1.19
 Release:	1
 License:	GPL
 Group:		Applications/Publishing
