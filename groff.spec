@@ -12,29 +12,28 @@ Summary(ru):	GNU groff - пакет для форматирования текста
 Summary(tr):	GNU groff metin biГemleme paketi
 Summary(uk):	GNU groff - пакет для форматування тексту
 Name:		groff
-Version:	1.19
-Release:	3
+Version:	1.19.1
+Release:	1
 License:	GPL
 Group:		Applications/Publishing
 Source0:	ftp://ftp.ffii.org/pub/groff/%{name}-%{version}.tar.gz
-# Source0-md5:	c12bf574120df33ec8c18d92703e099e
+# Source0-md5:	57d155378640c12a80642664dfdfc892
 Source1:	%{name}-trofftops.sh
 Source2:	http://www.mif.pg.gda.pl/homepages/ankry/man-PLD/%{name}-non-english-man-pages.tar.bz2
 # Source2-md5:	3f8b22cc1eefb53306c8c2acf31aca29
-Patch0:		%{name}-safer.patch
-Patch1:		%{name}-DESTDIR.patch
-Patch2:		%{name}-info.patch
-Patch3:		%{name}-colours.patch
-Patch4:		%{name}-acfix.patch
+Patch0:		%{name}-DESTDIR.patch
+Patch1:		%{name}-info.patch
+Patch2:		%{name}-colours.patch
+URL:		http://www.gnu.org/software/groff/
 %{?with_xditview:BuildRequires:	XFree86-devel}
 BuildRequires:	autoconf
 BuildRequires:	libstdc++-devel
 %{?with_xditview:BuildRequires:	netpbm-progs}
 BuildRequires:	texinfo >= 4.5
 Requires:	mktemp
-BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 Obsoletes:	groff-tools
 Obsoletes:	groff-for-man
+BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		_appdefsdir	/usr/X11R6/lib/X11/app-defaults
 
@@ -114,7 +113,7 @@ Summary(ru):	GNU gxditview - программа просмотра документов groff для X Window
 Summary(tr):	GNU groff X gЖrЭntЭleyici
 Summary(uk):	GNU gxditview - програма перегляду документ╕в groff для X Window
 Group:		Applications/Publishing
-Requires:	%{name} = %{version}
+Requires:	%{name} = %{version}-%{release}
 
 %description gxditview
 Gxditview displays the groff text processor's output on an X Window
@@ -170,7 +169,7 @@ Summary(pl):	Cze╤Ф zasobСw groff-a ktСra wymaga Perla
 Summary(ru):	Часть системы форматирования текста groff, требующая Perl
 Summary(uk):	Частина системи форматування тексту groff, як╕й потр╕бен Perl
 Group:		Applications/Publishing
-Requires:	%{name} = %{version}
+Requires:	%{name} = %{version}-%{release}
 
 %description perl
 groff-perl contains the parts of the groff text processor package that
@@ -191,11 +190,14 @@ u©ywany przy drukowaniu).
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
-%patch3 -p1
-%patch4 -p1
+
+# makeinfo 4.7 has some problems when generating info without
+# saving macro expanded file???
+cd doc
+makeinfo -E groff.texinfo2 groff.texinfo
+mv -f groff.texinfo2 groff.texinfo
 
 %build
-rm -f config.cache
 PATH=$PATH:/usr/X11R6/bin
 %{__autoconf}
 CXXFLAGS="%{rpmcflags} -fno-rtti -fno-exceptions"
@@ -275,6 +277,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/gneqn
 %attr(755,root,root) %{_bindir}/gnroff
 %attr(755,root,root) %{_bindir}/gpic
+%attr(755,root,root) %{_bindir}/grap2graph
 %attr(755,root,root) %{_bindir}/grefer
 %attr(755,root,root) %{_bindir}/grn
 %attr(755,root,root) %{_bindir}/grodvi
