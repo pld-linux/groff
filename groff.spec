@@ -80,21 +80,21 @@ should install gxditview so that you preview your processed text files
 in X. You'll also need to install the groff package and the X Window
 System.
 
-%description -l de gxditview
+%description gxditview -l de
 Gxditview zeigt groff-Ausgaben auf einem X-Window-Display an. Wenn Sie
 groff als Textprozessor benutzen wollen, und X11 benutzen, sollten Sie
 gxditview installieren.
 
-%description -l fr gxditview
+%description gxditview -l fr
 Ce paquetage contient le programme gxditview, qui peut servir à
 formater et viusaliser les documents groff sous X Window. Les pages
 peuvent, par exemple, être lues avec gxditview.
 
-%description -l pl gxditview
+%description gxditview -l pl
 Pakiet ten zawiera program gxditview, który pozwoli Ci na formatowanie
 dokumentów pod X. Na przyk³ad, do czytania porêczników ekranowych.
 
-%description -l tr gxditview
+%description gxditview -l tr
 Bu paket groff belgelerini görüntüleyip deðiþtirmeye yarayan gxditview
 programýný içerir. Örneðin man sayfalarý gxditview kullanýlarak
 okunabilir.
@@ -112,7 +112,7 @@ PostScript font files, the grog utility that can be used to
 automatically determine groff command-line options, and the
 troff-to-ps print filter.
 
-%description -l pl perl
+%description perl -l pl
 groff-perl zawiera czê¶æ zasobów groff-a która wymaga Perla. Skrypt
 afmtodit jest procesorem fontów u¿ywanym do tworzenia plików fontów w
 formacie PostScript, a skrypt grok u¿ywany jest do automatycznego
