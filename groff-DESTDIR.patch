@@ -1,0 +1,342 @@
+diff -Nru groff-1.11/Makefile.comm groff-1.11.new/Makefile.comm
+--- groff-1.11/Makefile.comm	Tue Jun 27 13:08:27 1995
++++ groff-1.11.new/Makefile.comm	Fri Sep  3 23:45:50 1999
+@@ -131,28 +131,28 @@
+ 
+ .PHONY: install_man
+ install_man:
+-	-test -d $(manroot) || mkdir $(manroot)
+-	-test -d $(man1dir) || mkdir $(man1dir)
++	-test -d $(DESTDIR)$(manroot) || mkdir -p $(DESTDIR)$(manroot)
++	-test -d $(DESTDIR)$(man1dir) || mkdir -p $(DESTDIR)$(man1dir)
+ 	@-pages="$(MAN1)"; \
+ 	for p in $$pages; do \
+ 	 prog=`basename $$p .n`; \
+-	 target=$(man1dir)/$(NAMEPREFIX)$$prog.$(man1ext); \
++	 target=$(DESTDIR)$(man1dir)/$(NAMEPREFIX)$$prog.$(man1ext); \
+ 	 rm -f $$target; \
+ 	 echo $(INSTALL_DATA) $$p $$target; \
+ 	 $(INSTALL_DATA) $$p $$target; \
+ 	done
+-	-test -d $(man5dir) || mkdir $(man5dir)
++	-test -d $(DESTDIR)$(man5dir) || mkdir -p $(DESTDIR)$(man5dir)
+ 	@-pages="$(MAN5)"; \
+ 	for p in $$pages; do \
+-	 target=$(man5dir)/`basename $$p .n`.$(man5ext); \
++	 target=$(DESTDIR)$(man5dir)/`basename $$p .n`.$(man5ext); \
+ 	 rm -f $$target; \
+ 	 echo $(INSTALL_DATA) $$p $$target; \
+ 	 $(INSTALL_DATA) $$p $$target; \
+ 	done
+-	-test -d $(man7dir) || mkdir $(man7dir)
++	-test -d $(DESTDIR)$(man7dir) || mkdir -p $(DESTDIR)$(man7dir)
+ 	@-pages="$(MAN7)"; \
+ 	for p in $$pages; do \
+-	 target=$(man7dir)/`basename $$p .n`.$(man7ext); \
++	 target=$(DESTDIR)$(man7dir)/`basename $$p .n`.$(man7ext); \
+ 	 rm -f $$target; \
+ 	 echo $(INSTALL_DATA) $$p $$target; \
+ 	 $(INSTALL_DATA) $$p $$target; \
+@@ -162,58 +162,58 @@
+ uninstall_man:
+ 	@-pages="$(MAN1)"; \
+ 	for p in $$pages; do \
+-	 target=$(man1dir)/$(NAMEPREFIX)`basename $$p .n`.$(man1ext); \
++	 target=$(DESTDIR)$(man1dir)/$(NAMEPREFIX)`basename $$p .n`.$(man1ext); \
+ 	 echo rm -f $$target; \
+ 	 rm -f $$target; \
+ 	done
+ 	@-pages="$(MAN5)"; \
+ 	for p in $$pages; do \
+-	 target=$(man5dir)/`basename $$p .n`.$(man5ext); \
++	 target=$(DESTDIR)$(man5dir)/`basename $$p .n`.$(man5ext); \
+ 	 echo rm -f $$target; \
+ 	 rm -f $$target; \
+ 	done
+ 	@-pages="$(MAN7)"; \
+ 	for p in $$pages; do \
+-	 target=$(man7dir)/`basename $$p .n`.$(man7ext); \
++	 target=$(DESTDIR)$(man7dir)/`basename $$p .n`.$(man7ext); \
+ 	 echo rm -f $$target; \
+ 	 rm -f $$target; \
+ 	done
+ 
+ .PHONY: install_prog
+ install_prog:
+-	-test -d $(bindir) || mkdir $(bindir)
+-	rm -f $(bindir)/$(NAMEPREFIX)$(PROG)
+-	$(INSTALL_PROGRAM) $(PROG) $(bindir)/$(NAMEPREFIX)$(PROG)
++	-test -d $(DESTDIR)$(bindir) || mkdir -p $(DESTDIR)$(bindir)
++	rm -f $(DESTDIR)$(bindir)/$(NAMEPREFIX)$(PROG)
++	$(INSTALL_PROGRAM) $(PROG) $(DESTDIR)$(bindir)/$(NAMEPREFIX)$(PROG)
+ 
+ .PHONY: uninstall_prog
+ uninstall_prog:
+-	-rm -f $(bindir)/$(NAMEPREFIX)$(PROG)	
++	-rm -f $(DESTDIR)$(bindir)/$(NAMEPREFIX)$(PROG)	
+ 
+ .PHONY: install_dev
+ install_dev:
+-	-test -d $(datadir) || mkdir $(datadir)
+-	-test -d $(datasubdir) || mkdir $(datasubdir)
+-	-test -d $(fontdir) || mkdir $(fontdir)
+-	-test -d $(fontsubdir) || mkdir $(fontsubdir)
++	-test -d $(DESTDIR)$(datadir) || mkdir -p $(DESTDIR)$(datadir)
++	-test -d $(DESTDIR)$(datasubdir) || mkdir -p $(DESTDIR)$(datasubdir)
++	-test -d $(DESTDIR)$(fontdir) || mkdir -p $(DESTDIR)$(fontdir)
++	-test -d $(DESTDIR)$(fontsubdir) || mkdir -p $(DESTDIR)$(fontsubdir)
+ 	-if test -d $(srcdir)/generate; then \
+-	  test -d $(fontsubdir)/generate || mkdir $(fontsubdir)/generate; \
++	  test -d $(DESTDIR)$(fontsubdir)/generate || mkdir -p $(DESTDIR)$(fontsubdir)/generate; \
+ 	fi
+ 	-for f in $(DEVFILES); do \
+ 	  rm -f $(fontsubdir)/$$f; \
+ 	  if test -f $$f; then \
+-	    $(INSTALL_DATA) $$f $(fontsubdir)/$$f; \
++	    $(INSTALL_DATA) $$f $(DESTDIR)$(fontsubdir)/$$f; \
+ 	  else \
+-	    $(INSTALL_DATA) $(srcdir)/$$f $(fontsubdir)/$$f; \
++	    $(INSTALL_DATA) $(srcdir)/$$f $(DESTDIR)$(fontsubdir)/$$f; \
+ 	  fi; \
+ 	done
+ 
+ .PHONY: uninstall_dev
+ uninstall_dev:
+-	-for f in $(DEVFILES); do rm -f $(fontsubdir)/$$f; done
++	-for f in $(DEVFILES); do rm -f $(DESTDIR)$(fontsubdir)/$$f; done
+ 	-if test -d $(fontsubdir)/generate; then \
+-	  rmdir $(fontsubdir)/generate; \
++	  rmdir $(DESTDIR)$(fontsubdir)/generate; \
+ 	fi
+-	-rmdir $(fontsubdir)
++	-rmdir $(DESTDIR)$(fontsubdir)
+ 
+ .PHONY: depend_src
+ depend_src: depend.temp
+diff -Nru groff-1.11/Makefile.in groff-1.11.new/Makefile.in
+--- groff-1.11/Makefile.in	Sat Sep  4 00:24:13 1999
++++ groff-1.11.new/Makefile.in	Fri Sep  3 12:53:16 1999
+@@ -384,8 +384,8 @@
+ .PHONY: uninstall_dirs
+ uninstall_dirs:
+ # Use rmdir here so that the directories are only removed if they're empty
+-	-rmdir $(man1dir) $(man5dir) $(man7dir) $(manroot) \
+-	  $(tmacdir) $(fontdir) $(bindir) $(datasubdir) $(datadir)
++	-rmdir $(DESTDIR)$(man1dir) $(DESTDIR)$(man5dir) $(DESTDIR)$(man7dir) $(DESTDIR)$(manroot) \
++	  $(DESTDIR)$(tmacdir) $(DESTDIR)$(fontdir) $(DESTDIR)$(bindir) $(DESTDIR)$(datasubdir) $(DESTDIR)$(datadir)
+ 
+ 
+ .PHONY: check
+diff -Nru groff-1.11/afmtodit/Makefile.sub groff-1.11.new/afmtodit/Makefile.sub
+--- groff-1.11/afmtodit/Makefile.sub	Wed Oct 28 13:48:22 1992
++++ groff-1.11.new/afmtodit/Makefile.sub	Fri Sep  3 12:53:16 1999
+@@ -13,9 +13,9 @@
+ 	chmod +x afmtodit
+ 
+ install_data: afmtodit
+-	-test -d $(bindir) || mkdir $(bindir)
+-	-rm -f $(bindir)/afmtodit
+-	$(INSTALL_PROGRAM) afmtodit $(bindir)/afmtodit
++	-test -d $(DESTDIR)$(bindir) || mkdir $(DESTDIR)$(bindir)
++	-rm -f $(DESTDIR)$(bindir)/afmtodit
++	$(INSTALL_PROGRAM) afmtodit $(DESTDIR)$(bindir)/afmtodit
+ 
+ uninstall_sub:
+ 	-rm -f $(bindir)/afmtodit
+diff -Nru groff-1.11/eqn/Makefile.sub groff-1.11.new/eqn/Makefile.sub
+--- groff-1.11/eqn/Makefile.sub	Mon Apr 19 10:47:10 1993
++++ groff-1.11.new/eqn/Makefile.sub	Fri Sep  3 12:53:16 1999
+@@ -20,8 +20,8 @@
+ 	chmod +x neqn
+ 
+ install_data: neqn
+-	-rm -f $(bindir)/$(NAMEPREFIX)neqn
+-	$(INSTALL_PROGRAM) neqn $(bindir)/$(NAMEPREFIX)neqn
++	-rm -f $(DESTDIR)$(bindir)/$(NAMEPREFIX)neqn
++	$(INSTALL_PROGRAM) neqn $(DESTDIR)$(bindir)/$(NAMEPREFIX)neqn
+ 
+ uninstall_sub:
+ 	-rm -f $(bindir)/$(NAMEPREFIX)neqn
+diff -Nru groff-1.11/grog/Makefile.sub groff-1.11.new/grog/Makefile.sub
+--- groff-1.11/grog/Makefile.sub	Mon Apr 19 10:47:11 1993
++++ groff-1.11.new/grog/Makefile.sub	Fri Sep  3 12:53:16 1999
+@@ -14,9 +14,9 @@
+ 	chmod +x $@
+ 
+ install_data: grog
+-	-test -d $(bindir) || mkdir $(bindir)
+-	-rm -f $(bindir)/grog
+-	$(INSTALL_PROGRAM) grog $(bindir)/grog
++	-test -d $(DESTDIR)$(bindir) || mkdir $(DESTDIR)$(bindir)
++	-rm -f $(DESTDIR)$(bindir)/grog
++	$(INSTALL_PROGRAM) grog $(DESTDIR)$(bindir)/grog
+ 
+ uninstall_sub:
+ 	-rm -f $(bindir)/grog
+diff -Nru groff-1.11/indxbib/Makefile.sub groff-1.11.new/indxbib/Makefile.sub
+--- groff-1.11/indxbib/Makefile.sub	Mon Jan  4 22:57:32 1993
++++ groff-1.11.new/indxbib/Makefile.sub	Fri Sep  3 12:53:16 1999
+@@ -8,16 +8,16 @@
+ NAMEPREFIX=$(g)
+ 
+ install_data: eign
+-	-test -d $(datadir) || mkdir $(datadir)
+-	-test -d $(datasubdir) || mkdir $(datasubdir)
+-	if test -f /usr/lib/eign; then \
+-	  rm -f $(common_words_file); \
++	-test -d $(DESTDIR)$(datadir) || mkdir $(DESTDIR)$(datadir)
++	-test -d $(DESTDIR)$(datasubdir) || mkdir $(DESTDIR)$(datasubdir)
++	if test -f $(DESTDIR)/usr/lib/eign; then \
++	  rm -f $(DESTDIR)$(common_words_file); \
+ 	  ln -s /usr/lib/eign $(common_words_file) 2>/dev/null \
+ 	  || ln /usr/lib/eign $(common_words_file) 2>/dev/null \
+ 	  || cp /usr/lib/eign $(common_words_file); \
+ 	else \
+-	  rm -f $(common_words_file); \
+-	  $(INSTALL_DATA) $(srcdir)/eign $(common_words_file); \
++	  rm -f $(DESTDIR)$(common_words_file); \
++	  $(INSTALL_DATA) $(srcdir)/eign $(DESTDIR)$(common_words_file); \
+ 	fi
+ 
+ uninstall_sub:
+diff -Nru groff-1.11/mm/Makefile.sub groff-1.11.new/mm/Makefile.sub
+--- groff-1.11/mm/Makefile.sub	Tue Jun 27 13:11:19 1995
++++ groff-1.11.new/mm/Makefile.sub	Fri Sep  3 12:53:16 1999
+@@ -9,21 +9,21 @@
+ install: install_mm
+ 
+ install_mm: install_m
+-	-test -d $(tmacdir)/mm || mkdir $(tmacdir)/mm
++	-test -d $(DESTDIR)$(tmacdir)/mm || mkdir -p $(DESTDIR)$(tmacdir)/mm
+ 	-for f in $(FILES); do \
+-		rm -f $(tmacdir)/mm/$$f; \
+-		$(INSTALL_DATA) $(srcdir)/mm/$$f $(tmacdir)/mm/$$f; \
++		rm -f $(DESTDIR)$(tmacdir)/mm/$$f; \
++		$(INSTALL_DATA) $(srcdir)/mm/$$f $(DESTDIR)$(tmacdir)/mm/$$f; \
+ 	done
+ 	-for f in $(LOCALE); do \
+-		test -f $(tmacdir)/mm/$$f || touch $(tmacdir)/mm/$$f; \
++		test -f $(DESTDIR)$(tmacdir)/mm/$$f || touch $(DESTDIR)$(tmacdir)/mm/$$f; \
+ 	done
+ 
+ install_m:
+-	-test -d $(tmacdir) || mkdir $(tmacdir)
+-	-rm -f $(tmacdir)/tmac.$(tmac_m_prefix)m
+-	$(INSTALL_DATA) $(srcdir)/tmac.m $(tmacdir)/tmac.$(tmac_m_prefix)m
++	-test -d $(DESTDIR)$(tmacdir) || mkdir -p $(DESTDIR)$(tmacdir)
++	-rm -f $(DESTDIR)$(tmacdir)/tmac.$(tmac_m_prefix)m
++	$(INSTALL_DATA) $(srcdir)/tmac.m $(DESTDIR)$(tmacdir)/tmac.$(tmac_m_prefix)m
+ 	@sed -e "s;^.mso tmac.m;.mso $(tmac_m_prefix)m;g" $(srcdir)/tmac.mse \
+-		> $(tmacdir)/tmac.$(tmac_m_prefix)mse
++		> $(DESTDIR)$(tmacdir)/tmac.$(tmac_m_prefix)mse
+ 
+ 
+ 
+diff -Nru groff-1.11/nroff/Makefile.sub groff-1.11.new/nroff/Makefile.sub
+--- groff-1.11/nroff/Makefile.sub	Mon Apr 19 10:46:21 1993
++++ groff-1.11.new/nroff/Makefile.sub	Fri Sep  3 12:53:16 1999
+@@ -10,8 +10,8 @@
+ 	chmod +x $@
+ 
+ install_data: nroff
+-	-rm -f $(bindir)/$(NAMEPREFIX)nroff
+-	$(INSTALL_PROGRAM) nroff $(bindir)/$(NAMEPREFIX)nroff
++	-rm -f $(DESTDIR)$(bindir)/$(NAMEPREFIX)nroff
++	$(INSTALL_PROGRAM) nroff $(DESTDIR)$(bindir)/$(NAMEPREFIX)nroff
+ 
+ uninstall_sub:
+-	-rm -f $(bindir)/$(NAMEPREFIX)nroff
++	-rm -f $(DESTDIR)$(bindir)/$(NAMEPREFIX)nroff
+diff -Nru groff-1.11/tmac/Makefile.sub groff-1.11.new/tmac/Makefile.sub
+--- groff-1.11/tmac/Makefile.sub	Tue Jun 27 13:36:36 1995
++++ groff-1.11.new/tmac/Makefile.sub	Sat Sep  4 00:22:43 1999
+@@ -17,31 +17,26 @@
+ all: stamp-strip stamp-wrap
+ 
+ install_data: $(NORMALFILES) $(SPECIALFILES) stamp-wrap stamp-strip man.local
+-	-test -d $(tmacdir) || mkdir $(tmacdir)
+-	if test -n "$(tmac_wrap)"; then \
+-	  for m in $(tmac_wrap); do \
+-	    $(INSTALL_DATA) $$m-wrap $(tmacdir)/tmac.$$m; \
+-	  done; \
+-	fi
++	-test -d $(DESTDIR)$(tmacdir) || mkdir -p $(DESTDIR)$(tmacdir)
+ 	for f in $(NORMALFILES); do \
+-	  rm -f $(tmacdir)/$$f; \
+-	  $(INSTALL_DATA) $(srcdir)/$$f $(tmacdir)/$$f; \
++	  rm -f $(DESTDIR)$(tmacdir)/$$f; \
++	  $(INSTALL_DATA) $(srcdir)/$$f $(DESTDIR)$(tmacdir)/$$f; \
+ 	done
+-	-rm -f $(tmacdir)/tmac.$(tmac_s_prefix)s
+-	$(INSTALL_DATA) $(srcdir)/tmac.s $(tmacdir)/tmac.$(tmac_s_prefix)s
+-	-rm -f $(tmacdir)/tmac.$(tmac_an_prefix)an
+-	$(INSTALL_DATA) $(srcdir)/tmac.an $(tmacdir)/tmac.$(tmac_an_prefix)an
++	-rm -f $(DESTDIR)$(tmacdir)/tmac.$(tmac_s_prefix)s
++	$(INSTALL_DATA) $(srcdir)/tmac.s $(DESTDIR)$(tmacdir)/tmac.$(tmac_s_prefix)s
++	-rm -f $(DESTDIR)$(tmacdir)/tmac.$(tmac_an_prefix)an
++	$(INSTALL_DATA) $(srcdir)/tmac.an $(DESTDIR)$(tmacdir)/tmac.$(tmac_an_prefix)an
+ 	for f in $(STRIPFILES); do \
+-	  rm -f $(tmacdir)/$$f; \
+-	  $(INSTALL_DATA) $$f-s $(tmacdir)/$$f; \
++	  rm -f $(DESTDIR)$(tmacdir)/$$f; \
++	  $(INSTALL_DATA) $$f-s $(DESTDIR)$(tmacdir)/$$f; \
+ 	done
+-	-test -d $(mdocdir) || mkdir $(mdocdir)
++	-test -d $(DESTDIR)$(mdocdir) || mkdir -p $(DESTDIR)$(mdocdir)
+ 	for f in $(MDOCFILES); do \
+-	  rm -f $(mdocdir)/$$f; \
+-	  $(INSTALL_DATA) $$f-s $(mdocdir)/$$f; \
++	  rm -f $(DESTDIR)$(mdocdir)/$$f; \
++	  $(INSTALL_DATA) $$f-s $(DESTDIR)$(mdocdir)/$$f; \
+ 	done
+-	-test -f $(tmacdir)/man.local || \
+-	  $(INSTALL_DATA) $(srcdir)/man.local $(tmacdir)/man.local
++	-test -f $(DESTDIR)$(tmacdir)/man.local || \
++	  $(INSTALL_DATA) $(srcdir)/man.local $(DESTDIR)$(tmacdir)/man.local
+ 	-rm -f temp
+ 
+ stamp-strip: $(STRIPFILES) $(MDOCFILES)
+@@ -62,14 +57,14 @@
+ 	touch $@
+ 
+ uninstall_sub:
+-	-if test -n "$(tmac_wrap)"; then \
+-	  for m in $(tmac_wrap); do rm -f $(tmacdir)/tmac.$$m; done; \
++	-if test -n "$(DESTDIR)$(tmac_wrap)"; then \
++	  for m in $(tmac_wrap); do rm -f $(DESTDIR)$(tmacdir)/tmac.$$m; done; \
+ 	fi
+-	-for f in $(NORMALFILES) $(STRIPFILES); do rm -f $(tmacdir)/$$f; done
+-	-rm -f $(tmacdir)/tmac.$(tmac_s_prefix)s
+-	-rm -f $(tmacdir)/tmac.$(tmac_an_prefix)an
+-	-if cmp -s $(tmacdir)/man.local $(srcdir)/man.local; then \
+-	  rm -f $(tmacdir)/man.local; \
++	-for f in $(NORMALFILES) $(STRIPFILES); do rm -f $(DESTDIR)$(tmacdir)/$$f; done
++	-rm -f $(DESTDIR)$(tmacdir)/tmac.$(tmac_s_prefix)s
++	-rm -f $(DESTDIR)$(tmacdir)/tmac.$(tmac_an_prefix)an
++	-if cmp -s $(DESTDIR)$(tmacdir)/man.local $(srcdir)/man.local; then \
++	  rm -f $(DESTDIR)$(tmacdir)/man.local; \
+ 	fi
+-	-for f in $(MDOCFILES); do rm -f $(mdocdir)/$$f; done
+-	-rmdir $(mdocdir)
++	-for f in $(MDOCFILES); do rm -f $(DESTDIR)$(mdocdir)/$$f; done
++	-rmdir $(DESTDIR)$(mdocdir)
+diff -Nru groff-1.11/troff/Makefile.sub groff-1.11.new/troff/Makefile.sub
+--- groff-1.11/troff/Makefile.sub	Wed Oct 28 13:47:58 1992
++++ groff-1.11.new/troff/Makefile.sub	Fri Sep  3 12:53:16 1999
+@@ -20,11 +20,11 @@
+ 	\"`sed -e 's/^[^.]*\.\([0-9]*\).*$$/\1/' $(srcdir)/../VERSION`\"\; >>$@
+ 
+ install_data: hyphen.us
+-	-test -d $(datadir) || mkdir $(datadir)
+-	-test -d $(datasubdir) || mkdir $(datasubdir)
+-	-test -d $(tmacdir) || mkdir $(tmacdir)
+-	-rm -f $(tmacdir)/hyphen.us
+-	$(INSTALL_DATA) $(srcdir)/hyphen.us $(tmacdir)/hyphen.us
++	-test -d $(DESTDIR)$(datadir) || mkdir $(DESTDIR)$(datadir)
++	-test -d $(DESTDIR)$(datasubdir) || mkdir $(DESTDIR)$(datasubdir)
++	-test -d $(DESTDIR)$(tmacdir) || mkdir $(DESTDIR)$(tmacdir)
++	-rm -f $(DESTDIR)$(tmacdir)/hyphen.us
++	$(INSTALL_DATA) $(srcdir)/hyphen.us $(DESTDIR)$(tmacdir)/hyphen.us
+ 
+ uninstall_sub:
+ 	-rm -f $(tmacdir)/hyphen.us
