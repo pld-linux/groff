@@ -1,24 +1,23 @@
---- groff-1.16.1.new/doc/groff.texinfo	Thu Nov 30 03:02:24 2000
-+++ groff-1.16.1.new/doc/groff.texinfo.new	Thu Nov 30 03:02:40 2000
-@@ -7,7 +7,7 @@
+--- groff-1.18/doc/groff.texinfo.orig	Fri Jul  5 17:07:24 2002
++++ groff-1.18/doc/groff.texinfo	Mon Jul 29 15:05:32 2002
+@@ -8,7 +8,7 @@
  @c
  
  @c %**start of header (This is for running Texinfo on a region.)
--@setfilename  groff
-+@setfilename  groff.info
+-@setfilename groff
++@setfilename groff.info
  @settitle The GNU Troff Manual
  @setchapternewpage odd
  @footnotestyle separate
-@@ -70,9 +70,10 @@
- @c XXX comment all examples
+@@ -371,9 +371,9 @@
+ @c Note: We say `Roman numerals' but `roman font'.
  
  
 -@dircategory Miscellaneous
 +@dircategory Text Processing Tools:
  @direntry
--* Groff: (groff).  The GNU troff document formatting system.
-+* Groff: (groff).			The GNU troff document formatting
-+					system
+-* Groff: (groff).               The GNU troff document formatting system.
++* Groff: (groff).			The GNU troff document formatting system
  @end direntry
  
  

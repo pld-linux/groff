@@ -1,7 +1,7 @@
-diff -Nur groff-1.17.orig/Makefile.comm groff-1.17/Makefile.comm
---- groff-1.17.orig/Makefile.comm	Wed Nov  8 17:17:34 2000
-+++ groff-1.17/Makefile.comm	Sun Jun 10 00:55:22 2001
-@@ -147,29 +151,25 @@
+diff -Nur groff-1.18.orig/Makefile.comm groff-1.18/Makefile.comm
+--- groff-1.18.orig/Makefile.comm	Mon Jun  3 18:01:41 2002
++++ groff-1.18/Makefile.comm	Mon Jul 29 14:46:37 2002
+@@ -163,29 +163,25 @@
  
  .PHONY: install_man
  install_man:
@@ -37,7 +37,7 @@ diff -Nur groff-1.17.orig/Makefile.comm groff-1.17/Makefile.comm
  	 echo $(INSTALL_DATA) $$p $$target; \
  	 $(INSTALL_DATA) $$p $$target; \
  	done
-@@ -197,9 +197,8 @@
+@@ -213,9 +209,8 @@
  
  .PHONY: install_prog
  install_prog:
@@ -49,7 +49,7 @@ diff -Nur groff-1.17.orig/Makefile.comm groff-1.17/Makefile.comm
  
  .PHONY: uninstall_prog
  uninstall_prog:
-@@ -207,21 +206,16 @@
+@@ -223,21 +218,16 @@
  
  .PHONY: install_dev
  install_dev:
@@ -78,30 +78,10 @@ diff -Nur groff-1.17.orig/Makefile.comm groff-1.17/Makefile.comm
  	  fi; \
  	done
  
-diff -Nur groff-1.17.orig/Makefile.in groff-1.17/Makefile.in
---- groff-1.17.orig/Makefile.in	Sat Apr 14 16:25:12 2001
-+++ groff-1.17/Makefile.in	Sun Jun 10 00:56:18 2001
-@@ -172,6 +172,8 @@
- man7ext=7
- man7dir=$(manroot)/man$(man7ext)
- 
-+infodir=@infodir@
-+
- # DEFINES should include the following:
- # -DHAVE_MMAP			if you have mmap() and <sys/mman.h>
- # -DARRAY_DELETE_NEEDS_SIZE	if your C++ doesn't understand `delete []'
-@@ -295,6 +297,7 @@
-   "man5dir=$(man5dir)" \
-   "man7ext=$(man7ext)" \
-   "man7dir=$(man7dir)" \
-+  "infodir=$(infodir)" \
-   "mkinstalldirs=$(mkinstalldirs)" \
-   "tmac_wrap=$(tmac_wrap)" \
-   "sys_tmac_prefix=$(sys_tmac_prefix)" \
-diff -Nur groff-1.17.orig/contrib/mm/Makefile.sub groff-1.17/contrib/mm/Makefile.sub
---- groff-1.17.orig/contrib/mm/Makefile.sub	Fri Nov 17 05:26:02 2000
-+++ groff-1.17/contrib/mm/Makefile.sub	Sun Jun 10 00:58:34 2001
-@@ -16,26 +16,22 @@
+diff -Nur groff-1.18.orig/contrib/mm/Makefile.sub groff-1.18/contrib/mm/Makefile.sub
+--- groff-1.18.orig/contrib/mm/Makefile.sub	Wed May 22 08:26:12 2002
++++ groff-1.18/contrib/mm/Makefile.sub	Mon Jul 29 14:50:50 2002
+@@ -17,31 +17,27 @@
  install: install_mm
  
  install_mm: install_mmroff install_m
@@ -127,7 +107,14 @@ diff -Nur groff-1.17.orig/contrib/mm/Makefile.sub groff-1.17/contrib/mm/Makefile
  	@sed -e "s;^.mso m.tmac;.mso $(tmac_m_prefix)m.tmac;g" \
 -		$(srcdir)/mse.tmac > $(tmacdir)/$(tmac_m_prefix)mse.tmac
 +		$(srcdir)/mse.tmac > $(DESTDIR)$(tmacdir)/$(tmac_m_prefix)mse.tmac
- install_mmroff : mmroff
+ 	@sed -e "s;^.mso mse.tmac;.mso $(tmac_m_prefix)mse.tmac;g" \
+-		$(srcdir)/mmse.tmac > $(tmacdir)/$(tmac_m_prefix)mmse.tmac
++		$(srcdir)/mmse.tmac > $(DESTDIR)$(tmacdir)/$(tmac_m_prefix)mmse.tmac
+ 	@sed -e "s;^.mso m.tmac;.mso $(tmac_m_prefix)m.tmac;g" \
+-		$(srcdir)/mm.tmac > $(tmacdir)/$(tmac_m_prefix)mm.tmac
++		$(srcdir)/mm.tmac > $(DESTDIR)$(tmacdir)/$(tmac_m_prefix)mm.tmac
+ 
+ install_mmroff: mmroff
 -	-test -d $(bindir) || $(mkinstalldirs) $(bindir)
 -	-rm -f $(bindir)/mmroff
 -	$(INSTALL_SCRIPT) mmroff $(bindir)/mmroff
@@ -136,23 +123,83 @@ diff -Nur groff-1.17.orig/contrib/mm/Makefile.sub groff-1.17/contrib/mm/Makefile
  
  mmroff: mmroff.pl
  	-rm -f $@
-diff -Nur groff-1.17.orig/doc/Makefile groff-1.17/doc/Makefile
---- groff-1.17.orig/doc/Makefile	Wed Jan 17 15:17:18 2001
-+++ groff-1.17/doc/Makefile	Sun Jun 10 00:59:34 2001
-@@ -68,7 +68,9 @@
- groff: groff.texinfo
- 	makeinfo groff.texinfo
+diff -Nur groff-1.18.orig/doc/Makefile.sub groff-1.18/doc/Makefile.sub
+--- groff-1.18.orig/doc/Makefile.sub	Fri Jun 14 17:18:34 2002
++++ groff-1.18/doc/Makefile.sub	Mon Jul 29 14:57:57 2002
+@@ -133,52 +133,42 @@
  
--install:
-+install: groff
-+	install -d $(DESTDIR)$(infodir)
-+	install groff.info* $(DESTDIR)$(infodir)
+ install_data: groff $(DOCFILES) $(PROCESSEDDOCFILES) $(make_install_html) \
+               $(EXAMPLEFILES) $(PROCESSEDEXAMPLEFILES)
+-	-test -d $(infodir) || $(mkinstalldirs) $(infodir)
++	$(mkinstalldirs) $(DESTDIR)$(infodir)
+ # Prefer info files in builddir over srcdir; we test for
+ # the existence of `groff'.
+ 	d=.; \
+-	  test -f "groff" || d=$(srcdir); \
+-	  for f in $$d/groff $$d/groff-*; do \
+-	    rm -f $(infodir)/`basename $$f`; \
+-	    $(INSTALL_DATA) $$f $(infodir)/`basename $$f`; \
++	  test -f "groff.info" || d=$(srcdir); \
++	  for f in $$d/groff.info* ; do \
++	    $(INSTALL_DATA) $$f $(DESTDIR)$(infodir)/`basename $$f`; \
+ 	  done
+-	$(INSTALL_INFO) --info-dir=$(infodir) $(infodir)/groff
+-	-test -d $(docdir) || $(mkinstalldirs) $(docdir)
++	$(mkinstalldirs) $(DESTDIR)$(docdir)
+ 	for f in $(DOCFILES); do \
+-	  rm -f $(docdir)/$$f; \
+-	  $(INSTALL_DATA) $(srcdir)/$$f $(docdir)/$$f; \
++	  $(INSTALL_DATA) $(srcdir)/$$f $(DESTDIR)$(docdir)/$$f; \
+ 	done
+ 	for f in $(PROCESSEDDOCFILES); do \
+-	  rm -f $(docdir)/$$f; \
+-	  $(INSTALL_DATA) $$f $(docdir)/$$f; \
++	  $(INSTALL_DATA) $$f $(DESTDIR)$(docdir)/$$f; \
+ 	done
+-	-test -d $(exampledir) || $(mkinstalldirs) $(exampledir)
++	$(mkinstalldirs) $(DESTDIR)$(exampledir)
+ 	for f in $(EXAMPLEFILES); do \
+-	  rm -f $(exampledir)/$$f; \
+-	  $(INSTALL_DATA) $(srcdir)/$$f $(exampledir)/$$f; \
++	  $(INSTALL_DATA) $(srcdir)/$$f $(DESTDIR)$(exampledir)/$$f; \
+ 	done
+ 	for f in $(PROCESSEDEXAMPLEFILES); do \
+-	  rm -f $(exampledir)/$$f; \
+-	  $(INSTALL_DATA) $$f $(exampledir)/$$f; \
++	  $(INSTALL_DATA) $$f $(DESTDIR)$(exampledir)/$$f; \
+ 	done
  
- clean:
- 	-rm -f *.ps *.html *.ascii *.png *.gif *.dit core
-diff -Nur groff-1.17.orig/src/preproc/eqn/Makefile.sub groff-1.17/src/preproc/eqn/Makefile.sub
---- groff-1.17.orig/src/preproc/eqn/Makefile.sub	Wed Dec 13 17:13:06 2000
-+++ groff-1.17/src/preproc/eqn/Makefile.sub	Sun Jun 10 01:00:07 2001
+ install_html: $(HTMLDOCFILES) $(HTMLEXAMPLEFILES)
+-	-test -d $(htmldocdir) || $(mkinstalldirs) $(htmldocdir)
++	$(mkinstalldirs) $(DESTDIR)$(htmldocdir)
+ 	for f in $(HTMLDOCFILES); do \
+-	  rm -f $(htmldocdir)/$$f; \
+-	  $(INSTALL_DATA) $$f $(htmldocdir)/$$f; \
++	  $(INSTALL_DATA) $$f $(DESTDIR)$(htmldocdir)/$$f; \
+ 	done
+-	-test -d $(htmldocimagedir) || $(mkinstalldirs) $(htmldocimagedir)
+-	rm -f $(htmldocimagedir)/$(HTMLDOCIMAGEFILES)
+-	$(INSTALL_DATA) $(imagedir)/$(HTMLDOCIMAGEFILES) $(htmldocimagedir)
+-	-test -d $(exampledir) || $(mkinstalldirs) $(exampledir)
++	$(mkinstalldirs) $(DESTDIR)$(htmldocimagedir)
++	$(INSTALL_DATA) $(imagedir)/$(HTMLDOCIMAGEFILES) $(DESTDIR)$(htmldocimagedir)
++	$(mkinstalldirs) $(DESTDIR)$(exampledir)
+ 	for f in $(HTMLEXAMPLEFILES); do \
+-	  rm -f $(exampledir)/$$f; \
+-	  $(INSTALL_DATA) $$f $(exampledir)/$$f; \
++	  $(INSTALL_DATA) $$f $(DESTDIR)$(exampledir)/$$f; \
+ 	done
+-	-test -d $(exampleimagedir) || $(mkinstalldirs) $(exampleimagedir)
+-	rm -f $(exampleimagedir)/$(HTMLEXAMPLEIMAGEFILES)
+-	$(INSTALL_DATA) $(imagedir)/$(HTMLEXAMPLEIMAGEFILES) $(exampleimagedir)
++	$(mkinstalldirs) $(DESTDIR)$(exampleimagedir)
++	$(INSTALL_DATA) $(imagedir)/$(HTMLEXAMPLEIMAGEFILES) $(DESTDIR)$(exampleimagedir)
+ 
+ uninstall_sub:
+ 	-for f in groff groff-*; do \
+diff -Nur groff-1.18.orig/src/preproc/eqn/Makefile.sub groff-1.18/src/preproc/eqn/Makefile.sub
+--- groff-1.18.orig/src/preproc/eqn/Makefile.sub	Sun Jun  2 18:42:56 2002
++++ groff-1.18/src/preproc/eqn/Makefile.sub	Mon Jul 29 14:58:47 2002
 @@ -52,8 +52,7 @@
  	chmod +x $@
  
@@ -163,10 +210,10 @@ diff -Nur groff-1.17.orig/src/preproc/eqn/Makefile.sub groff-1.17/src/preproc/eq
  
  uninstall_sub:
  	-rm -f $(bindir)/$(NAMEPREFIX)neqn
-diff -Nur groff-1.17.orig/src/roff/grog/Makefile.sub groff-1.17/src/roff/grog/Makefile.sub
---- groff-1.17.orig/src/roff/grog/Makefile.sub	Wed Nov 15 23:29:52 2000
-+++ groff-1.17/src/roff/grog/Makefile.sub	Sun Jun 10 01:00:53 2001
-@@ -18,9 +18,8 @@
+diff -Nur groff-1.18.orig/src/roff/grog/Makefile.sub groff-1.18/src/roff/grog/Makefile.sub
+--- groff-1.18.orig/src/roff/grog/Makefile.sub	Fri Jun 14 12:44:00 2002
++++ groff-1.18/src/roff/grog/Makefile.sub	Mon Jul 29 14:59:05 2002
+@@ -24,9 +24,8 @@
  	chmod +x $@
  
  install_data: grog
@@ -178,9 +225,9 @@ diff -Nur groff-1.17.orig/src/roff/grog/Makefile.sub groff-1.17/src/roff/grog/Ma
  
  uninstall_sub:
  	-rm -f $(bindir)/grog
-diff -Nur groff-1.17.orig/src/roff/nroff/Makefile.sub groff-1.17/src/roff/nroff/Makefile.sub
---- groff-1.17.orig/src/roff/nroff/Makefile.sub	Thu Nov 16 22:10:44 2000
-+++ groff-1.17/src/roff/nroff/Makefile.sub	Sun Jun 10 01:01:18 2001
+diff -Nur groff-1.18.orig/src/roff/nroff/Makefile.sub groff-1.18/src/roff/nroff/Makefile.sub
+--- groff-1.18.orig/src/roff/nroff/Makefile.sub	Thu Nov 16 22:10:44 2000
++++ groff-1.18/src/roff/nroff/Makefile.sub	Mon Jul 29 14:59:55 2002
 @@ -12,9 +12,8 @@
  	chmod +x $@
  
@@ -193,9 +240,9 @@ diff -Nur groff-1.17.orig/src/roff/nroff/Makefile.sub groff-1.17/src/roff/nroff/
  
  uninstall_sub:
  	-rm -f $(bindir)/$(NAMEPREFIX)nroff
-diff -Nur groff-1.17.orig/src/utils/afmtodit/Makefile.sub groff-1.17/src/utils/afmtodit/Makefile.sub
---- groff-1.17.orig/src/utils/afmtodit/Makefile.sub	Thu Nov 16 22:10:46 2000
-+++ groff-1.17/src/utils/afmtodit/Makefile.sub	Sun Jun 10 01:04:33 2001
+diff -Nur groff-1.18.orig/src/utils/afmtodit/Makefile.sub groff-1.18/src/utils/afmtodit/Makefile.sub
+--- groff-1.18.orig/src/utils/afmtodit/Makefile.sub	Thu Nov 16 22:10:46 2000
++++ groff-1.18/src/utils/afmtodit/Makefile.sub	Mon Jul 29 15:00:27 2002
 @@ -15,9 +15,8 @@
  	chmod +x afmtodit
  
@@ -208,10 +255,10 @@ diff -Nur groff-1.17.orig/src/utils/afmtodit/Makefile.sub groff-1.17/src/utils/a
  
  uninstall_sub:
  	-rm -f $(bindir)/afmtodit
-diff -Nur groff-1.17.orig/src/utils/indxbib/Makefile.sub groff-1.17/src/utils/indxbib/Makefile.sub
---- groff-1.17.orig/src/utils/indxbib/Makefile.sub	Mon Oct 23 08:19:14 2000
-+++ groff-1.17/src/utils/indxbib/Makefile.sub	Sun Jun 10 01:06:32 2001
-@@ -14,18 +14,10 @@
+diff -Nur groff-1.18.orig/src/utils/indxbib/Makefile.sub groff-1.18/src/utils/indxbib/Makefile.sub
+--- groff-1.18.orig/src/utils/indxbib/Makefile.sub	Fri May  3 00:33:22 2002
++++ groff-1.18/src/utils/indxbib/Makefile.sub	Mon Jul 29 15:01:35 2002
+@@ -12,18 +12,10 @@
  NAMEPREFIX=$(g)
  
  install_data: eign
@@ -234,10 +281,10 @@ diff -Nur groff-1.17.orig/src/utils/indxbib/Makefile.sub groff-1.17/src/utils/in
  
  uninstall_sub:
  	-rm -f $(common_words_file)
-diff -Nur groff-1.17.orig/tmac/Makefile.sub groff-1.17/tmac/Makefile.sub
---- groff-1.17.orig/tmac/Makefile.sub	Tue Apr 17 13:16:11 2001
-+++ groff-1.17/tmac/Makefile.sub	Sun Jun 10 01:11:39 2001
-@@ -41,39 +41,30 @@
+diff -Nur groff-1.18.orig/tmac/Makefile.sub groff-1.18/tmac/Makefile.sub
+--- groff-1.18.orig/tmac/Makefile.sub	Sat Jul 13 22:41:16 2002
++++ groff-1.18/tmac/Makefile.sub	Mon Jul 29 15:04:07 2002
+@@ -43,39 +43,30 @@
  
  install_data: $(NORMALFILES) $(SPECIALFILES) man.local \
                stamp-strip stamp-wrap stamp-sed
@@ -291,3 +338,79 @@ diff -Nur groff-1.17.orig/tmac/Makefile.sub groff-1.17/tmac/Makefile.sub
  
  stamp-strip: $(STRIPFILES) $(MDOCFILES) mdoc.local
  	for f in $(STRIPFILES) $(MDOCFILES) mdoc.local; do \
+--- groff-1.18.orig/contrib/eqn2graph/Makefile.sub	Mon Jul  8 00:14:56 2002
++++ groff-1.18/contrib/eqn2graph/Makefile.sub	Mon Jul 29 15:12:05 2002
+@@ -11,9 +11,8 @@
+ 	chmod +x $@
+ 
+ install_data: eqn2graph
+-	-test -d $(bindir) || $(mkinstalldirs) $(bindir)
+-	-rm -f $(bindir)/eqn2graph
+-	$(INSTALL_SCRIPT) eqn2graph $(bindir)/eqn2graph
++	$(mkinstalldirs) $(DESTDIR)$(bindir)
++	$(INSTALL_SCRIPT) eqn2graph $(DESTDIR)$(bindir)/eqn2graph
+ 
+ uninstall_sub:
+ 	-rm -f $(bindir)/eqn2graph
+--- groff-1.18.orig/contrib/groffer/Makefile.sub	Mon Jun 24 20:08:06 2002
++++ groff-1.18/contrib/groffer/Makefile.sub	Mon Jul 29 15:12:31 2002
+@@ -39,9 +39,8 @@
+ 	chmod +x $@
+ 
+ install_data: groffer
+-	-test -d $(bindir) || $(mkinstalldirs) $(bindir)
+-	-rm -f $(bindir)/groffer
+-	$(INSTALL_SCRIPT) groffer $(bindir)/groffer
++	$(mkinstalldirs) $(DESTDIR)$(bindir)
++	$(INSTALL_SCRIPT) groffer $(DESTDIR)$(bindir)/groffer
+ 
+ uninstall_sub:
+ 	-rm -f $(bindir)/groffer
+--- groff-1.18.orig/contrib/mom/Makefile.sub	Fri Jun  7 13:56:32 2002
++++ groff-1.18/contrib/mom/Makefile.sub	Mon Jul 29 15:13:36 2002
+@@ -90,24 +90,20 @@
+ 
+ install_data: $(NORMALFILES) $(HTMLDOCFILES) \
+               $(EXAMPLEFILES) $(PROCESSEDEXAMPLEFILES)
+-	-test -d $(tmacdir) || $(mkinstalldirs) $(tmacdir)
++	$(mkinstalldirs) $(DESTDIR)$(tmacdir)
+ 	for f in $(NORMALFILES); do \
+-	  rm -f $(tmacdir)/$$f; \
+-	  $(INSTALL_DATA) $(srcdir)/$$f $(tmacdir)/$$f; \
++	  $(INSTALL_DATA) $(srcdir)/$$f $(DESTDIR)$(tmacdir)/$$f; \
+ 	done
+-	-test -d $(htmldocdir)/momdoc || $(mkinstalldirs) $(htmldocdir)/momdoc
++	$(mkinstalldirs) $(DESTDIR)$(htmldocdir)/momdoc
+ 	for f in $(HTMLDOCFILES); do \
+-	  rm -f $(htmldocdir)/$$f; \
+-	  $(INSTALL_DATA) $(srcdir)/$$f $(htmldocdir)/$$f; \
++	  $(INSTALL_DATA) $(srcdir)/$$f $(DESTDIR)$(htmldocdir)/$$f; \
+ 	done
+-	-test -d $(exampledir) || $(mkinstalldirs) $(exampledir)
++	$(mkinstalldirs) $(DESTDIR)$(exampledir)
+ 	for f in $(EXAMPLEFILES); do \
+-	  rm -f $(exampledir)/$$f; \
+-	  $(INSTALL_DATA) $(srcdir)/$$f $(docdir)/$$f; \
++	  $(INSTALL_DATA) $(srcdir)/$$f $(DESTDIR)$(docdir)/$$f; \
+ 	done
+ 	for f in $(PROCESSEDEXAMPLEFILES); do \
+-	  rm -f $(exampledir)/$$f; \
+-	  $(INSTALL_DATA) $$f $(docdir)/$$f; \
++	  $(INSTALL_DATA) $$f $(DESTDIR)$(docdir)/$$f; \
+ 	done
+ 
+ uninstall_sub:
+--- groff-1.18.orig/contrib/pic2graph/Makefile.sub	Sat Aug 11 00:16:11 2001
++++ groff-1.18/contrib/pic2graph/Makefile.sub	Mon Jul 29 15:13:54 2002
+@@ -11,9 +11,8 @@
+ 	chmod +x $@
+ 
+ install_data: pic2graph
+-	-test -d $(bindir) || $(mkinstalldirs) $(bindir)
+-	-rm -f $(bindir)/pic2graph
+-	$(INSTALL_SCRIPT) pic2graph $(bindir)/pic2graph
++	$(mkinstalldirs) $(DESTDIR)$(bindir)
++	$(INSTALL_SCRIPT) pic2graph $(DESTDIR)$(bindir)/pic2graph
+ 
+ uninstall_sub:
+ 	-rm -f $(bindir)/pic2graph
