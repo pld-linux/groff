@@ -5,7 +5,7 @@ Summary(pl):	GNU groff - pakiet do formatowania tekstu
 Summary(tr):	GNU groff metin biçemleme paketi
 Name:		groff
 Version:	1.17
-Release:	3
+Release:	4
 License:	GPL
 Group:		Applications/Publishing
 Source0:	ftp://ftp.ffii.org/pub/groff/%{name}-%{version}.tar.gz
@@ -21,6 +21,7 @@ BuildRequires:	autoconf
 BuildRequires:	texinfo
 Requires:	mktemp
 Obsoletes:	groff-tools
+Obsoletes:	groff-for-man
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
