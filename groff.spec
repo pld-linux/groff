@@ -5,13 +5,14 @@ Summary(pl):	GNU groff - pakiet do formatowania tekstu
 Summary(tr):	GNU groff metin biçemleme paketi
 Name:		groff
 Version:	1.17
-Release:	1
+Release:	2
 License:	GPL
 Group:		Applications/Publishing
 Group(de):	Applikationen/Publizieren
 Group(pl):	Aplikacje/Publikowanie
 Source0:	ftp://ftp.ffii.org/pub/groff/%{name}-%{version}.tar.gz
 Source1:	%{name}-trofftops.sh
+Source2:	%{name}-non-english-man-pages.tar.bz2
 Patch0:		%{name}-safer.patch
 Patch1:		%{name}-DESTDIR.patch
 Patch2:		%{name}-info.patch
@@ -181,6 +182,8 @@ echo ".so soelim.1" >  $RPM_BUILD_ROOT%{_mandir}/man1/gsoelim.1
 echo ".so tbl.1" >     $RPM_BUILD_ROOT%{_mandir}/man1/gtbl.1
 echo ".so troff.1" >   $RPM_BUILD_ROOT%{_mandir}/man1/gtroff.1
 
+bzip2 -dc %{SOURCE2} | tar xf - -C $RPM_BUILD_ROOT%{_mandir}
+
 gzip -9nf NEWS PROBLEMS PROJECTS README TODO BUG-REPORT ChangeLog \
 	src/xditview/{ChangeLog,README,TODO}
 
@@ -240,12 +243,12 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/gnroff.1*
 %{_mandir}/man1/gpic.1*
 %{_mandir}/man1/grefer.1*
-%{_mandir}/man1/grodvi.1*
 %{_mandir}/man1/grn.1*
+%{_mandir}/man1/grodvi.1*
 %{_mandir}/man1/groff.1*
 %{_mandir}/man1/grohtml.1*
-%{_mandir}/man1/grolj4.1*
 %{_mandir}/man1/grolbp.1*
+%{_mandir}/man1/grolj4.1*
 %{_mandir}/man1/grops.1*
 %{_mandir}/man1/grotty.1*
 %{_mandir}/man1/gsoelim.1*
@@ -263,7 +266,56 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/tbl.1*
 %{_mandir}/man1/tfmtodit.1*
 %{_mandir}/man1/troff.1*
-%{_mandir}/man[57]/*
+%{_mandir}/man5/*
+%{_mandir}/man7/[^m]*
+
+%lang(de) %{_mandir}/de/man1/groff.1*
+
+%lang(fi) %{_mandir}/fi/man1/addftinfo.1*
+
+%lang(ja) %{_mandir}/ja/man1/addftinfo.1*
+%lang(ja) %{_mandir}/ja/man1/eqn.1*
+%lang(ja) %{_mandir}/ja/man1/geqn.1*
+%lang(ja) %{_mandir}/ja/man1/gindxbib.1*
+%lang(ja) %{_mandir}/ja/man1/glookbib.1*
+%lang(ja) %{_mandir}/ja/man1/gneqn.1*
+%lang(ja) %{_mandir}/ja/man1/gnroff.1*
+%lang(ja) %{_mandir}/ja/man1/gpic.1*
+%lang(ja) %{_mandir}/ja/man1/grefer.1*
+%lang(ja) %{_mandir}/ja/man1/grn.1*
+%lang(ja) %{_mandir}/ja/man1/grodvi.1*
+%lang(ja) %{_mandir}/ja/man1/groff.1*
+%lang(ja) %{_mandir}/ja/man1/grohtml.1*
+%lang(ja) %{_mandir}/ja/man1/grolbp.1*
+%lang(ja) %{_mandir}/ja/man1/grolj4.1*
+%lang(ja) %{_mandir}/ja/man1/grops.1*
+%lang(ja) %{_mandir}/ja/man1/grotty.1*
+%lang(ja) %{_mandir}/ja/man1/gsoelim.1*
+%lang(ja) %{_mandir}/ja/man1/gtbl.1*
+%lang(ja) %{_mandir}/ja/man1/gtroff.1*
+%lang(ja) %{_mandir}/ja/man1/hpftodit.1*
+%lang(ja) %{_mandir}/ja/man1/indxbib.1*
+%lang(ja) %{_mandir}/ja/man1/lkbib.1*
+%lang(ja) %{_mandir}/ja/man1/lookbib.1*
+%lang(ja) %{_mandir}/ja/man1/nroff.1*
+%lang(ja) %{_mandir}/ja/man1/pfbtops.1*
+%lang(ja) %{_mandir}/ja/man1/pic.1*
+%lang(ja) %{_mandir}/ja/man1/refer.1*
+%lang(ja) %{_mandir}/ja/man1/soelim.1*
+%lang(ja) %{_mandir}/ja/man1/tbl.1*
+%lang(ja) %{_mandir}/ja/man1/tfmtodit.1*
+%lang(ja) %{_mandir}/ja/man1/troff.1*
+%lang(ja) %{_mandir}/ja/man5/*
+%lang(ja) %{_mandir}/ja/man7/[^m]*
+
+%lang(pl) %{_mandir}/pl/man1/gnroff.1*
+%lang(pl) %{_mandir}/pl/man1/groff.1*
+%lang(pl) %{_mandir}/pl/man1/gsoelim.1*
+%lang(pl) %{_mandir}/pl/man1/gtbl.1*
+%lang(pl) %{_mandir}/pl/man1/nroff.1*
+%lang(pl) %{_mandir}/pl/man1/soelim.1*
+%lang(pl) %{_mandir}/pl/man1/tbl.1*
+
 %{_infodir}/*info*
 
 %files gxditview
@@ -282,3 +334,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/afmtodit.*
 %{_mandir}/man1/grog.*
 %{_mandir}/man7/mmroff.*
+
+%lang(fi) %{_mandir}/fi/man1/afmtodit.*
+
+%lang(ja) %{_mandir}/ja/man1/grog.*
+%lang(ja) %{_mandir}/ja/man7/mmroff.*
