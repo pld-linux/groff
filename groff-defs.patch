@@ -1,0 +1,12 @@
+--- groff-1.17/aclocal.m4.orig	Sat Apr 14 16:25:12 2001
++++ groff-1.17/aclocal.m4	Sat Nov 24 14:01:55 2001
+@@ -464,6 +464,9 @@
+ cat > conftest.defs <<\EOF
+ changequote(<<, >>)dnl
+ s%<<#define>> \([A-Za-z_][A-Za-z0-9_]*\) *\(.*\)%-D\1=\2%g
++/<<#ifdef>>/d
++/<<#include>>/d
++/<<#endif>>/d
+ s%[ 	`~<<#>>$^&*(){}\\|;'"<>?]%\\&%g
+ s%\[%\\&%g
+ s%\]%\\&%g
