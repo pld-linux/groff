@@ -1,21 +1,21 @@
-Summary:     GNU groff text formatting package
-Summary(de): GNU groff-Textformatierungspaket
-Summary(fr): Paquetage de formatage de texte groff de GNU
-Summary(pl): GNU groff - pakiet do formatowania tekstu 
-Summary(tr): GNU groff metin biçemleme paketi
-Name:        groff
-Version:     1.11a
-Release:     10
-Copyright:   GPL
-Group:       Applications/Publishing
-Source0:     ftp://prep.ai.mit.edu/pub/gnu/%{name}-%{version}.tar.gz
-Source1:     troff-to-ps.fpi
-Patch:       groff-1.11-make.patch
-Patch1:      groff-1.11-safer.patch
-Patch2:      groff-1.11-bash2.patch
-Requires:    mktemp
-Buildroot:   /tmp/%{name}-%{version}-root
-Obsoletes:   groff-tools
+Summary:	GNU groff text formatting package
+Summary(de):	GNU groff-Textformatierungspaket
+Summary(fr):	Paquetage de formatage de texte groff de GNU
+Summary(pl):	GNU groff - pakiet do formatowania tekstu 
+Summary(tr):	GNU groff metin biçemleme paketi
+Name:		groff
+Version:	1.11a
+Release:	12
+Copyright:	GPL
+Group:		Applications/Publishing
+Group(pl):	Aplikacje/Publikowanie
+Source0:	ftp://prep.ai.mit.edu/pub/gnu/%{name}-%{version}.tar.gz
+Source1:	troff-to-ps.fpi
+Patch0:		%{name}-1.11-make.patch
+Patch1:		%{name}-1.11-safer.patch
+Requires:	mktemp
+Obsoletes:	groff-tools
+Buildroot:	/tmp/%{name}-%{version}-root
 
 %description
 The groff text formatting system can be used to create professional looking
@@ -46,13 +46,14 @@ profesyonel görünüme sahip belgeler yaratmaya yarar. Bütün kýlavuz (man)
 sayfalarý groff ile hazýrlanmýþtýr. man sayfalarýný okuyabilmek için groff
 paketine gereksiniminiz olacaktýr.
 
-%package gxditview
-Summary:     GNU groff X previewer
-Summary(de): GNU groff-X-Previewer
-Summary(fr): Le visualiseur de fichier groff de GNU, sous X.
-Summary(pl): Groff pod X'y 
-Summary(tr): GNU groff X görüntüleyici
-Group:       Applications/Publishing
+%package	gxditview
+Summary:	GNU groff X previewer
+Summary(de):	GNU groff-X-Previewer
+Summary(fr):	Le visualiseur de fichier groff de GNU, sous X.
+Summary(pl):	Groff pod X'y 
+Summary(tr):	GNU groff X görüntüleyici
+Group:		Applications/Publishing
+Group(pl):	Aplikacje/Publikowanie
 
 %description gxditview
 The package contains the gxditview program, which can be used to format and
@@ -79,31 +80,30 @@ programýný içerir. Örneðin man sayfalarý gxditview kullanýlarak okunabilir.
 
 %prep
 %setup -q -n groff-1.11
-%patch -p1
+%patch0 -p1
 %patch1 -p1
-%patch2 -p1
 
 %build
 PATH=$PATH:/usr/X11R6/bin
-CFLAGS="$RPM_OPT_FLAGS" CXXFLAGS="$RPM_OPT_FLAGS" LDFLAGS="-s" \
-./configure \
-	--prefix=/usr
+CXX='g++' CC='gcc' CFLAGS="$RPM_OPT_FLAGS" CXXFLAGS="$RPM_OPT_FLAGS" \
+LDFLAGS=-s \
+    ./configure --prefix=/usr
 make
-cd xditview
-xmkmf
-make
+( cd xditview; xmkmf; make )
 
 %install
 rm -rf $RPM_BUILD_ROOT
 PATH=$PATH:/usr/X11R6/bin
+
 install -d $RPM_BUILD_ROOT/usr/lib/rhs/rhs-printfilters
 
 make install prefix=$RPM_BUILD_ROOT/usr
-cd xditview
-make DESTDIR=$RPM_BUILD_ROOT install install.man
+( cd xditview; make DESTDIR=$RPM_BUILD_ROOT install install.man )
+
+strip $RPM_BUILD_ROOT/usr/bin/* || :
 
 ln -s tmac.s	$RPM_BUILD_ROOT/usr/lib/groff/tmac/tmac.gs
-ln -s tmac.mse $RPM_BUILD_ROOT/usr/lib/groff/tmac/tmac.gmse
+ln -s tmac.mse  $RPM_BUILD_ROOT/usr/lib/groff/tmac/tmac.gmse
 ln -s tmac.m	$RPM_BUILD_ROOT/usr/lib/groff/tmac/tmac.gm
 ln -s eqn	$RPM_BUILD_ROOT/usr/bin/geqn
 ln -s indxbib	$RPM_BUILD_ROOT/usr/bin/gindxbib
@@ -127,34 +127,71 @@ echo ".so soelim.1" >  $RPM_BUILD_ROOT/usr/man/man1/gsoelim.1
 echo ".so tbl.1" >     $RPM_BUILD_ROOT/usr/man/man1/gtbl.1
 echo ".so troff.1" >   $RPM_BUILD_ROOT/usr/man/man1/gtroff.1
 
-install $RPM_SOURCE_DIR/troff-to-ps.fpi $RPM_BUILD_ROOT/usr/lib/rhs/rhs-printfilters
+install $RPM_SOURCE_DIR/troff-to-ps.fpi \
+    $RPM_BUILD_ROOT/usr/lib/rhs/rhs-printfilters
 
-gzip -9nf $RPM_BUILD_ROOT/usr/{man/man1/*,X11R6/man/man1/*}
+gzip -9fn $RPM_BUILD_ROOT/usr/{man/man1/*,X11R6/man/man1/*}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 %files
-%defattr(644, root, root, 755)
+%defattr(644,root,root,755)
+
 /usr/lib/groff
-%attr(755, root, root) /usr/bin/*
-%attr(644, root,  man) /usr/man/man1/*
-%attr(755, root, root) /usr/lib/rhs/rhs-printfilters/*
+
+%attr(755,root,root) /usr/bin/addftinfo
+%attr(755,root,root) /usr/bin/afmtodit
+%attr(755,root,root) /usr/bin/eqn
+%attr(755,root,root) /usr/bin/geqn
+%attr(755,root,root) /usr/bin/gindxbib
+%attr(755,root,root) /usr/bin/glookbib
+%attr(755,root,root) /usr/bin/gneqn
+%attr(755,root,root) /usr/bin/gnroff
+%attr(755,root,root) /usr/bin/gpic
+%attr(755,root,root) /usr/bin/grefer
+%attr(755,root,root) /usr/bin/grodvi
+%attr(755,root,root) /usr/bin/groff
+%attr(755,root,root) /usr/bin/grog
+%attr(755,root,root) /usr/bin/grolj4
+%attr(755,root,root) /usr/bin/grops
+%attr(755,root,root) /usr/bin/grotty
+%attr(755,root,root) /usr/bin/gsoelim
+%attr(755,root,root) /usr/bin/gtbl
+%attr(755,root,root) /usr/bin/gtroff
+%attr(755,root,root) /usr/bin/hpftodit
+%attr(755,root,root) /usr/bin/indxbib
+%attr(755,root,root) /usr/bin/lkbib
+%attr(755,root,root) /usr/bin/lookbib
+%attr(755,root,root) /usr/bin/neqn
+%attr(755,root,root) /usr/bin/nroff
+%attr(755,root,root) /usr/bin/pfbtops
+%attr(755,root,root) /usr/bin/pic
+%attr(755,root,root) /usr/bin/psbb
+%attr(755,root,root) /usr/bin/refer
+%attr(755,root,root) /usr/bin/soelim
+%attr(755,root,root) /usr/bin/tbl
+%attr(755,root,root) /usr/bin/tfmtodit
+%attr(755,root,root) /usr/bin/troff
+
+%attr(644,root,man) /usr/man/man1/*
+
+%attr(755,root,root) /usr/lib/rhs/rhs-printfilters/*
 
 %files gxditview
-%attr(755, root, root) /usr/X11R6/bin/gxditview
-%attr(644, root, root) %config /usr/X11R6/lib/X11/app-defaults/GXditview
-%attr(644, root,  man) /usr/X11R6/man/man1/*
+%defattr(644,root,root,755)
+
+%attr(755,root,root) /usr/X11R6/bin/gxditview
+%attr(644,root,root) %config /usr/X11R6/lib/X11/app-defaults/GXditview
+%attr(644,root, man) /usr/X11R6/man/man1/*
 
 %changelog
-* Fri Dec 11 1998 Tomasz K³oczko <kloczek@rudy.mif.pg.gda.pl>
-  [1.11a-10]
-- added gzipping man pages,
-- removed strip from %install (LDFLAGS="-s" in %build do the same),
-- recompiled against libstdc++.so.2.9.
-
-* Thu Sep 10 1998 Cristian Gafton <gafton@redhat.com>
-- fix makefiles to work with bash2
+* Wed Sep 30 1998 Wojtek ¦lusarczyk <wojtek@shadow.eu.org>
+  [1.11a-8d]
+- build against new PLD,
+- fixed files permissions,
+- macro %%{name} in Patch,
+- minor modifications of the spec file.
 
 * Thu Sep  8 1998 Tomasz K³oczko <kloczek@rudy.mif.pg.gda.pl>
   [1.11a-8]
@@ -169,28 +206,4 @@ rm -rf $RPM_BUILD_ROOT
 
 * Mon Jun 29 1998 Wojtek ¦lusarczyk <wojtek@shadow.eu.org>
 - build agains glibc-2.1
-
-* Fri May 08 1998 Prospector System <bugs@redhat.com>
-- translations modified for de, fr, tr
-
-* Thu Apr 30 1998 Cristian Gafton <gafton@redhat.com>
-- use g++ for C++ code
-
-* Wed Apr 08 1998 Cristian Gafton <gafton@redhat.com>
-- manhattan and buildroot
-
-* Mon Nov  3 1997 Michael Fulbright <msf@redhat.com>
-- made xdefaults file a config file
-
-* Thu Oct 23 1997 Erik Troan <ewt@redhat.com>
-- split perl components into separate subpackage
-
-* Tue Oct 21 1997 Michael Fulbright <msf@redhat.com>
-- updated to 1.11a
-- added safe troff-to-ps.fpi
-
-* Tue Oct 14 1997 Michael Fulbright <msf@redhat.com>
-- removed troff-to-ps.fpi for security reasons.
-
-* Fri Jun 13 1997 Erik Troan <ewt@redhat.com>
-- built against glibc
+- start at RH spec file.
