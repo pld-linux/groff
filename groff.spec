@@ -8,6 +8,7 @@ Version:	1.16.1
 Release:	1
 License:	GPL
 Group:		Applications/Publishing
+Group(de):	Applikationen/Publizieren
 Group(pl):	Aplikacje/Publikowanie
 Source0:	ftp://prep.ai.mit.edu/pub/gnu/groff/%{name}-%{version}.tar.gz
 Source1:	%{name}-trofftops.sh
@@ -66,9 +67,10 @@ için groff paketine gereksiniminiz olacaktýr.
 Summary:	An X previewer for groff text processor output
 Summary(de):	X-Anzeiger fuer groff Textprozessor-Ausgaben
 Summary(fr):	Le visualiseur de fichier groff de GNU, sous X
-Summary(pl):	Groff pod X'y
+Summary(pl):	Groff pod X
 Summary(tr):	GNU groff X görüntüleyici
 Group:		Applications/Publishing
+Group(de):	Applikationen/Publizieren
 Group(pl):	Aplikacje/Publikowanie
 Requires:	%{name} = %{version}
 
@@ -102,6 +104,7 @@ okunabilir.
 Summary:	Parts of the groff formatting system that require Perl
 Summary(pl):	Cze¶æ zasobów groff-a która wymaga Perla
 Group:		Applications/Publishing
+Group(de):	Applikationen/Publizieren
 Group(pl):	Aplikacje/Publikowanie
 Requires:	%{name} = %{version}
 
@@ -131,7 +134,7 @@ PATH=$PATH:%{_prefix}/X11R6/bin
 autoconf
 CXX="g++"
 CC="%{__cc}"
-CXXFLAGS="$RPM_OPT_FLAGS -fno-rtti -fno-exceptions"
+CXXFLAGS="%{rpmcflags} -fno-rtti -fno-exceptions"
 export CXX CC CXXFLAGS
 %configure
 %{__make}
@@ -153,19 +156,19 @@ cd src/xditview
 %{__make} DESTDIR=$RPM_BUILD_ROOT install install.man
 cd ../..
 
-ln -s tmac.s	$RPM_BUILD_ROOT%{_datadir}/groff/tmac/tmac.gs
-ln -s tmac.mse  $RPM_BUILD_ROOT%{_datadir}/groff/tmac/tmac.gmse
-ln -s tmac.m	$RPM_BUILD_ROOT%{_datadir}/groff/tmac/tmac.gm
-ln -s eqn	$RPM_BUILD_ROOT%{_bindir}/geqn
-ln -s indxbib	$RPM_BUILD_ROOT%{_bindir}/gindxbib
-ln -s lookbib	$RPM_BUILD_ROOT%{_bindir}/glookbib
-ln -s neqn	$RPM_BUILD_ROOT%{_bindir}/gneqn
-ln -s nroff	$RPM_BUILD_ROOT%{_bindir}/gnroff
-ln -s troff	$RPM_BUILD_ROOT%{_bindir}/gtroff
-ln -s tbl	$RPM_BUILD_ROOT%{_bindir}/gtbl
-ln -s pic	$RPM_BUILD_ROOT%{_bindir}/gpic
-ln -s refer	$RPM_BUILD_ROOT%{_bindir}/grefer
-ln -s soelim	$RPM_BUILD_ROOT%{_bindir}/gsoelim
+ln -sf tmac.s	$RPM_BUILD_ROOT%{_datadir}/groff/tmac/tmac.gs
+ln -sf tmac.mse	$RPM_BUILD_ROOT%{_datadir}/groff/tmac/tmac.gmse
+ln -sf tmac.m	$RPM_BUILD_ROOT%{_datadir}/groff/tmac/tmac.gm
+ln -sf eqn	$RPM_BUILD_ROOT%{_bindir}/geqn
+ln -sf indxbib	$RPM_BUILD_ROOT%{_bindir}/gindxbib
+ln -sf lookbib	$RPM_BUILD_ROOT%{_bindir}/glookbib
+ln -sf neqn	$RPM_BUILD_ROOT%{_bindir}/gneqn
+ln -sf nroff	$RPM_BUILD_ROOT%{_bindir}/gnroff
+ln -sf troff	$RPM_BUILD_ROOT%{_bindir}/gtroff
+ln -sf tbl	$RPM_BUILD_ROOT%{_bindir}/gtbl
+ln -sf pic	$RPM_BUILD_ROOT%{_bindir}/gpic
+ln -sf refer	$RPM_BUILD_ROOT%{_bindir}/grefer
+ln -sf soelim	$RPM_BUILD_ROOT%{_bindir}/gsoelim
 
 echo ".so eqn.1" >     $RPM_BUILD_ROOT%{_mandir}/man1/geqn.1
 echo ".so indxbib.1" > $RPM_BUILD_ROOT%{_mandir}/man1/gindxbib.1
