@@ -175,7 +175,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) /usr/bin/tfmtodit
 %attr(755,root,root) /usr/bin/troff
 
-%attr(644,root,man) %{_mandir}/man1/*
+%{_mandir}/man1/*
 
 %attr(755,root,root) /usr/lib/rhs/rhs-printfilters/*
 
@@ -184,7 +184,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %attr(755,root,root) /usr/X11R6/bin/gxditview
 %attr(644,root,root) %config /usr/X11R6/lib/X11/app-defaults/GXditview
-%attr(644,root, man) /usr/X11R6/man/man1/*
+/usr/X11R6/man/man1/*
 
 %changelog
 * Wed Sep 30 1998 Wojtek ¦lusarczyk <wojtek@shadow.eu.org>
