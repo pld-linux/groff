@@ -1,8 +1,7 @@
 #!/bin/sh
 umask 0077
 TMPFILE="`mktemp /tmp/troff2ps-XXXXXX`"
-cat | if [ ! "${LANG#pl}" = "$LANG" ]; then 
-	sed \
+sed \
 -e "s/±/a\\\\h'-(\\\\w'a'u\\*5\\/10)'\\\\(ho\\\\h'-(\\\\w'a'u\\*2\\/10)'/g" \
 -e "s/¡/A\\\\h'-(\\\\w'a'u\\*5\\/10)'\\\\(ho\\\\h'-(\\\\w'a'u\\*2\\/10)'/g" \
 -e "s/æ/\\\\o:c\\\\(aa:/g" \
@@ -20,10 +19,8 @@ cat | if [ ! "${LANG#pl}" = "$LANG" ]; then
 -e "s/¿/\\\\o:z\\\\(a.:/g" \
 -e "s/¯/Z\\\\h'-(\\\\w'a'u)'\\\\v'-(\\\\w'a'u\\*3\\/10)'\\\\(a.\\\\v'+(\\\\w'a'u\\*3\\/10)'\\\\h'+(\\\\w'a'u\\*3\\/10)'/g" \
 -e "s/¼/\\\\o:z\\\\(aa:/g" \
--e "s/¬/Z\\\\h'-(\\\\w'a'u)'\\\\v'-(\\\\w'a'u\\*3\\/10)'\\\\(aa\\\\v'+(\\\\w'a'u\\*3\\/10)'\\\\h'+(\\\\w'a'u\\*3\\/10)'/g"
-else
-cat
-fi > $TMPFILE
+-e "s/¬/Z\\\\h'-(\\\\w'a'u)'\\\\v'-(\\\\w'a'u\\*3\\/10)'\\\\(aa\\\\v'+(\\\\w'a'u\\*3\\/10)'\\\\h'+(\\\\w'a'u\\*3\\/10)'/g" \
+> $TMPFILE
 CMD="`grog -Tps -msafer < $TMPFILE`"
 $CMD < $TMPFILE
 rm -f $TMPFILE
