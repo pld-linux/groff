@@ -1,5 +1,5 @@
-Summary:	GNU groff text formatting package
-Summary(de):	GNU groff-Textformatierungspaket
+Summary:	A document formatting system
+Summary(de):	Ein Dokumentformatierungssystem
 Summary(fr):	Paquetage de formatage de texte groff de GNU
 Summary(pl):	GNU groff - pakiet do formatowania tekstu 
 Summary(tr):	GNU groff metin biçemleme paketi
@@ -23,14 +23,28 @@ Obsoletes:	groff-tools
 Buildroot:	/tmp/%{name}-%{version}-root
 
 %description
-The groff text formatting system can be used to create professional looking
-documents on both paper and a computer screen.  All the man pages are
-processed with groff, so you'll need this package to read man pages.
+Groff is a document formatting system. Groff takes standard text and
+formatting commands as input and produces formatted output. The created
+documents can be shown on a display or printed on a printer.  Groff's
+formatting commands allow you to specify font type and size, bold type,
+italic type, the number and size of columns on a page, and more.
+
+You should install groff if you want to use it as a document formatting
+system. Groff can also be used to format man pages. If you are going to use
+groff with the X Window System, you'll also need to install the
+groff-gxditview package.
 
 %description -l de
-Das Textformatiersystem groff wird zum Erstellen professioneller Dokumente
-auf Papier und Bildschirm verwendet. Alle man-Seiten werden mit groff
-verarbeitet. Das Paket wird zum Lesen von man-Seiten benötigt.
+Groff ist ein Dokumentformatierungssystem. Groff liest Text und
+Formatierungskommandos ein, und gibt formatierte Ausgabe aus. Die erzeugten
+Dokumente können angezeigt oder ausgedruckt werden.  Groffs
+Formatierungsbefehle erlauben Ihnen, Schriftart und -größe, Fettdruck,
+Kursivdruck, und die Anzahl der Spalten pro Seite usw. zu setzen.
+
+Sie sollten groff installieren, wenn Sie es als Dokumentformatierungssystem
+benutzen wollen. Groff ann auch benutzt werden, um man-pages anzuziegen. 
+Wenn Sie groff in X11 benutzen wollten, brauchen Sie auch das
+groff-gxditview-Paket.
 
 %description -l fr
 Le système de formatage de texte groff peut être utilisé pour créer des
@@ -52,23 +66,27 @@ sayfalarý groff ile hazýrlanmýþtýr. man sayfalarýný okuyabilmek için groff
 paketine gereksiniminiz olacaktýr.
 
 %package gxditview
-Summary:	GNU groff X previewer
-Summary(de):	GNU groff-X-Previewer
-Summary(fr):	Le visualiseur de fichier groff de GNU, sous X.
-Summary(pl):	Groff pod X'y 
+Summary:	An X previewer for groff text processor output
+Summary(de):	X-Anzeiger fuer groff Textprozessor-Ausgaben
+Summary(fr):	Le visualiseur de fichier groff de GNU, sous X
+Summary(pl):	Groff pod X'y
 Summary(tr):	GNU groff X görüntüleyici
 Group:		Applications/Publishing
 Group(pl):	Aplikacje/Publikowanie
 
 %description gxditview
-The package contains the gxditview program, which can be used to format and
-view groff documents in X Windows.  For example, man pages can be read using
-gxditview.
+Gxditview displays the groff text processor's output on an X Window System
+display.
+
+If you are going to use groff as a text processor, you should install
+gxditview so that you preview your processed text files in X.  You'll also
+need to install the groff package and the X Window System.
 
 %description -l de gxditview
-Das Paket enthält das gxditview-Programm, das zum Formatieren und Anzeigen
-von groff-Dokumenten in X-Windows benutzt wird. So lassen sich
-beispielsweise auch die man-Seiten mit gxditview einsehen.
+Gxditview zeigt groff-Ausgaben auf einem X-Window-Display an.
+
+Wenn Sie groff als Textprozessor benutzen wollen, und X11 benutzen, sollten
+Sie gxditview installieren.
 
 %description -l fr gxditview
 Ce paquetage contient le programme gxditview, qui peut servir à formater et
