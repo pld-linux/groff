@@ -117,16 +117,16 @@ ln -s pic	$RPM_BUILD_ROOT/usr/bin/gpic
 ln -s refer	$RPM_BUILD_ROOT/usr/bin/grefer
 ln -s soelim	$RPM_BUILD_ROOT/usr/bin/gsoelim
 
-echo ".so eqn.1" >     $RPM_BUILD_ROOT/usr/man/man1/geqn.1
-echo ".so indxbib.1" > $RPM_BUILD_ROOT/usr/man/man1/gindxbib.1
-echo ".so lookbib.1" > $RPM_BUILD_ROOT/usr/man/man1/glookbib.1
-echo ".so neqn.1" >    $RPM_BUILD_ROOT/usr/man/man1/gneqn.1
-echo ".so nroff.1" >   $RPM_BUILD_ROOT/usr/man/man1/gnroff.1
-echo ".so pic.1" >     $RPM_BUILD_ROOT/usr/man/man1/gpic.1
-echo ".so refer.1" >   $RPM_BUILD_ROOT/usr/man/man1/grefer.1
-echo ".so soelim.1" >  $RPM_BUILD_ROOT/usr/man/man1/gsoelim.1
-echo ".so tbl.1" >     $RPM_BUILD_ROOT/usr/man/man1/gtbl.1
-echo ".so troff.1" >   $RPM_BUILD_ROOT/usr/man/man1/gtroff.1
+echo ".so eqn.1" >     $RPM_BUILD_ROOT%{_mandir}/man1/geqn.1
+echo ".so indxbib.1" > $RPM_BUILD_ROOT%{_mandir}/man1/gindxbib.1
+echo ".so lookbib.1" > $RPM_BUILD_ROOT%{_mandir}/man1/glookbib.1
+echo ".so neqn.1" >    $RPM_BUILD_ROOT%{_mandir}/man1/gneqn.1
+echo ".so nroff.1" >   $RPM_BUILD_ROOT%{_mandir}/man1/gnroff.1
+echo ".so pic.1" >     $RPM_BUILD_ROOT%{_mandir}/man1/gpic.1
+echo ".so refer.1" >   $RPM_BUILD_ROOT%{_mandir}/man1/grefer.1
+echo ".so soelim.1" >  $RPM_BUILD_ROOT%{_mandir}/man1/gsoelim.1
+echo ".so tbl.1" >     $RPM_BUILD_ROOT%{_mandir}/man1/gtbl.1
+echo ".so troff.1" >   $RPM_BUILD_ROOT%{_mandir}/man1/gtroff.1
 
 install $RPM_SOURCE_DIR/troff-to-ps.fpi \
     $RPM_BUILD_ROOT/usr/lib/rhs/rhs-printfilters
@@ -175,7 +175,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) /usr/bin/tfmtodit
 %attr(755,root,root) /usr/bin/troff
 
-%attr(644,root,man) /usr/man/man1/*
+%attr(644,root,man) %{_mandir}/man1/*
 
 %attr(755,root,root) /usr/lib/rhs/rhs-printfilters/*
 
