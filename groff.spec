@@ -23,7 +23,7 @@ BuildRequires:	XFree86-devel
 BuildRequires:	autoconf
 BuildRequires:	libstdc++-devel
 BuildRequires:	netpbm-progs
-BuildRequires:	texinfo
+BuildRequires:	texinfo >= 4.2
 Requires:	mktemp
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 Obsoletes:	groff-tools
