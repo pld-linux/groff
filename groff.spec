@@ -195,9 +195,10 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc NEWS PROBLEMS PROJECTS README TODO BUG-REPORT ChangeLog
+%doc BUG-REPORT ChangeLog NEWS PROBLEMS PROJECTS README TODO
 %attr(755,root,root) %{_bindir}/addftinfo
 %attr(755,root,root) %{_bindir}/eqn
+%attr(755,root,root) %{_bindir}/eqn2graph
 %attr(755,root,root) %{_bindir}/geqn
 %attr(755,root,root) %{_bindir}/gindxbib
 %attr(755,root,root) %{_bindir}/glookbib
@@ -208,6 +209,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/grn
 %attr(755,root,root) %{_bindir}/grodvi
 %attr(755,root,root) %{_bindir}/groff
+%attr(755,root,root) %{_bindir}/groffer
 %attr(755,root,root) %{_bindir}/grolbp
 %attr(755,root,root) %{_bindir}/grolj4
 %attr(755,root,root) %{_bindir}/grops
@@ -223,6 +225,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/nroff
 %attr(755,root,root) %{_bindir}/pfbtops
 %attr(755,root,root) %{_bindir}/pic
+%attr(755,root,root) %{_bindir}/pic2graph
 %attr(755,root,root) %{_bindir}/post-grohtml
 %attr(755,root,root) %{_bindir}/pre-grohtml
 %attr(755,root,root) %{_bindir}/refer
@@ -233,6 +236,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/groff
 %{_mandir}/man1/addftinfo.1*
 %{_mandir}/man1/eqn.1*
+%{_mandir}/man1/eqn2graph.1*
 %{_mandir}/man1/geqn.1*
 %{_mandir}/man1/gindxbib.1*
 %{_mandir}/man1/glookbib.1*
@@ -243,6 +247,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/grn.1*
 %{_mandir}/man1/grodvi.1*
 %{_mandir}/man1/groff.1*
+%{_mandir}/man1/groffer.1*
 %{_mandir}/man1/grohtml.1*
 %{_mandir}/man1/grolbp.1*
 %{_mandir}/man1/grolj4.1*
@@ -255,9 +260,11 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/indxbib.1*
 %{_mandir}/man1/lkbib.1*
 %{_mandir}/man1/lookbib.1*
+%{_mandir}/man1/neqn.1*
 %{_mandir}/man1/nroff.1*
 %{_mandir}/man1/pfbtops.1*
 %{_mandir}/man1/pic.1*
+%{_mandir}/man1/pic2graph.1*
 %{_mandir}/man1/refer.1*
 %{_mandir}/man1/soelim.1*
 %{_mandir}/man1/tbl.1*
