@@ -15,8 +15,8 @@ Patch0:		%{name}-fhs.patch
 Patch1:		%{name}-1.11-safer.patch
 Patch2:		%{name}-X11.patch
 Patch3:		%{name}-include-opt.patch
-BuildPreReq:	XFree86-devel
-BuildPreReq:	libstdc++-devel
+BuildRequires:	XFree86-devel
+BuildRequires:	libstdc++-devel
 Requires:	mktemp
 Obsoletes:	groff-tools
 Buildroot:	/tmp/%{name}-%{version}-root
