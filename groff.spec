@@ -14,6 +14,7 @@ Source1:	troff-to-ps.fpi
 Patch0:		%{name}-fhs.patch
 Patch1:		%{name}-1.11-safer.patch
 Patch2:		%{name}-X11.patch
+BuildPreReq:	XFree86-devel
 Requires:	mktemp
 Obsoletes:	groff-tools
 Buildroot:	/tmp/%{name}-%{version}-root
