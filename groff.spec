@@ -134,11 +134,11 @@ CXXFLAGS="$RPM_OPT_FLAGS -fno-rtti -fno-exceptions"
 LDFLAGS="-s"
 export CXX CC CXXFLAGS LDFLAGS
 %configure
-make
+%{__make}
 
 cd xditview
 xmkmf
-make
+%{__make}
 
 %install
 rm -rf $RPM_BUILD_ROOT
