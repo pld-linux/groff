@@ -5,7 +5,7 @@ Summary(pl):	GNU groff - pakiet do formatowania tekstu
 Summary(tr):	GNU groff metin biçemleme paketi
 Name:		groff
 Version:	1.15
-Release:	3
+Release:	8
 License:	GPL
 Group:		Applications/Publishing
 Group(pl):	Aplikacje/Publikowanie
@@ -145,6 +145,9 @@ install -d $RPM_BUILD_ROOT%{_libdir}/rhs/rhs-printfilters
 
 make install DESTDIR=$RPM_BUILD_ROOT
 
+# fix: tmac.m is incorrectly installed
+mv $RPM_BUILD_ROOT/usr/lib/groff/tmac/tmac. $RPM_BUILD_ROOT/usr/lib/groff/tmac/tmac.m
+
 cd xditview
 make DESTDIR=$RPM_BUILD_ROOT install install.man
 cd ..
@@ -263,6 +266,7 @@ rm -rf $RPM_BUILD_ROOT
 /usr/X11R6/man/man1/*
 
 %files perl
+%defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/grog
 %attr(755,root,root) %{_bindir}/afmtodit
 %attr(755,root,root) %{_libdir}/rhs/rhs-printfilters/*
