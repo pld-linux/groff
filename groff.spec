@@ -1,6 +1,6 @@
 #
 # Conditional build:
-# _without_xditview         - disable xditview (which requires X11)
+%bcond_without	xditview	# disable xditview (which requires X11)
 #
 Summary:	A document formatting system
 Summary(de):	Ein Dokumentformatierungssystem
@@ -13,7 +13,7 @@ Summary(tr):	GNU groff metin biçemleme paketi
 Summary(uk):	GNU groff - ÐÁËÅÔ ÄÌÑ ÆÏÒÍÁÔÕ×ÁÎÎÑ ÔÅËÓÔÕ
 Name:		groff
 Version:	1.19
-Release:	2
+Release:	3
 License:	GPL
 Group:		Applications/Publishing
 Source0:	ftp://ftp.ffii.org/pub/groff/%{name}-%{version}.tar.gz
@@ -25,20 +25,18 @@ Patch0:		%{name}-safer.patch
 Patch1:		%{name}-DESTDIR.patch
 Patch2:		%{name}-info.patch
 Patch3:		%{name}-colours.patch
-%{!?_without_xditview:BuildRequires:	XFree86-devel}
+Patch4:		%{name}-acfix.patch
+%{?with_xditview:BuildRequires:	XFree86-devel}
 BuildRequires:	autoconf
 BuildRequires:	libstdc++-devel
-%{!?_without_xditview:BuildRequires:	netpbm-progs}
+%{?with_xditview:BuildRequires:	netpbm-progs}
 BuildRequires:	texinfo >= 4.5
 Requires:	mktemp
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 Obsoletes:	groff-tools
 Obsoletes:	groff-for-man
 
-%define		_xprefix	/usr/X11R6
-%define		_xbindir	%{_xprefix}/bin
-%define		_xlibdir	%{_xprefix}/lib
-%define		_xmandir	%{_xprefix}/man
+%define		_appdefsdir	/usr/X11R6/lib/X11/app-defaults
 
 %description
 Groff is a document formatting system. Groff takes standard text and
@@ -194,34 +192,38 @@ u¿ywany przy drukowaniu).
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
+%patch4 -p1
 
 %build
 rm -f config.cache
-PATH=$PATH:%{_prefix}/X11R6/bin
+PATH=$PATH:/usr/X11R6/bin
 %{__autoconf}
-CXX="g++"
-CC="%{__cc}"
 CXXFLAGS="%{rpmcflags} -fno-rtti -fno-exceptions"
-export CXX CC
 %configure
 %{__make}
 
-%if %{!?_without_xditview:1}%{?_without_xditview:0}
+%if %{with xditview}
 cd src/xditview
 xmkmf
-%{__make}
+%{__make} \
+	CC="%{__cc}" \
+	CDEBUGFLAGS="%{rpmcflags}"
 %endif
 
 %install
 rm -rf $RPM_BUILD_ROOT
 PATH=$PATH:%{_prefix}/X11R6/bin
 
-%{__make} install DESTDIR=$RPM_BUILD_ROOT
+%{__make} install \
+	DESTDIR=$RPM_BUILD_ROOT
 
 install %{SOURCE1} $RPM_BUILD_ROOT%{_bindir}/trofftops
 
-%if %{!?_without_xditview:1}%{?_without_xditview:0}
-%{__make} -C src/xditview DESTDIR=$RPM_BUILD_ROOT install install.man
+%if %{with xditview}
+%{__make} -C src/xditview install install.man \
+	DESTDIR=$RPM_BUILD_ROOT \
+	BINDIR=%{_bindir} \
+	MANDIR=%{_mandir}/man1
 %endif
 
 ln -sf s.tmac	$RPM_BUILD_ROOT%{_datadir}/groff/%{version}/tmac/gs.tmac
@@ -390,13 +392,13 @@ rm -rf $RPM_BUILD_ROOT
 
 %{_infodir}/*info*
 
-%if 0%{!?_without_xditview:1}
+%if %{with xditview}
 %files gxditview
 %defattr(644,root,root,755)
 %doc src/xditview/{ChangeLog,README,TODO}
-%attr(755,root,root) %{_xbindir}/gxditview
-%{_xlibdir}/X11/app-defaults/GXditview
-%{_xmandir}/man1/*
+%attr(755,root,root) %{_bindir}/gxditview
+%{_appdefsdir}/GXditview
+%{_mandir}/man1/*
 %endif
 
 %files perl
