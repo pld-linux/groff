@@ -12,7 +12,7 @@ Version:	1.18.1
 Release:	2
 License:	GPL
 Group:		Applications/Publishing
-Source0:	ftp://ftp.ffii.org/pub/groff/%{name}-%{version}.tar.gz
+Source0:	ftp://ftp.ffii.org/pub/groff/old/%{name}-%{version}.tar.gz
 # Source0-md5:	31474119d1ef2ded0bd0692132d50d05
 Source1:	%{name}-trofftops.sh
 Source2:	http://www.mif.pg.gda.pl/homepages/ankry/man-PLD/%{name}-non-english-man-pages.tar.bz2
