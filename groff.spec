@@ -130,7 +130,7 @@ u¿ywany przy drukowaniu).
 %build
 rm -f config.cache
 PATH=$PATH:%{_prefix}/X11R6/bin
-autoconf
+%{__autoconf}
 CXX="g++"
 CC="%{__cc}"
 CXXFLAGS="%{rpmcflags} -fno-rtti -fno-exceptions"
