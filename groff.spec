@@ -5,7 +5,7 @@ Summary(pl):	GNU groff - pakiet do formatowania tekstu
 Summary(tr):	GNU groff metin biçemleme paketi
 Name:		groff
 Version:	1.11.1
-Release:	16
+Release:	1
 Copyright:	GPL
 Group:		Applications/Publishing
 Group(pl):	Aplikacje/Publikowanie
