@@ -4,18 +4,19 @@ Summary(fr):	Paquetage de formatage de texte groff de GNU
 Summary(pl):	GNU groff - pakiet do formatowania tekstu
 Summary(tr):	GNU groff metin biçemleme paketi
 Name:		groff
-Version:	1.15
-Release:	11
+Version:	1.16.1
+Release:	1
 License:	GPL
 Group:		Applications/Publishing
 Group(pl):	Aplikacje/Publikowanie
 Source0:	ftp://prep.ai.mit.edu/pub/gnu/groff/%{name}-%{version}.tar.gz
 Source1:	%{name}-trofftops.sh
-Patch0:		%{name}-fhs.patch
-Patch1:		%{name}-safer.patch
-Patch2:		%{name}-DESTDIR.patch
+Patch0:		%{name}-safer.patch
+Patch1:		%{name}-DESTDIR.patch
+Patch2:		%{name}-info.patch
 BuildRequires:	XFree86-devel
 BuildRequires:	libstdc++-devel
+BuildRequires:	texinfo
 Requires:	mktemp
 Obsoletes:	groff-tools
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -129,14 +130,13 @@ rm -f config.cache
 PATH=$PATH:%{_prefix}/X11R6/bin
 autoconf
 CXX="g++"
-CC="gcc"
+CC="%{__cc}"
 CXXFLAGS="$RPM_OPT_FLAGS -fno-rtti -fno-exceptions"
-LDFLAGS="-s"
-export CXX CC CXXFLAGS LDFLAGS
+export CXX CC CXXFLAGS
 %configure
 %{__make}
 
-cd xditview
+cd src/xditview
 xmkmf
 %{__make}
 
@@ -147,14 +147,11 @@ PATH=$PATH:%{_prefix}/X11R6/bin
 %{__make} install DESTDIR=$RPM_BUILD_ROOT
 
 # fix: tmac.m is incorrectly installed
-mv -f $RPM_BUILD_ROOT%{_datadir}/groff/tmac/tmac. $RPM_BUILD_ROOT%{_datadir}/groff/tmac/tmac.m
 install %{SOURCE1} $RPM_BUILD_ROOT%{_bindir}/trofftops
 
-cd xditview
+cd src/xditview
 %{__make} DESTDIR=$RPM_BUILD_ROOT install install.man
-cd ..
-
-strip $RPM_BUILD_ROOT{%{_bindir}/*,%{_prefix}/X11R6/bin/*} || :
+cd ../..
 
 ln -s tmac.s	$RPM_BUILD_ROOT%{_datadir}/groff/tmac/tmac.gs
 ln -s tmac.mse  $RPM_BUILD_ROOT%{_datadir}/groff/tmac/tmac.gmse
@@ -181,9 +178,14 @@ echo ".so soelim.1" >  $RPM_BUILD_ROOT%{_mandir}/man1/gsoelim.1
 echo ".so tbl.1" >     $RPM_BUILD_ROOT%{_mandir}/man1/gtbl.1
 echo ".so troff.1" >   $RPM_BUILD_ROOT%{_mandir}/man1/gtroff.1
 
-gzip -9nf $RPM_BUILD_ROOT{%{_mandir}/man1/*,%{_prefix}/X11R6/man/man1/*} \
-	NEWS PROBLEMS PROJECTS README TODO BUG-REPORT ChangeLog \
+gzip -9nf NEWS PROBLEMS PROJECTS README TODO BUG-REPORT ChangeLog \
 	xditview/{ChangeLog,README,TODO}
+
+%post
+[ ! -x /usr/sbin/fix-info-dir ] || /usr/sbin/fix-info-dir -c %{_infodir} >/dev/null 2>&1
+
+%postun
+[ ! -x /usr/sbin/fix-info-dir ] || /usr/sbin/fix-info-dir -c %{_infodir} >/dev/null 2>&1
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -256,6 +258,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/tfmtodit.1*
 %{_mandir}/man1/troff.1*
 %{_mandir}/man[57]/*
+%{_infodir}/*info*
 
 %files gxditview
 %defattr(644,root,root,755)
