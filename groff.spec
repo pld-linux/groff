@@ -5,14 +5,15 @@ Summary(pl):	GNU groff - pakiet do formatowania tekstu
 Summary(tr):	GNU groff metin biçemleme paketi
 Name:		groff
 Version:	1.11a
-Release:	12
+Release:	14
 Copyright:	GPL
 Group:		Applications/Publishing
 Group(pl):	Aplikacje/Publikowanie
 Source0:	ftp://prep.ai.mit.edu/pub/gnu/%{name}-%{version}.tar.gz
 Source1:	troff-to-ps.fpi
-Patch0:		%{name}-1.11-make.patch
+Patch0:		%{name}-fhs.patch
 Patch1:		%{name}-1.11-safer.patch
+Patch2:		%{name}-X11.patch
 Requires:	mktemp
 Obsoletes:	groff-tools
 Buildroot:	/tmp/%{name}-%{version}-root
@@ -82,13 +83,14 @@ programýný içerir. Örneðin man sayfalarý gxditview kullanýlarak okunabilir.
 %setup -q -n groff-1.11
 %patch0 -p1
 %patch1 -p1
+%patch2 -p1
 
 %build
 PATH=$PATH:/usr/X11R6/bin
 CXX='g++' CC='gcc' CFLAGS="$RPM_OPT_FLAGS" CXXFLAGS="$RPM_OPT_FLAGS" \
 LDFLAGS=-s \
-./configure %{_target} \
-	--prefix=/usr
+./configure %{_target_platform} \
+	--prefix=%{_prefix}
 make
 ( cd xditview; xmkmf; make )
 
@@ -98,14 +100,15 @@ PATH=$PATH:/usr/X11R6/bin
 
 install -d $RPM_BUILD_ROOT%{_libdir}/rhs/rhs-printfilters
 
-make install prefix=$RPM_BUILD_ROOT/usr
+make install prefix=$RPM_BUILD_ROOT%{_prefix}
+
 ( cd xditview; make DESTDIR=$RPM_BUILD_ROOT install install.man )
 
-strip $RPM_BUILD_ROOT%{_bindir}/* || :
+strip $RPM_BUILD_ROOT%{_prefix}/{bin/*,X11R6/bin/*} || :
 
-ln -s tmac.s	$RPM_BUILD_ROOT%{_libdir}/groff/tmac/tmac.gs
-ln -s tmac.mse  $RPM_BUILD_ROOT%{_libdir}/groff/tmac/tmac.gmse
-ln -s tmac.m	$RPM_BUILD_ROOT%{_libdir}/groff/tmac/tmac.gm
+ln -s tmac.s	$RPM_BUILD_ROOT%{_datadir}/groff/tmac/tmac.gs
+ln -s tmac.mse  $RPM_BUILD_ROOT%{_datadir}/groff/tmac/tmac.gmse
+ln -s tmac.m	$RPM_BUILD_ROOT%{_datadir}/groff/tmac/tmac.gm
 ln -s eqn	$RPM_BUILD_ROOT%{_bindir}/geqn
 ln -s indxbib	$RPM_BUILD_ROOT%{_bindir}/gindxbib
 ln -s lookbib	$RPM_BUILD_ROOT%{_bindir}/glookbib
@@ -131,7 +134,7 @@ echo ".so troff.1" >   $RPM_BUILD_ROOT%{_mandir}/man1/gtroff.1
 install $RPM_SOURCE_DIR/troff-to-ps.fpi \
     $RPM_BUILD_ROOT%{_libdir}/rhs/rhs-printfilters
 
-gzip -9fn $RPM_BUILD_ROOT/usr/{man/man1/*,X11R6/man/man1/*}
+gzip -9fn $RPM_BUILD_ROOT{%{_mandir}/man1/*,/usr/X11R6/man/man1/*}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -139,7 +142,7 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(644,root,root,755)
 
-%{_libdir}/groff
+%{_datadir}/groff
 
 %attr(755,root,root) %{_bindir}/addftinfo
 %attr(755,root,root) %{_bindir}/afmtodit
