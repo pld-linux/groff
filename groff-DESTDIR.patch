@@ -1,7 +1,6 @@
-diff -Nru groff-1.19.orig/Makefile.comm groff-1.19/Makefile.comm
---- groff-1.19.orig/Makefile.comm	2003-04-12 16:06:46.000000000 +0200
-+++ groff-1.19/Makefile.comm	2003-04-30 09:40:08.000000000 +0200
-@@ -169,29 +169,25 @@
+--- groff-1.19.1/Makefile.comm.orig	2004-03-09 07:47:58.000000000 +0100
++++ groff-1.19.1/Makefile.comm	2004-07-20 08:08:52.291966144 +0200
+@@ -168,29 +168,25 @@
  
  .PHONY: install_man
  install_man:
@@ -37,7 +36,7 @@ diff -Nru groff-1.19.orig/Makefile.comm groff-1.19/Makefile.comm
  	 echo $(INSTALL_DATA) $$p $$target; \
  	 $(INSTALL_DATA) $$p $$target; \
  	done
-@@ -219,9 +215,8 @@
+@@ -218,9 +214,8 @@
  
  .PHONY: install_prog
  install_prog:
@@ -49,7 +48,7 @@ diff -Nru groff-1.19.orig/Makefile.comm groff-1.19/Makefile.comm
  
  .PHONY: uninstall_prog
  uninstall_prog:
-@@ -229,21 +224,16 @@
+@@ -228,31 +223,31 @@
  
  .PHONY: install_dev
  install_dev:
@@ -58,26 +57,42 @@ diff -Nru groff-1.19.orig/Makefile.comm groff-1.19/Makefile.comm
 -	-test -d $(datasubdir) || $(mkinstalldirs) $(datasubdir)
 -	-test -d $(fontdir) || $(mkinstalldirs) $(fontdir)
 -	-test -d $(fontsubdir) || $(mkinstalldirs) $(fontsubdir)
--	-if test -d $(srcdir)/generate; then \
--	  test -d $(fontsubdir)/generate || \
--	    $(mkinstalldirs) $(fontsubdir)/generate; \
--	fi
-+	$(mkinstalldirs) $(DESTDIR)$(datadir)
-+	$(mkinstalldirs) $(DESTDIR)$(dataprogramdir)
-+	$(mkinstalldirs) $(DESTDIR)$(datasubdir)
-+	$(mkinstalldirs) $(DESTDIR)$(fontdir)
-+	$(mkinstalldirs) $(DESTDIR)$(fontsubdir)/generate
- 	-for f in $(DEVFILES); do \
--	  rm -f $(fontsubdir)/$$f; \
- 	  if test -f $$f; then \
--	    $(INSTALL_DATA) $$f $(fontsubdir)/$$f; \
-+	    $(INSTALL_DATA) $$f $(DESTDIR)$(fontsubdir)/$$f; \
- 	  else \
--	    $(INSTALL_DATA) $(srcdir)/$$f $(fontsubdir)/$$f; \
-+	    $(INSTALL_DATA) $(srcdir)/$$f $(DESTDIR)$(fontsubdir)/$$f; \
- 	  fi; \
- 	done
- 	-for f in $(DEVSCRIPTS); do \
++	-test -d $(DESTDIR)$(datadir) || $(mkinstalldirs) $(DESTDIR)$(datadir)
++	-test -d $(DESTDIR)$(dataprogramdir) || $(mkinstalldirs) $(DESTDIR)$(dataprogramdir)
++	-test -d $(DESTDIR)$(datasubdir) || $(mkinstalldirs) $(DESTDIR)$(datasubdir)
++	-test -d $(DESTDIR)$(fontdir) || $(mkinstalldirs) $(DESTDIR)$(fontdir)
++	-test -d $(DESTDIR)$(fontsubdir) || $(mkinstalldirs) $(DESTDIR)$(fontsubdir)
+ 	-if test -d $(srcdir)/generate; then \
+-	  test -d $(fontsubdir)/generate \
+-	    || $(mkinstalldirs) $(fontsubdir)/generate; \
++	  test -d $(DESTDIR)$(fontsubdir)/generate \
++	    || $(mkinstalldirs) $(DESTDIR)$(fontsubdir)/generate; \
+ 	fi
+ 	-test -z "$(DEVFILES)" \
+ 	  || for f in ""$(DEVFILES); do \
+-	       rm -f $(fontsubdir)/$$f; \
++	       rm -f $(DESTDIR)$(fontsubdir)/$$f; \
+ 	       if test -f $$f; then \
+-		 $(INSTALL_DATA) $$f $(fontsubdir)/$$f; \
++		 $(INSTALL_DATA) $$f $(DESTDIR)$(fontsubdir)/$$f; \
+ 	       else \
+-		 $(INSTALL_DATA) $(srcdir)/$$f $(fontsubdir)/$$f; \
++		 $(INSTALL_DATA) $(srcdir)/$$f $(DESTDIR)$(fontsubdir)/$$f; \
+ 	       fi; \
+ 	     done
+ 	-test -z "$(DEVSCRIPTS)" \
+ 	  || for f in ""$(DEVSCRIPTS); do \
+-	       rm -f $(fontsubdir)/$$f; \
++	       rm -f $(DESTDIR)$(fontsubdir)/$$f; \
+ 	       if test -f $$f; then \
+-		 $(INSTALL_SCRIPT) $$f $(fontsubdir)/$$f; \
++		 $(INSTALL_SCRIPT) $$f $(DESTDIR)$(fontsubdir)/$$f; \
+ 	       else \
+-		 $(INSTALL_SCRIPT) $(srcdir)/$$f $(fontsubdir)/$$f; \
++		 $(INSTALL_SCRIPT) $(srcdir)/$$f $(DESTDIR)$(fontsubdir)/$$f; \
+ 	       fi; \
+ 	     done
+ 
 diff -Nru groff-1.19.orig/contrib/eqn2graph/Makefile.sub groff-1.19/contrib/eqn2graph/Makefile.sub
 --- groff-1.19.orig/contrib/eqn2graph/Makefile.sub	2002-07-08 00:14:56.000000000 +0200
 +++ groff-1.19/contrib/eqn2graph/Makefile.sub	2003-04-30 09:40:08.000000000 +0200
@@ -203,80 +218,89 @@ diff -Nru groff-1.19.orig/contrib/pic2graph/Makefile.sub groff-1.19/contrib/pic2
  
  uninstall_sub:
  	-rm -f $(bindir)/pic2graph
-diff -Nru groff-1.19.orig/doc/Makefile.sub groff-1.19/doc/Makefile.sub
---- groff-1.19.orig/doc/Makefile.sub	2003-04-05 00:40:05.000000000 +0200
-+++ groff-1.19/doc/Makefile.sub	2003-04-30 09:40:08.000000000 +0200
-@@ -139,52 +139,42 @@
+--- groff-1.19.1/doc/Makefile.sub.orig	2004-03-05 10:52:57.000000000 +0100
++++ groff-1.19.1/doc/Makefile.sub	2004-07-20 08:11:31.467767744 +0200
+@@ -150,52 +150,52 @@
  
  install_data: groff $(DOCFILES) $(PROCESSEDDOCFILES) $(make_install_html) \
                $(EXAMPLEFILES) $(PROCESSEDEXAMPLEFILES)
 -	-test -d $(infodir) || $(mkinstalldirs) $(infodir)
-+	$(mkinstalldirs) $(DESTDIR)$(infodir)
++	-test -d $(DESTDIR)$(infodir) || $(mkinstalldirs) $(DESTDIR)$(infodir)
  # Prefer info files in builddir over srcdir; we test for
  # the existence of `groff'.
  	d=.; \
 -	  test -f "groff" || d=$(srcdir); \
--	  for f in $$d/groff $$d/groff-*; do \
+-	  for f in $$d/groff `ls $$d/groff-*`; do \
 -	    rm -f $(infodir)/`basename $$f`; \
 -	    $(INSTALL_DATA) $$f $(infodir)/`basename $$f`; \
 +	  test -f "groff.info" || d=$(srcdir); \
-+	  for f in $$d/groff.info* ; do \
++	  for f in $$d/groff.info `ls $$d/groff.info-*`; do \
++	    rm -f $(DESTDIR)$(infodir)/`basename $$f`; \
 +	    $(INSTALL_DATA) $$f $(DESTDIR)$(infodir)/`basename $$f`; \
  	  done
 -	$(INSTALL_INFO) --info-dir=$(infodir) $(infodir)/groff
 -	-test -d $(docdir) || $(mkinstalldirs) $(docdir)
-+	$(mkinstalldirs) $(DESTDIR)$(docdir)
++	$(INSTALL_INFO) --info-dir=$(infodir) $(DESTDIR)$(infodir)/groff
++	-test -d $(DESTDIR)$(docdir) || $(mkinstalldirs) $(DESTDIR)$(docdir)
  	for f in $(DOCFILES); do \
 -	  rm -f $(docdir)/$$f; \
 -	  $(INSTALL_DATA) $(srcdir)/$$f $(docdir)/$$f; \
++	  rm -f $(DESTDIR)$(docdir)/$$f; \
 +	  $(INSTALL_DATA) $(srcdir)/$$f $(DESTDIR)$(docdir)/$$f; \
  	done
  	for f in $(PROCESSEDDOCFILES); do \
 -	  rm -f $(docdir)/$$f; \
 -	  $(INSTALL_DATA) $$f $(docdir)/$$f; \
++	  rm -f $(DESTDIR)$(docdir)/$$f; \
 +	  $(INSTALL_DATA) $$f $(DESTDIR)$(docdir)/$$f; \
  	done
 -	-test -d $(exampledir) || $(mkinstalldirs) $(exampledir)
-+	$(mkinstalldirs) $(DESTDIR)$(exampledir)
++	-test -d $(DESTDIR)$(exampledir) || $(mkinstalldirs) $(DESTDIR)$(exampledir)
  	for f in $(EXAMPLEFILES); do \
 -	  rm -f $(exampledir)/$$f; \
 -	  $(INSTALL_DATA) $(srcdir)/$$f $(exampledir)/$$f; \
++	  rm -f $(DESTDIR)$(exampledir)/$$f; \
 +	  $(INSTALL_DATA) $(srcdir)/$$f $(DESTDIR)$(exampledir)/$$f; \
  	done
  	for f in $(PROCESSEDEXAMPLEFILES); do \
 -	  rm -f $(exampledir)/$$f; \
 -	  $(INSTALL_DATA) $$f $(exampledir)/$$f; \
++	  rm -f $(DESTDIR)$(exampledir)/$$f; \
 +	  $(INSTALL_DATA) $$f $(DESTDIR)$(exampledir)/$$f; \
  	done
  
  install_html: $(HTMLDOCFILES) $(HTMLEXAMPLEFILES)
 -	-test -d $(htmldocdir) || $(mkinstalldirs) $(htmldocdir)
-+	$(mkinstalldirs) $(DESTDIR)$(htmldocdir)
- 	for f in $(HTMLDOCFILES); do \
++	-test -d $(DESTDIR)$(htmldocdir) || $(mkinstalldirs) $(DESTDIR)$(htmldocdir)
+ 	for f in `ls $(HTMLDOCFILESALL)`; do \
 -	  rm -f $(htmldocdir)/$$f; \
 -	  $(INSTALL_DATA) $$f $(htmldocdir)/$$f; \
++	  rm -f $(DESTDIR)$(htmldocdir)/$$f; \
 +	  $(INSTALL_DATA) $$f $(DESTDIR)$(htmldocdir)/$$f; \
  	done
 -	-test -d $(htmldocimagedir) || $(mkinstalldirs) $(htmldocimagedir)
 -	rm -f $(htmldocimagedir)/$(HTMLDOCIMAGEFILES)
 -	$(INSTALL_DATA) $(imagedir)/$(HTMLDOCIMAGEFILES) $(htmldocimagedir)
 -	-test -d $(exampledir) || $(mkinstalldirs) $(exampledir)
-+	$(mkinstalldirs) $(DESTDIR)$(htmldocimagedir)
++	-test -d $(DESTDIR)$(htmldocimagedir) || $(mkinstalldirs) $(DESTDIR)$(htmldocimagedir)
++	rm -f $(DESTDIR)$(htmldocimagedir)/$(HTMLDOCIMAGEFILES)
 +	$(INSTALL_DATA) $(imagedir)/$(HTMLDOCIMAGEFILES) $(DESTDIR)$(htmldocimagedir)
-+	$(mkinstalldirs) $(DESTDIR)$(exampledir)
++	-test -d $(DESTDIR)$(exampledir) || $(mkinstalldirs) $(DESTDIR)$(exampledir)
  	for f in $(HTMLEXAMPLEFILES); do \
 -	  rm -f $(exampledir)/$$f; \
 -	  $(INSTALL_DATA) $$f $(exampledir)/$$f; \
++	  rm -f $(DESTDIR)$(exampledir)/$$f; \
 +	  $(INSTALL_DATA) $$f $(DESTDIR)$(exampledir)/$$f; \
  	done
 -	-test -d $(exampleimagedir) || $(mkinstalldirs) $(exampleimagedir)
 -	rm -f $(exampleimagedir)/$(HTMLEXAMPLEIMAGEFILES)
 -	$(INSTALL_DATA) $(imagedir)/$(HTMLEXAMPLEIMAGEFILES) $(exampleimagedir)
-+	$(mkinstalldirs) $(DESTDIR)$(exampleimagedir)
++	-test -d $(DESTDIR)$(exampleimagedir) || $(mkinstalldirs) $(DESTDIR)$(exampleimagedir)
++	rm -f $(DESTDIR)$(exampleimagedir)/$(HTMLEXAMPLEIMAGEFILES)
 +	$(INSTALL_DATA) $(imagedir)/$(HTMLEXAMPLEIMAGEFILES) $(DESTDIR)$(exampleimagedir)
  
  uninstall_sub:
- 	-for f in groff groff-*; do \
+ 	-for f in groff `ls groff-*`; do \
 diff -Nru groff-1.19.orig/src/preproc/eqn/Makefile.sub groff-1.19/src/preproc/eqn/Makefile.sub
 --- groff-1.19.orig/src/preproc/eqn/Makefile.sub	2003-04-12 15:52:47.000000000 +0200
 +++ groff-1.19/src/preproc/eqn/Makefile.sub	2003-04-30 09:40:08.000000000 +0200
@@ -421,3 +445,18 @@ diff -Nru groff-1.19.orig/tmac/Makefile.sub groff-1.19/tmac/Makefile.sub
  
  stamp-strip: $(STRIPFILES) $(MDOCFILES) mdoc.local
  	for f in $(STRIPFILES) $(MDOCFILES) mdoc.local; do \
+--- groff-1.19.1/contrib/grap2graph/Makefile.sub.orig	2003-07-02 17:35:01.000000000 +0200
++++ groff-1.19.1/contrib/grap2graph/Makefile.sub	2004-07-20 22:37:45.706482464 +0200
+@@ -11,9 +11,9 @@
+ 	chmod +x $@
+ 
+ install_data: grap2graph
+-	-test -d $(bindir) || $(mkinstalldirs) $(bindir)
+-	-rm -f $(bindir)/grap2graph
+-	$(INSTALL_SCRIPT) grap2graph $(bindir)/grap2graph
++	-test -d $(DESTDIR)$(bindir) || $(mkinstalldirs) $(DESTDIR)$(bindir)
++	-rm -f $(DESTDIR)$(bindir)/grap2graph
++	$(INSTALL_SCRIPT) grap2graph $(DESTDIR)$(bindir)/grap2graph
+ 
+ uninstall_sub:
+ 	-rm -f $(bindir)/grap2graph
