@@ -96,16 +96,16 @@ make
 rm -rf $RPM_BUILD_ROOT
 PATH=$PATH:/usr/X11R6/bin
 
-install -d $RPM_BUILD_ROOT/usr/lib/rhs/rhs-printfilters
+install -d $RPM_BUILD_ROOT%{_libdir}/rhs/rhs-printfilters
 
 make install prefix=$RPM_BUILD_ROOT/usr
 ( cd xditview; make DESTDIR=$RPM_BUILD_ROOT install install.man )
 
 strip $RPM_BUILD_ROOT/usr/bin/* || :
 
-ln -s tmac.s	$RPM_BUILD_ROOT/usr/lib/groff/tmac/tmac.gs
-ln -s tmac.mse  $RPM_BUILD_ROOT/usr/lib/groff/tmac/tmac.gmse
-ln -s tmac.m	$RPM_BUILD_ROOT/usr/lib/groff/tmac/tmac.gm
+ln -s tmac.s	$RPM_BUILD_ROOT%{_libdir}/groff/tmac/tmac.gs
+ln -s tmac.mse  $RPM_BUILD_ROOT%{_libdir}/groff/tmac/tmac.gmse
+ln -s tmac.m	$RPM_BUILD_ROOT%{_libdir}/groff/tmac/tmac.gm
 ln -s eqn	$RPM_BUILD_ROOT/usr/bin/geqn
 ln -s indxbib	$RPM_BUILD_ROOT/usr/bin/gindxbib
 ln -s lookbib	$RPM_BUILD_ROOT/usr/bin/glookbib
@@ -129,7 +129,7 @@ echo ".so tbl.1" >     $RPM_BUILD_ROOT%{_mandir}/man1/gtbl.1
 echo ".so troff.1" >   $RPM_BUILD_ROOT%{_mandir}/man1/gtroff.1
 
 install $RPM_SOURCE_DIR/troff-to-ps.fpi \
-    $RPM_BUILD_ROOT/usr/lib/rhs/rhs-printfilters
+    $RPM_BUILD_ROOT%{_libdir}/rhs/rhs-printfilters
 
 gzip -9fn $RPM_BUILD_ROOT/usr/{man/man1/*,X11R6/man/man1/*}
 
@@ -139,7 +139,7 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(644,root,root,755)
 
-/usr/lib/groff
+%{_libdir}/groff
 
 %attr(755,root,root) /usr/bin/addftinfo
 %attr(755,root,root) /usr/bin/afmtodit
@@ -177,7 +177,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %{_mandir}/man1/*
 
-%attr(755,root,root) /usr/lib/rhs/rhs-printfilters/*
+%attr(755,root,root) %{_libdir}/rhs/rhs-printfilters/*
 
 %files gxditview
 %defattr(644,root,root,755)
