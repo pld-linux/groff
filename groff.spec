@@ -5,7 +5,7 @@ Summary(pl):	GNU groff - pakiet do formatowania tekstu
 Summary(tr):	GNU groff metin biçemleme paketi
 Name:		groff
 Version:	1.11a
-Release:	15
+Release:	16
 Copyright:	GPL
 Group:		Applications/Publishing
 Group(pl):	Aplikacje/Publikowanie
@@ -96,7 +96,10 @@ LDFLAGS=-s \
 ./configure %{_target_platform} \
 	--prefix=%{_prefix}
 make
-( cd xditview; xmkmf; make )
+
+cd xditview
+xmkmf
+make 
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -106,7 +109,9 @@ install -d $RPM_BUILD_ROOT%{_libdir}/rhs/rhs-printfilters
 
 make install prefix=$RPM_BUILD_ROOT%{_prefix}
 
-( cd xditview; make DESTDIR=$RPM_BUILD_ROOT install install.man )
+cd xditview
+make DESTDIR=$RPM_BUILD_ROOT install install.man 
+cd ..
 
 strip $RPM_BUILD_ROOT%{_prefix}/{bin/*,X11R6/bin/*} || :
 
