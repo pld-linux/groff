@@ -87,7 +87,8 @@ programýný içerir. Örneðin man sayfalarý gxditview kullanýlarak okunabilir.
 PATH=$PATH:/usr/X11R6/bin
 CXX='g++' CC='gcc' CFLAGS="$RPM_OPT_FLAGS" CXXFLAGS="$RPM_OPT_FLAGS" \
 LDFLAGS=-s \
-    ./configure --prefix=/usr
+./configure %{_target} \
+	--prefix=/usr
 make
 ( cd xditview; xmkmf; make )
 
