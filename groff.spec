@@ -5,15 +5,15 @@ Summary(pl):	GNU groff - pakiet do formatowania tekstu
 Summary(tr):	GNU groff metin biçemleme paketi
 Name:		groff
 Version:	1.15
-Release:	9
+Release:	10
 License:	GPL
 Group:		Applications/Publishing
 Group(pl):	Aplikacje/Publikowanie
 Source0:	ftp://prep.ai.mit.edu/pub/gnu/groff/%{name}-%{version}.tar.gz
-Source1:	troff-to-ps.fpi
-Patch0:		groff-fhs.patch
-Patch1:		groff-safer.patch
-Patch2:		groff-DESTDIR.patch
+Source1:	%{name}-trofftops.sh
+Patch0:		%{name}-fhs.patch
+Patch1:		%{name}-safer.patch
+Patch2:		%{name}-DESTDIR.patch
 BuildRequires:	XFree86-devel
 BuildRequires:	libstdc++-devel
 Requires:	mktemp
@@ -126,7 +126,7 @@ u¿ywany przy drukowaniu).
 
 %build
 rm -f config.cache
-PATH=$PATH:/usr/X11R6/bin
+PATH=$PATH:%{_prefix}/X11R6/bin
 autoconf
 CXX="g++"
 CC="gcc"
@@ -142,20 +142,21 @@ xmkmf
 
 %install
 rm -rf $RPM_BUILD_ROOT
-PATH=$PATH:/usr/X11R6/bin
+PATH=$PATH:%{_prefix}/X11R6/bin
 
 install -d $RPM_BUILD_ROOT%{_libdir}/rhs/rhs-printfilters
 
 %{__make} install DESTDIR=$RPM_BUILD_ROOT
 
 # fix: tmac.m is incorrectly installed
-mv $RPM_BUILD_ROOT%{_datadir}/groff/tmac/tmac. $RPM_BUILD_ROOT%{_datadir}/groff/tmac/tmac.m
+mv -f $RPM_BUILD_ROOT%{_datadir}/groff/tmac/tmac. $RPM_BUILD_ROOT%{_datadir}/groff/tmac/tmac.m
+install %{SOURCE1} $RPM_BUILD_ROOT%{_bindir}/trofftops
 
 cd xditview
 %{__make} DESTDIR=$RPM_BUILD_ROOT install install.man
 cd ..
 
-strip $RPM_BUILD_ROOT{%{_bindir}/*,/usr/X11R6/bin/*} || :
+strip $RPM_BUILD_ROOT{%{_bindir}/*,%{_prefix}/X11R6/bin/*} || :
 
 ln -s tmac.s	$RPM_BUILD_ROOT%{_datadir}/groff/tmac/tmac.gs
 ln -s tmac.mse  $RPM_BUILD_ROOT%{_datadir}/groff/tmac/tmac.gmse
@@ -182,10 +183,7 @@ echo ".so soelim.1" >  $RPM_BUILD_ROOT%{_mandir}/man1/gsoelim.1
 echo ".so tbl.1" >     $RPM_BUILD_ROOT%{_mandir}/man1/gtbl.1
 echo ".so troff.1" >   $RPM_BUILD_ROOT%{_mandir}/man1/gtroff.1
 
-install $RPM_SOURCE_DIR/troff-to-ps.fpi \
-	$RPM_BUILD_ROOT%{_libdir}/rhs/rhs-printfilters
-
-gzip -9nf $RPM_BUILD_ROOT{%{_mandir}/man1/*,/usr/X11R6/man/man1/*} \
+gzip -9nf $RPM_BUILD_ROOT{%{_mandir}/man1/*,%{_prefix}/X11R6/man/man1/*} \
 	NEWS PROBLEMS PROJECTS README TODO BUG-REPORT ChangeLog \
 	xditview/{ChangeLog,README,TODO}
 
@@ -264,14 +262,14 @@ rm -rf $RPM_BUILD_ROOT
 %files gxditview
 %defattr(644,root,root,755)
 %doc xditview/{ChangeLog,README,TODO}.gz
-%attr(755,root,root) /usr/X11R6/bin/gxditview
-/usr/X11R6/lib/X11/app-defaults/GXditview
-/usr/X11R6/man/man1/*
+%attr(755,root,root) %{_prefix}/X11R6/bin/gxditview
+%{_prefix}/X11R6/lib/X11/app-defaults/GXditview
+%{_prefix}/X11R6/man/man1/*
 
 %files perl
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/grog
 %attr(755,root,root) %{_bindir}/afmtodit
-%attr(755,root,root) %{_libdir}/rhs/rhs-printfilters/*
+%attr(755,root,root) %{_bindir}/trofftops
 %{_mandir}/man1/afmtodit.*
 %{_mandir}/man1/grog.*
