@@ -1,3 +1,7 @@
+#
+# _without_xditview         - disable xditwiev
+#
+
 Summary:	A document formatting system
 Summary(de):	Ein Dokumentformatierungssystem
 Summary(es):	Paquete groff GNU - formateador de texto
@@ -23,8 +27,8 @@ Patch2:		%{name}-info.patch
 Patch3:		%{name}-colours.patch
 BuildRequires:	XFree86-devel
 BuildRequires:	autoconf
-BuildRequires:	libstdc++-devel
-BuildRequires:	netpbm-progs
+%{!?_without_xditview:BuildRequires:	libstdc++-devel}
+%{!?_without_xditview:BuildRequires:	netpbm-progs}
 BuildRequires:	texinfo >= 4.5
 Requires:	mktemp
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -202,9 +206,12 @@ export CXX CC
 %configure
 %{__make}
 
+
+%if %{!?_without_xditview:1}%{?_without_xditview:0}
 cd src/xditview
 xmkmf
 %{__make}
+%endif
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -214,7 +221,9 @@ PATH=$PATH:%{_prefix}/X11R6/bin
 
 install %{SOURCE1} $RPM_BUILD_ROOT%{_bindir}/trofftops
 
+%if %{!?_without_xditview:1}%{?_without_xditview:0}
 %{__make} -C src/xditview DESTDIR=$RPM_BUILD_ROOT install install.man
+%endif
 
 ln -sf s.tmac	$RPM_BUILD_ROOT%{_datadir}/groff/%{version}/tmac/gs.tmac
 ln -sf mse.tmac	$RPM_BUILD_ROOT%{_datadir}/groff/%{version}/tmac/gmse.tmac
@@ -383,11 +392,13 @@ rm -rf $RPM_BUILD_ROOT
 %{_infodir}/*info*
 
 %files gxditview
+%if %{!?_without_xditview:1}%{?_without_xditview:0}
 %defattr(644,root,root,755)
 %doc src/xditview/{ChangeLog,README,TODO}
 %attr(755,root,root) %{_xbindir}/gxditview
 %{_xlibdir}/X11/app-defaults/GXditview
 %{_xmandir}/man1/*
+%endif
 
 %files perl
 %defattr(644,root,root,755)
