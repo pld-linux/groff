@@ -240,7 +240,7 @@ diff -Nru groff-1.19.orig/contrib/pic2graph/Makefile.sub groff-1.19/contrib/pic2
  	  done
 -	$(INSTALL_INFO) --info-dir=$(infodir) $(infodir)/groff
 -	-test -d $(docdir) || $(mkinstalldirs) $(docdir)
-+	$(INSTALL_INFO) --info-dir=$(infodir) $(DESTDIR)$(infodir)/groff.info
++	$(INSTALL_INFO) --info-dir=$(DESTDIR)$(infodir) $(DESTDIR)$(infodir)/groff.info
 +	-test -d $(DESTDIR)$(docdir) || $(mkinstalldirs) $(DESTDIR)$(docdir)
  	for f in $(DOCFILES); do \
 -	  rm -f $(docdir)/$$f; \
