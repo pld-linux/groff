@@ -1,8 +1,12 @@
 Summary:	A document formatting system
 Summary(de):	Ein Dokumentformatierungssystem
+Summary(es):	Paquete groff GNU - formateador de texto
 Summary(fr):	Paquetage de formatage de texte groff de GNU
 Summary(pl):	GNU groff - pakiet do formatowania tekstu
+Summary(pt_BR):	Pacote groff GNU - formatador de texto
+Summary(ru):	GNU groff - пакет для форматирования текста
 Summary(tr):	GNU groff metin biГemleme paketi
+Summary(uk):	GNU groff - пакет для форматування тексту
 Name:		groff
 Version:	1.18
 Release:	1
@@ -20,9 +24,9 @@ BuildRequires:	libstdc++-devel
 BuildRequires:	netpbm-progs
 BuildRequires:	texinfo
 Requires:	mktemp
+BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 Obsoletes:	groff-tools
 Obsoletes:	groff-for-man
-BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		_xprefix	/usr/X11R6
 %define		_xbindir	%{_xprefix}/bin
@@ -51,6 +55,12 @@ Dokumentformatierungssystem benutzen wollen. Groff ann auch benutzt
 werden, um man-pages anzuziegen. Wenn Sie groff in X11 benutzen
 wollten, brauchen Sie auch das groff-gxditview-Paket.
 
+%description -l es
+El sistema formateador de texto groff puede ser usado para crear
+documentos con apariencia profesional tanto en papel como en la
+pantalla. Todas las pАginas de manuales son procesadas con groff,
+entonces este paquete es necesario para leer estas pАginas.
+
 %description -l fr
 Le systХme de formatage de texte groff peut Йtre utilisИ pour crИer
 des documents d'aspect professionnel sur papier et Ю l'Иcran. Toutes
@@ -64,18 +74,40 @@ konsoli. Wszystkie podrЙczniki ekranowe (man) potrzebuj╠ groff'a do
 formatowania tekstu na ekranie. Tak wiЙc potrzebujesz tego pakietu do
 czytania podrЙcznikСw ekranowych.
 
+%description -l pt_BR
+O sistema de formataГЦo groff pode ser usado para criar documentos com
+aparЙncia profissional tanto em papel como na tela do computador.
+Todas as pАginas de manual on-line sЦo processadas com groff, portanto
+este pacote И necessАrio para ler estas pАginas.
+
+%description -l ru
+Система форматирования текста groff может быть использована для
+подготовки профессионально выглядящих документов как на бумаге, так и
+на экране компьютера. Все man-страницы обрабатываются groff'ом, так
+что без этого пакета вы не сможете их просматривать.
+
 %description -l tr
 groff metin biГemleme sistemi kaПЩt veya bilgisayar ekranЩ Эzerinde
 profesyonel gЖrЭnЭme sahip belgeler yaratmaya yarar. BЭtЭn kЩlavuz
 (man) sayfalarЩ groff ile hazЩrlanmЩЧtЩr. man sayfalarЩnЩ okuyabilmek
 iГin groff paketine gereksiniminiz olacaktЩr.
 
+%description -l uk
+Система форматування тексту groff може бути використана для п╕дготовки
+документ╕в, що профес╕йно виглядають як на папер╕, так ╕ на екран╕
+комп'ютера. Вс╕ man-стор╕нки обробляються groff'ом, так що без цього
+пакету ви не зможете ╖х переглядати.
+
 %package gxditview
 Summary:	An X previewer for groff text processor output
 Summary(de):	X-Anzeiger fuer groff Textprozessor-Ausgaben
+Summary(es):	Groff GNU para X
 Summary(fr):	Le visualiseur de fichier groff de GNU, sous X
 Summary(pl):	Groff pod X
+Summary(pt_BR):	Groff GNU para X
+Summary(ru):	GNU gxditview - программа просмотра документов groff для X Window
 Summary(tr):	GNU groff X gЖrЭntЭleyici
+Summary(uk):	GNU gxditview - програма перегляду документ╕в groff для X Window
 Group:		Applications/Publishing
 Requires:	%{name} = %{version}
 
@@ -91,6 +123,11 @@ Gxditview zeigt groff-Ausgaben auf einem X-Window-Display an. Wenn Sie
 groff als Textprozessor benutzen wollen, und X11 benutzen, sollten Sie
 gxditview installieren.
 
+%description gxditview -l es
+Este paquete contiene el programa gxditview, que se puede usar para
+formatear y visualizar documentos en X window. Por ejemplo: pАginas
+man se las puede leer utilizando gxditview.
+
 %description gxditview -l fr
 Ce paquetage contient le programme gxditview, qui peut servir Ю
 formater et viusaliser les documents groff sous X Window. Les pages
@@ -100,14 +137,33 @@ peuvent, par exemple, Йtre lues avec gxditview.
 Pakiet ten zawiera program gxditview, ktСry pozwoli Ci na formatowanie
 dokumentСw pod X. Na przykЁad, do czytania porЙcznikСw ekranowych.
 
+%description gxditview -l pt_BR
+Este pacote contИm o programa gxditview, que pode ser usado para
+formatar e visualizar documentos no X Window. Por exemplo: pАginas man
+podem ser lidas usando o gxditview.
+
+%description gxditview -l ru
+Этот пакет содержит программу gxditview, которая может быть
+использована для форматирования и просмотра документов в формате groff
+под X Window. Например, при помощи gxditview можно смотреть
+man-страницы под X Window.
+
 %description gxditview -l tr
 Bu paket groff belgelerini gЖrЭntЭleyip deПiЧtirmeye yarayan gxditview
 programЩnЩ iГerir. жrneПin man sayfalarЩ gxditview kullanЩlarak
 okunabilir.
 
+%description gxditview -l uk
+Цей пакет м╕стить програму gxditview, яку можна використовувати для
+форматування та перегляду документ╕в у формат╕ groff п╕д X Window.
+Наприклад, за допомогою gxditview можна переглядати man-стор╕нки п╕д X
+Window.
+
 %package perl
 Summary:	Parts of the groff formatting system that require Perl
 Summary(pl):	Cze╤Ф zasobСw groff-a ktСra wymaga Perla
+Summary(ru):	Часть системы форматирования текста groff, требующая Perl
+Summary(uk):	Частина системи форматування тексту groff, як╕й потр╕бен Perl
 Group:		Applications/Publishing
 Requires:	%{name} = %{version}
 
