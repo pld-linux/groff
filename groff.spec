@@ -4,7 +4,7 @@ Summary(fr):	Paquetage de formatage de texte groff de GNU
 Summary(pl):	GNU groff - pakiet do formatowania tekstu 
 Summary(tr):	GNU groff metin biçemleme paketi
 Name:		groff
-Version:	1.11a
+Version:	1.11.1
 Release:	16
 Copyright:	GPL
 Group:		Applications/Publishing
@@ -84,7 +84,7 @@ Bu paket groff belgelerini görüntüleyip deðiþtirmeye yarayan gxditview
 programýný içerir. Örneðin man sayfalarý gxditview kullanýlarak okunabilir.
 
 %prep
-%setup -q -n groff-1.11
+%setup -q
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
@@ -148,25 +148,26 @@ echo ".so troff.1" >   $RPM_BUILD_ROOT%{_mandir}/man1/gtroff.1
 install $RPM_SOURCE_DIR/troff-to-ps.fpi \
 	$RPM_BUILD_ROOT%{_libdir}/rhs/rhs-printfilters
 
-gzip -9fn $RPM_BUILD_ROOT{%{_mandir}/man1/*,/usr/X11R6/man/man1/*}
+gzip -9fn $RPM_BUILD_ROOT{%{_mandir}/man1/*,/usr/X11R6/man/man1/*} \
+	NEWS PROBLEMS PROJECTS README TODO BUG-REPORT ChangeLog \
+	xditview/{ChangeLog,README,TODO}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
+%doc {NEWS,PROBLEMS,PROJECTS,README,TODO,BUG-REPORT,ChangeLog}.gz
+%attr(755,root,root) %{_bindir}/*
+%attr(755,root,root) %{_libdir}/rhs/rhs-printfilters/*
 
 %{_datadir}/groff
-
-%attr(755,root,root) %{_bindir}/*
-
 %{_mandir}/man1/*
-
-%attr(755,root,root) %{_libdir}/rhs/rhs-printfilters/*
 
 %files gxditview
 %defattr(644,root,root,755)
-
+%doc xditview/{ChangeLog,README,TODO}.gz
 %attr(755,root,root) /usr/X11R6/bin/gxditview
+
 %attr(644,root,root) %config /usr/X11R6/lib/X11/app-defaults/GXditview
 /usr/X11R6/man/man1/*
