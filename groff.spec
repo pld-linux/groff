@@ -5,13 +5,14 @@ Summary(pl): GNU groff - pakiet do formatowania tekstu
 Summary(tr): GNU groff metin biçemleme paketi
 Name:        groff
 Version:     1.11a
-Release:     8
+Release:     9
 Copyright:   GPL
 Group:       Applications/Publishing
 Source0:     ftp://prep.ai.mit.edu/pub/gnu/%{name}-%{version}.tar.gz
 Source1:     troff-to-ps.fpi
 Patch:       groff-1.11-make.patch
 Patch1:      groff-1.11-safer.patch
+Patch2:      groff-1.11-bash2.patch
 Requires:    mktemp
 Buildroot:   /tmp/%{name}-%{version}-root
 Obsoletes:   groff-tools
@@ -142,6 +143,9 @@ rm -rf $RPM_BUILD_ROOT
 %attr(644, root,  man) /usr/X11R6/man/man1/gxditview.1x
 
 %changelog
+* Thu Sep 10 1998 Cristian Gafton <gafton@redhat.com>
+- fix makefiles to work with bash2
+
 * Thu Sep  8 1998 Tomasz K³oczko <kloczek@rudy.mif.pg.gda.pl>
   [1.11a-8]
 - some man page is now maked as nroff include instead
