@@ -12,7 +12,7 @@ Group(de):	Applikationen/Publizieren
 Group(pl):	Aplikacje/Publikowanie
 Source0:	ftp://ftp.ffii.org/pub/groff/%{name}-%{version}.tar.gz
 Source1:	%{name}-trofftops.sh
-Source2:	%{name}-non-english-man-pages.tar.bz2
+Source2:	http://www.mif.pg.gda.pl/homepages/ankry/man-PLD/%{name}-non-english-man-pages.tar.bz2
 Patch0:		%{name}-safer.patch
 Patch1:		%{name}-DESTDIR.patch
 Patch2:		%{name}-info.patch
