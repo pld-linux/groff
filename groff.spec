@@ -5,7 +5,7 @@ Summary(pl):	GNU groff - pakiet do formatowania tekstu
 Summary(tr):	GNU groff metin biçemleme paketi
 Name:		groff
 Version:	1.15
-Release:	2
+Release:	3
 License:	GPL
 Group:		Applications/Publishing
 Group(pl):	Aplikacje/Publikowanie
@@ -69,6 +69,7 @@ Summary(pl):	Groff pod X'y
 Summary(tr):	GNU groff X görüntüleyici
 Group:		Applications/Publishing
 Group(pl):	Aplikacje/Publikowanie
+Requires:	%{name} = %{version}
 
 %description gxditview
 Gxditview displays the groff text processor's output on an X Window System
@@ -93,6 +94,26 @@ dokumentów pod X'ami. Na przyk³ad, do czytania porêczników ekranowych.
 %description -l tr gxditview
 Bu paket groff belgelerini görüntüleyip deðiþtirmeye yarayan gxditview
 programýný içerir. Örneðin man sayfalarý gxditview kullanýlarak okunabilir.
+
+%package perl
+Summary:	Parts of the groff formatting system that require Perl
+Summary(pl):	Cze¶æ zasobów groff-a która wymaga Perla
+Group:		Applications/Publishing
+Group(pl):	Aplikacje/Publikowanie
+Requires:	%{name} = %{version}
+
+%description perl
+groff-perl contains the parts of the groff text processor package that
+require Perl. These include the afmtodit font processor used to create
+PostScript font files, the grog utility that can be used to automatically
+determine groff command-line options, and the troff-to-ps print filter.
+
+%description -l pl perl
+groff-perl zawiera czê¶æ zasobów groff-a która wymaga Perla. Skrypt afmtodit
+jest procesorem fontów u¿ywanym do tworzenia plików fontów w formacie 
+PostScript, a skrypt grok u¿ywany jest do automatycznego doboru parametrów
+dla groff przy konwersji troff -> PostScript (zwykle u¿ywany przy
+drukowaniu).
 
 %prep
 %setup -q
@@ -168,16 +189,82 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(644,root,root,755)
 %doc {NEWS,PROBLEMS,PROJECTS,README,TODO,BUG-REPORT,ChangeLog}.gz
-%attr(755,root,root) %{_bindir}/*
-%attr(755,root,root) %{_libdir}/rhs/rhs-printfilters/*
-
+%attr(755,root,root) %{_bindir}/addftinfo
+%attr(755,root,root) %{_bindir}/eqn
+%attr(755,root,root) %{_bindir}/geqn
+%attr(755,root,root) %{_bindir}/gindxbib
+%attr(755,root,root) %{_bindir}/glookbib
+%attr(755,root,root) %{_bindir}/gneqn
+%attr(755,root,root) %{_bindir}/gnroff
+%attr(755,root,root) %{_bindir}/gpic
+%attr(755,root,root) %{_bindir}/grefer
+%attr(755,root,root) %{_bindir}/grodvi
+%attr(755,root,root) %{_bindir}/groff
+%attr(755,root,root) %{_bindir}/grohtml
+%attr(755,root,root) %{_bindir}/grolj4
+%attr(755,root,root) %{_bindir}/grops
+%attr(755,root,root) %{_bindir}/grotty
+%attr(755,root,root) %{_bindir}/gsoelim
+%attr(755,root,root) %{_bindir}/gtbl
+%attr(755,root,root) %{_bindir}/gtroff
+%attr(755,root,root) %{_bindir}/hpftodit
+%attr(755,root,root) %{_bindir}/indxbib
+%attr(755,root,root) %{_bindir}/lkbib
+%attr(755,root,root) %{_bindir}/lookbib
+%attr(755,root,root) %{_bindir}/neqn
+%attr(755,root,root) %{_bindir}/nroff
+%attr(755,root,root) %{_bindir}/pfbtops
+%attr(755,root,root) %{_bindir}/pic
+%attr(755,root,root) %{_bindir}/psbb
+%attr(755,root,root) %{_bindir}/refer
+%attr(755,root,root) %{_bindir}/soelim
+%attr(755,root,root) %{_bindir}/tbl
+%attr(755,root,root) %{_bindir}/tfmtodit
+%attr(755,root,root) %{_bindir}/troff
 %{_datadir}/groff
-%{_mandir}/man1/*
+%{_mandir}/man1/addftinfo.1*
+%{_mandir}/man1/eqn.1*
+%{_mandir}/man1/geqn.1*
+%{_mandir}/man1/gindxbib.1*
+%{_mandir}/man1/glookbib.1*
+%{_mandir}/man1/gneqn.1*
+%{_mandir}/man1/gnroff.1*
+%{_mandir}/man1/gpic.1*
+%{_mandir}/man1/grefer.1*
+%{_mandir}/man1/grodvi.1*
+%{_mandir}/man1/groff.1*
+%{_mandir}/man1/grohtml.1*
+%{_mandir}/man1/grolj4.1*
+%{_mandir}/man1/grops.1*
+%{_mandir}/man1/grotty.1*
+%{_mandir}/man1/gsoelim.1*
+%{_mandir}/man1/gtbl.1*
+%{_mandir}/man1/gtroff.1*
+%{_mandir}/man1/hpftodit.1*
+%{_mandir}/man1/indxbib.1*
+%{_mandir}/man1/lkbib.1*
+%{_mandir}/man1/lookbib.1*
+%{_mandir}/man1/nroff.1*
+%{_mandir}/man1/pfbtops.1*
+%{_mandir}/man1/pic.1*
+%{_mandir}/man1/psbb.1*
+%{_mandir}/man1/refer.1*
+%{_mandir}/man1/soelim.1*
+%{_mandir}/man1/tbl.1*
+%{_mandir}/man1/tfmtodit.1*
+%{_mandir}/man1/troff.1*
+%{_mandir}/man[57]/*
 
 %files gxditview
 %defattr(644,root,root,755)
 %doc xditview/{ChangeLog,README,TODO}.gz
 %attr(755,root,root) /usr/X11R6/bin/gxditview
-
-%attr(644,root,root) %config /usr/X11R6/lib/X11/app-defaults/GXditview
+/usr/X11R6/lib/X11/app-defaults/GXditview
 /usr/X11R6/man/man1/*
+
+%files perl
+%attr(755,root,root) %{_bindir}/grog
+%attr(755,root,root) %{_bindir}/afmtodit
+%attr(755,root,root) %{_libdir}/rhs/rhs-printfilters/*
+%{_mandir}/man1/afmtodit.*
+%{_mandir}/man1/grog.*
