@@ -18,7 +18,7 @@ BuildRequires:	XFree86-devel
 BuildRequires:	libstdc++-devel
 Requires:	mktemp
 Obsoletes:	groff-tools
-Buildroot:	/tmp/%{name}-%{version}-root
+BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
 Groff is a document formatting system. Groff takes standard text and
