@@ -17,6 +17,7 @@ Patch1:		%{name}-DESTDIR.patch
 Patch2:		%{name}-info.patch
 BuildRequires:	XFree86-devel
 BuildRequires:	libstdc++-devel
+BuildRequires:	autoconf
 BuildRequires:	texinfo
 Requires:	mktemp
 Obsoletes:	groff-tools
@@ -183,14 +184,14 @@ echo ".so troff.1" >   $RPM_BUILD_ROOT%{_mandir}/man1/gtroff.1
 gzip -9nf NEWS PROBLEMS PROJECTS README TODO BUG-REPORT ChangeLog \
 	src/xditview/{ChangeLog,README,TODO}
 
+%clean
+rm -rf $RPM_BUILD_ROOT
+
 %post
 [ ! -x /usr/sbin/fix-info-dir ] || /usr/sbin/fix-info-dir -c %{_infodir} >/dev/null 2>&1
 
 %postun
 [ ! -x /usr/sbin/fix-info-dir ] || /usr/sbin/fix-info-dir -c %{_infodir} >/dev/null 2>&1
-
-%clean
-rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
