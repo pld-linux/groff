@@ -139,7 +139,7 @@ peuvent, par exemple, être lues avec gxditview.
 
 %description gxditview -l pl
 Pakiet ten zawiera program gxditview, który pozwoli Ci na formatowanie
-dokumentów pod X. Na przyk³ad, do czytania porêczników ekranowych.
+dokumentów pod X. Na przyk³ad, do czytania podrêczników ekranowych.
 
 %description gxditview -l pt_BR
 Este pacote contém o programa gxditview, que pode ser usado para
