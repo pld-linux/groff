@@ -5,7 +5,7 @@ Summary(pl): GNU groff - pakiet do formatowania tekstu
 Summary(tr): GNU groff metin biçemleme paketi
 Name:        groff
 Version:     1.11a
-Release:     9
+Release:     10
 Copyright:   GPL
 Group:       Applications/Publishing
 Source0:     ftp://prep.ai.mit.edu/pub/gnu/%{name}-%{version}.tar.gz
@@ -85,7 +85,9 @@ programýný içerir. Örneðin man sayfalarý gxditview kullanýlarak okunabilir.
 
 %build
 PATH=$PATH:/usr/X11R6/bin
-CXX='g++' CC='gcc' CFLAGS="$RPM_OPT_FLAGS" CXXFLAGS="$RPM_OPT_FLAGS" LDFLAGS=-s ./configure --prefix=/usr
+CFLAGS="$RPM_OPT_FLAGS" CXXFLAGS="$RPM_OPT_FLAGS" LDFLAGS="-s" \
+./configure \
+	--prefix=/usr
 make
 cd xditview
 xmkmf
@@ -99,7 +101,6 @@ install -d $RPM_BUILD_ROOT/usr/lib/rhs/rhs-printfilters
 make install prefix=$RPM_BUILD_ROOT/usr
 cd xditview
 make DESTDIR=$RPM_BUILD_ROOT install install.man
-strip $RPM_BUILD_ROOT/usr/bin/* || :
 
 ln -s tmac.s	$RPM_BUILD_ROOT/usr/lib/groff/tmac/tmac.gs
 ln -s tmac.mse $RPM_BUILD_ROOT/usr/lib/groff/tmac/tmac.gmse
@@ -128,6 +129,8 @@ echo ".so troff.1" >   $RPM_BUILD_ROOT/usr/man/man1/gtroff.1
 
 install $RPM_SOURCE_DIR/troff-to-ps.fpi $RPM_BUILD_ROOT/usr/lib/rhs/rhs-printfilters
 
+gzip -9nf $RPM_BUILD_ROOT/usr/{man/man1/*,X11R6/man/man1/*}
+
 %clean
 rm -rf $RPM_BUILD_ROOT
 
@@ -141,9 +144,15 @@ rm -rf $RPM_BUILD_ROOT
 %files gxditview
 %attr(755, root, root) /usr/X11R6/bin/gxditview
 %attr(644, root, root) %config /usr/X11R6/lib/X11/app-defaults/GXditview
-%attr(644, root,  man) /usr/X11R6/man/man1/gxditview.1x
+%attr(644, root,  man) /usr/X11R6/man/man1/*
 
 %changelog
+* Fri Dec 11 1998 Tomasz K³oczko <kloczek@rudy.mif.pg.gda.pl>
+  [1.11a-10]
+- added gzipping man pages,
+- removed strip from %install (LDFLAGS="-s" in %build do the same),
+- recompiled against libstdc++.so.2.9.
+
 * Thu Sep 10 1998 Cristian Gafton <gafton@redhat.com>
 - fix makefiles to work with bash2
 
