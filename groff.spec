@@ -10,7 +10,7 @@ License:	GPL
 Group:		Applications/Publishing
 Group(de):	Applikationen/Publizieren
 Group(pl):	Aplikacje/Publikowanie
-Source0:	ftp://prep.ai.mit.edu/pub/gnu/groff/%{name}-%{version}.tar.gz
+Source0:	ftp://ftp.ffii.org/pub/groff/%{name}-%{version}.tar.gz
 Source1:	%{name}-trofftops.sh
 Patch0:		%{name}-safer.patch
 Patch1:		%{name}-DESTDIR.patch
