@@ -1,0 +1,14 @@
+--- groff-1.11/tmac/tmac.safer.msf	Tue Oct 21 15:35:12 1997
++++ groff-1.11/tmac/tmac.safer	Tue Oct 21 15:36:14 1997
+@@ -1,5 +1,5 @@
+ .\" remove unsafe requests
+-.rm open opena pso sy pi
++.rm open opena pso sy pi so
+ .de unsafe
+ .tm \\n(.F:\\n(.c: unsafe to execute request `\\$1'
+ ..
+@@ -8,3 +8,4 @@
+ .als pso unsafe
+ .als sy unsafe
+ .als pi unsafe
++.als so unsafe
