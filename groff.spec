@@ -13,7 +13,7 @@ Release:	2
 License:	GPL
 Group:		Applications/Publishing
 Source0:	ftp://ftp.ffii.org/pub/groff/old/%{name}-%{version}.tar.gz
-# Source0-md5:	31474119d1ef2ded0bd0692132d50d05
+# Source0-md5:	4c7a1b478d230696f14743772f31639f
 Source1:	%{name}-trofftops.sh
 Source2:	http://www.mif.pg.gda.pl/homepages/ankry/man-PLD/%{name}-non-english-man-pages.tar.bz2
 # Source2-md5:	3f8b22cc1eefb53306c8c2acf31aca29
