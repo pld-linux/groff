@@ -144,8 +144,6 @@ xmkmf
 rm -rf $RPM_BUILD_ROOT
 PATH=$PATH:%{_prefix}/X11R6/bin
 
-install -d $RPM_BUILD_ROOT%{_libdir}/rhs/rhs-printfilters
-
 %{__make} install DESTDIR=$RPM_BUILD_ROOT
 
 # fix: tmac.m is incorrectly installed
