@@ -8,8 +8,6 @@ Version:	1.17
 Release:	3
 License:	GPL
 Group:		Applications/Publishing
-Group(de):	Applikationen/Publizieren
-Group(pl):	Aplikacje/Publikowanie
 Source0:	ftp://ftp.ffii.org/pub/groff/%{name}-%{version}.tar.gz
 Source1:	%{name}-trofftops.sh
 Source2:	http://www.mif.pg.gda.pl/homepages/ankry/man-PLD/%{name}-non-english-man-pages.tar.bz2
@@ -73,8 +71,6 @@ Summary(fr):	Le visualiseur de fichier groff de GNU, sous X
 Summary(pl):	Groff pod X
 Summary(tr):	GNU groff X görüntüleyici
 Group:		Applications/Publishing
-Group(de):	Applikationen/Publizieren
-Group(pl):	Aplikacje/Publikowanie
 Requires:	%{name} = %{version}
 
 %description gxditview
@@ -107,8 +103,6 @@ okunabilir.
 Summary:	Parts of the groff formatting system that require Perl
 Summary(pl):	Cze¶æ zasobów groff-a która wymaga Perla
 Group:		Applications/Publishing
-Group(de):	Applikationen/Publizieren
-Group(pl):	Aplikacje/Publikowanie
 Requires:	%{name} = %{version}
 
 %description perl
