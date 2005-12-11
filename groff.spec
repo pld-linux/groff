@@ -24,6 +24,7 @@ Source2:	http://www.mif.pg.gda.pl/homepages/ankry/man-PLD/%{name}-non-english-ma
 Patch0:		%{name}-DESTDIR.patch
 Patch1:		%{name}-info.patch
 Patch2:		%{name}-colours.patch
+Patch3:		%{name}-gcc4.patch
 URL:		http://www.gnu.org/software/groff/
 %{?with_xditview:BuildRequires:	XFree86-devel}
 BuildRequires:	autoconf
@@ -190,6 +191,7 @@ u¿ywany przy drukowaniu).
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
+%patch3 -p1
 
 # makeinfo 4.7 has some problems when generating info without
 # saving macro expanded file???
