@@ -204,12 +204,12 @@ PATH=$PATH:/usr/X11R6/bin
 %{__autoconf}
 CXXFLAGS="%{rpmcflags} -fno-rtti -fno-exceptions"
 %configure
-%{__make}
+%{__make} -j1
 
 %if %{with xditview}
 cd src/xditview
 xmkmf
-%{__make} \
+%{__make} -j1 \
 	CC="%{__cc}" \
 	CDEBUGFLAGS="%{rpmcflags}"
 %endif
@@ -218,13 +218,13 @@ xmkmf
 rm -rf $RPM_BUILD_ROOT
 PATH=$PATH:%{_prefix}/X11R6/bin
 
-%{__make} install \
+%{__make} -j1 install \
 	DESTDIR=$RPM_BUILD_ROOT
 
 install %{SOURCE1} $RPM_BUILD_ROOT%{_bindir}/trofftops
 
 %if %{with xditview}
-%{__make} -C src/xditview install install.man \
+%{__make} -j1 -C src/xditview install install.man \
 	DESTDIR=$RPM_BUILD_ROOT \
 	BINDIR=%{_bindir} \
 	MANDIR=%{_mandir}/man1
