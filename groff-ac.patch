@@ -1,0 +1,33 @@
+--- groff-1.18.1.4/aclocal.m4~	2002-06-18 11:36:43.000000000 +0200
++++ groff-1.18.1.4/aclocal.m4	2006-11-07 14:22:02.000000000 +0100
+@@ -547,18 +547,20 @@
+ dnl
+ dnl If mkstemp() isn't available, use our own mkstemp.cc file.
+ dnl
+-AC_DEFUN(GROFF_MKSTEMP,
++AC_DEFUN([GROFF_MKSTEMP],
+ [AC_MSG_CHECKING([for mkstemp])
+-AC_LANG_PUSH(C++)
+-AC_LIBSOURCE(mkstemp.cc)
+-AC_TRY_LINK([#include <stdlib.h>
++AC_LANG_PUSH([C++])
++AC_LIBSOURCE([mkstemp.cc])
++AC_LINK_IFELSE([
++AC_LANG_PROGRAM([[
++#include <stdlib.h>
+ #include <unistd.h>
+-int (*f) (char *);],
+-[f = mkstemp;],
+-AC_MSG_RESULT(yes);AC_DEFINE(HAVE_MKSTEMP, 1,
+-			     [Define if you have mkstemp().]),
+-AC_MSG_RESULT(no);_AC_LIBOBJ(mkstemp))
+-AC_LANG_POP(C++)])dnl
++int (*f) (char *);]],[[f = mkstemp;]])],
++[AC_MSG_RESULT([yes])
++AC_DEFINE([HAVE_MKSTEMP], [1], [Define if you have mkstemp().])],
++[AC_MSG_RESULT(no)
++_AC_LIBOBJ([mkstemp])])
++AC_LANG_POP([C++])])dnl
+ dnl
+ dnl
+ dnl Test whether <inttypes.h> exists, doesn't clash with <sys/types.h>,
