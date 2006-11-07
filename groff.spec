@@ -1,4 +1,7 @@
 #
+# WARNING: Don't upgrade to 1.19 as that version does not support
+#	   UTF-8 input and no patches exist to solve this issue
+#
 # Conditional build:
 %bcond_without	xditview	# disable xditview (which requires X11)
 #
@@ -12,19 +15,33 @@ Summary(ru):	GNU groff - пакет для форматирования текста
 Summary(tr):	GNU groff metin biГemleme paketi
 Summary(uk):	GNU groff - пакет для форматування тексту
 Name:		groff
-Version:	1.19.1
-Release:	3
+Version:	1.18.1.4
+Epoch:		1
+Release:	1
 License:	GPL
 Group:		Applications/Publishing
-Source0:	ftp://ftp.ffii.org/pub/groff/%{name}-%{version}.tar.gz
-# Source0-md5:	57d155378640c12a80642664dfdfc892
+Source0:	ftp://ftp.gnu.org/gnu/groff/%{name}-%{version}.tar.gz
+# Source0-md5:	ceecb81533936d251ed015f40e5f7287
 Source1:	%{name}-trofftops.sh
 Source2:	http://www.mif.pg.gda.pl/homepages/ankry/man-PLD/%{name}-non-english-man-pages.tar.bz2
 # Source2-md5:	3f8b22cc1eefb53306c8c2acf31aca29
-Patch0:		%{name}-DESTDIR.patch
-Patch1:		%{name}-info.patch
-Patch2:		%{name}-colours.patch
-Patch3:		%{name}-gcc4.patch
+Source3:	groff-nroff
+Patch0:		%{name}-safer.patch
+Patch1:		%{name}-DESTDIR.patch
+Patch2:		%{name}-info.patch
+Patch3:		%{name}-colours.patch
+Patch4:		%{name}-gcc4.patch
+Patch5:		%{name}-ac.patch
+Patch6:		%{name}-multibyte.patch
+Patch7:		%{name}-fix15.patch
+Patch8:		%{name}-devutf8.patch
+Patch9:		%{name}-bigendian.patch
+Patch10:	%{name}-do_char.patch
+Patch11:	%{name}-fixminus.patch
+Patch12:	%{name}-gzext.patch
+Patch13:	%{name}-gzip.patch
+Patch14:	%{name}-sectmp.patch
+Patch15:	%{name}-spacefix.patch
 URL:		http://www.gnu.org/software/groff/
 %{?with_xditview:BuildRequires:	XFree86-devel}
 BuildRequires:	autoconf
@@ -114,7 +131,7 @@ Summary(ru):	GNU gxditview - программа просмотра документов groff для X Window
 Summary(tr):	GNU groff X gЖrЭntЭleyici
 Summary(uk):	GNU gxditview - програма перегляду документ╕в groff для X Window
 Group:		Applications/Publishing
-Requires:	%{name} = %{version}-%{release}
+Requires:	%{name} = %{epoch}:%{version}-%{release}
 
 %description gxditview
 Gxditview displays the groff text processor's output on an X Window
@@ -170,7 +187,7 @@ Summary(pl):	Cze╤Ф zasobСw groff-a ktСra wymaga Perla
 Summary(ru):	Часть системы форматирования текста groff, требующая Perl
 Summary(uk):	Частина системи форматування тексту groff, як╕й потр╕бен Perl
 Group:		Applications/Publishing
-Requires:	%{name} = %{version}-%{release}
+Requires:	%{name} = %{epoch}:%{version}-%{release}
 
 %description perl
 groff-perl contains the parts of the groff text processor package that
@@ -192,6 +209,18 @@ u©ywany przy drukowaniu).
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
+%patch4 -p1
+%patch5 -p1
+%patch6 -p1
+%patch7 -p1
+%patch8 -p1
+%patch9 -p1
+%patch10 -p1
+%patch11 -p1
+%patch12 -p1
+%patch13 -p1
+%patch14 -p1
+%patch15 -p1
 
 # makeinfo 4.7 has some problems when generating info without
 # saving macro expanded file???
@@ -203,7 +232,8 @@ mv -f groff.texinfo2 groff.texinfo
 PATH=$PATH:/usr/X11R6/bin
 %{__autoconf}
 CXXFLAGS="%{rpmcflags} -fno-rtti -fno-exceptions"
-%configure
+%configure \
+	--enable-multibyte
 %{__make} -j1
 
 %if %{with xditview}
@@ -222,6 +252,7 @@ PATH=$PATH:%{_prefix}/X11R6/bin
 	DESTDIR=$RPM_BUILD_ROOT
 
 install %{SOURCE1} $RPM_BUILD_ROOT%{_bindir}/trofftops
+install %{SOURCE3} $RPM_BUILD_ROOT%{_bindir}/nroff
 
 %if %{with xditview}
 %{__make} -j1 -C src/xditview install install.man \
@@ -279,7 +310,6 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/gneqn
 %attr(755,root,root) %{_bindir}/gnroff
 %attr(755,root,root) %{_bindir}/gpic
-%attr(755,root,root) %{_bindir}/grap2graph
 %attr(755,root,root) %{_bindir}/grefer
 %attr(755,root,root) %{_bindir}/grn
 %attr(755,root,root) %{_bindir}/grodvi
