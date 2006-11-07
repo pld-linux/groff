@@ -1,0 +1,11 @@
+--- groff-1.18.1.1/src/libs/libdriver/input.cc.orig	2006-01-10 11:11:36.000000000 +0100
++++ groff-1.18.1.1/src/libs/libdriver/input.cc	2006-01-10 11:11:52.000000000 +0100
+@@ -1786,7 +1786,7 @@
+ 	if (npages <= 0)
+ 	  fatal_command(command);
+ 	char *str_arg = get_string_arg();
+-	size_t i = 0;
++	int i = 0;
+ 	while ((c = str_arg[i++]) != '\0') {
+ 	  EnvInt w;
+ #ifdef	ENABLE_MULTIBYTE
