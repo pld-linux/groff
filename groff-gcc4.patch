@@ -1,5 +1,5 @@
---- groff-1.19.1/src/roff/troff/input.cc.orig	2004-05-05 18:41:58.000000000 +0200
-+++ groff-1.19.1/src/roff/troff/input.cc	2005-12-11 13:49:32.408111000 +0100
+--- groff-1.19.1/src/roff/troff/input.cpp.orig	2004-05-05 18:41:58.000000000 +0200
++++ groff-1.19.1/src/roff/troff/input.cpp	2005-12-11 13:49:32.408111000 +0100
 @@ -2355,6 +2355,10 @@
    }
  }
@@ -11,8 +11,8 @@
  void exit_troff()
  {
    exit_started = 1;
---- groff-1.19.1/src/preproc/eqn/eqn.cc.orig	2004-05-13 15:31:42.000000000 +0200
-+++ groff-1.19.1/src/preproc/eqn/eqn.cc	2005-12-11 13:59:28.358111000 +0100
+--- groff-1.19.1/src/preproc/eqn/eqn.cpp.orig	2004-05-13 15:31:42.000000000 +0200
++++ groff-1.19.1/src/preproc/eqn/eqn.cpp	2005-12-11 13:59:28.358111000 +0100
 @@ -667,6 +667,12 @@
  #define YYREJECT goto yyabort
  #define YYACCEPT goto yyaccept

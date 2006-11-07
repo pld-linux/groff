@@ -1,5 +1,5 @@
---- groff-1.18/src/devices/grotty/tty.cc.orig	Wed Jun 19 23:31:15 2002
-+++ groff-1.18/src/devices/grotty/tty.cc	Tue Aug  6 23:25:26 2002
+--- groff-1.18/src/devices/grotty/tty.cpp.orig	Wed Jun 19 23:31:15 2002
++++ groff-1.18/src/devices/grotty/tty.cpp	Tue Aug  6 23:25:26 2002
 @@ -664,7 +664,7 @@
  {
    program_name = argv[0];
