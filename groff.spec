@@ -6,14 +6,14 @@
 %bcond_without	xditview	# disable xditview (which requires X11)
 #
 Summary:	A document formatting system
-Summary(de.UTF-8):   Ein Dokumentformatierungssystem
-Summary(es.UTF-8):   Paquete groff GNU - formateador de texto
-Summary(fr.UTF-8):   Paquetage de formatage de texte groff de GNU
-Summary(pl.UTF-8):   GNU groff - pakiet do formatowania tekstu
-Summary(pt_BR.UTF-8):   Pacote groff GNU - formatador de texto
-Summary(ru.UTF-8):   GNU groff - пакет для форматирования текста
-Summary(tr.UTF-8):   GNU groff metin biçemleme paketi
-Summary(uk.UTF-8):   GNU groff - пакет для форматування тексту
+Summary(de.UTF-8):	Ein Dokumentformatierungssystem
+Summary(es.UTF-8):	Paquete groff GNU - formateador de texto
+Summary(fr.UTF-8):	Paquetage de formatage de texte groff de GNU
+Summary(pl.UTF-8):	GNU groff - pakiet do formatowania tekstu
+Summary(pt_BR.UTF-8):	Pacote groff GNU - formatador de texto
+Summary(ru.UTF-8):	GNU groff - пакет для форматирования текста
+Summary(tr.UTF-8):	GNU groff metin biçemleme paketi
+Summary(uk.UTF-8):	GNU groff - пакет для форматування тексту
 Name:		groff
 Version:	1.18.1.4
 Epoch:		1
@@ -122,14 +122,14 @@ için groff paketine gereksiniminiz olacaktır.
 
 %package gxditview
 Summary:	An X previewer for groff text processor output
-Summary(de.UTF-8):   X-Anzeiger fuer groff Textprozessor-Ausgaben
-Summary(es.UTF-8):   Groff GNU para X
-Summary(fr.UTF-8):   Le visualiseur de fichier groff de GNU, sous X
-Summary(pl.UTF-8):   Groff pod X
-Summary(pt_BR.UTF-8):   Groff GNU para X
-Summary(ru.UTF-8):   GNU gxditview - программа просмотра документов groff для X Window
-Summary(tr.UTF-8):   GNU groff X görüntüleyici
-Summary(uk.UTF-8):   GNU gxditview - програма перегляду документів groff для X Window
+Summary(de.UTF-8):	X-Anzeiger fuer groff Textprozessor-Ausgaben
+Summary(es.UTF-8):	Groff GNU para X
+Summary(fr.UTF-8):	Le visualiseur de fichier groff de GNU, sous X
+Summary(pl.UTF-8):	Groff pod X
+Summary(pt_BR.UTF-8):	Groff GNU para X
+Summary(ru.UTF-8):	GNU gxditview - программа просмотра документов groff для X Window
+Summary(tr.UTF-8):	GNU groff X görüntüleyici
+Summary(uk.UTF-8):	GNU gxditview - програма перегляду документів groff для X Window
 Group:		Applications/Publishing
 Requires:	%{name} = %{epoch}:%{version}-%{release}
 
@@ -183,9 +183,9 @@ Window.
 
 %package perl
 Summary:	Parts of the groff formatting system that require Perl
-Summary(pl.UTF-8):   Cześć zasobów groff-a która wymaga Perla
-Summary(ru.UTF-8):   Часть системы форматирования текста groff, требующая Perl
-Summary(uk.UTF-8):   Частина системи форматування тексту groff, якій потрібен Perl
+Summary(pl.UTF-8):	Cześć zasobów groff-a która wymaga Perla
+Summary(ru.UTF-8):	Часть системы форматирования текста groff, требующая Perl
+Summary(uk.UTF-8):	Частина системи форматування тексту groff, якій потрібен Perl
 Group:		Applications/Publishing
 Requires:	%{name} = %{epoch}:%{version}-%{release}
 
