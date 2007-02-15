@@ -17,7 +17,7 @@ Summary(uk.UTF-8):	GNU groff - пакет для форматування тек
 Name:		groff
 Version:	1.18.1.4
 Epoch:		1
-Release:	1
+Release:	2
 License:	GPL
 Group:		Applications/Publishing
 Source0:	ftp://ftp.gnu.org/gnu/groff/%{name}-%{version}.tar.gz
@@ -43,17 +43,30 @@ Patch13:	%{name}-gzip.patch
 Patch14:	%{name}-sectmp.patch
 Patch15:	%{name}-spacefix.patch
 URL:		http://www.gnu.org/software/groff/
-%{?with_xditview:BuildRequires:	XFree86-devel}
 BuildRequires:	autoconf
 BuildRequires:	libstdc++-devel
-%{?with_xditview:BuildRequires:	netpbm-progs}
 BuildRequires:	texinfo >= 4.5
+%if %{with xditview}
+BuildRequires:	libxcb-devel
+BuildRequires:	netpbm-progs
+BuildRequires:	xorg-lib-libICE-devel
+BuildRequires:	xorg-lib-libSM-devel
+BuildRequires:	xorg-lib-libX11-devel
+BuildRequires:	xorg-lib-libXau-devel
+BuildRequires:	xorg-lib-libXaw-devel
+BuildRequires:	xorg-lib-libXdmcp-devel
+BuildRequires:	xorg-lib-libXext-devel
+BuildRequires:	xorg-lib-libXmu-devel
+BuildRequires:	xorg-lib-libXp-devel
+BuildRequires:	xorg-lib-libXpm-devel
+BuildRequires:	xorg-lib-libXt-devel
+%endif
 Requires:	mktemp
 Obsoletes:	groff-tools
 Obsoletes:	groff-for-man
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
-%define		_appdefsdir	/usr/X11R6/lib/X11/app-defaults
+%define		_appdefsdir	/usr/share/X11/app-defaults
 
 %description
 Groff is a document formatting system. Groff takes standard text and
@@ -258,7 +271,8 @@ install %{SOURCE3} $RPM_BUILD_ROOT%{_bindir}/nroff
 %{__make} -j1 -C src/xditview install install.man \
 	DESTDIR=$RPM_BUILD_ROOT \
 	BINDIR=%{_bindir} \
-	MANDIR=%{_mandir}/man1
+	MANDIR=%{_mandir}/man1 \
+	XAPPLOADDIR=%{_appdefsdir}
 %endif
 
 ln -sf s.tmac	$RPM_BUILD_ROOT%{_datadir}/groff/%{version}/tmac/gs.tmac
