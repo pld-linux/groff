@@ -47,19 +47,10 @@ BuildRequires:	autoconf
 BuildRequires:	libstdc++-devel
 BuildRequires:	texinfo >= 4.5
 %if %{with xditview}
-BuildRequires:	libxcb-devel
 BuildRequires:	netpbm-progs
-BuildRequires:	xorg-lib-libICE-devel
-BuildRequires:	xorg-lib-libSM-devel
-BuildRequires:	xorg-lib-libX11-devel
-BuildRequires:	xorg-lib-libXau-devel
+BuildRequires:	xorg-app-imake
+BuildRequires:	xorg-cf-files
 BuildRequires:	xorg-lib-libXaw-devel
-BuildRequires:	xorg-lib-libXdmcp-devel
-BuildRequires:	xorg-lib-libXext-devel
-BuildRequires:	xorg-lib-libXmu-devel
-BuildRequires:	xorg-lib-libXp-devel
-BuildRequires:	xorg-lib-libXpm-devel
-BuildRequires:	xorg-lib-libXt-devel
 %endif
 Requires:	mktemp
 Obsoletes:	groff-tools
@@ -145,6 +136,7 @@ Summary(tr.UTF-8):	GNU groff X görüntüleyici
 Summary(uk.UTF-8):	GNU gxditview - програма перегляду документів groff для X Window
 Group:		Applications/Publishing
 Requires:	%{name} = %{epoch}:%{version}-%{release}
+Requires:	xorg-lib-libXt >= 1.0.0
 
 %description gxditview
 Gxditview displays the groff text processor's output on an X Window
