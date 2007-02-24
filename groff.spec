@@ -48,9 +48,9 @@ BuildRequires:	libstdc++-devel
 BuildRequires:	texinfo >= 4.5
 %if %{with xditview}
 BuildRequires:	netpbm-progs
-BuildRequires:	xorg-app-imake
 BuildRequires:	xorg-cf-files
 BuildRequires:	xorg-lib-libXaw-devel
+BuildRequires:	xorg-util-imake
 %endif
 Requires:	mktemp
 Obsoletes:	groff-tools
