@@ -471,3 +471,68 @@ diff -Nru groff-1.19.orig/tmac/Makefile.sub groff-1.19/tmac/Makefile.sub
  
  uninstall_sub:
  	-rm -f $(bindir)/grap2graph
+--- groff-1.19.2/src/devices/xditview/Makefile.sub.orig	2004-11-25 08:17:00.000000000 +0100
++++ groff-1.19.2/src/devices/xditview/Makefile.sub	2007-06-18 21:33:16.315219541 +0200
+@@ -37,11 +37,8 @@
+ 	$(SHELL) $(srcdir)/ad2c $(srcdir)/GXditview.ad >GXditview-ad.h
+ 
+ install_data: $(srcdir)/GXditview.ad
+-	-test -d $(appresdir) || $(mkinstalldirs) $(appresdir)
+-	if test -f $(appresdir)/GXditview; then \
+-	  mv $(appresdir)/GXditview $(appresdir)/GXditview.old; \
+-	fi
+-	$(INSTALL_DATA) $(srcdir)/GXditview.ad $(appresdir)/GXditview
++	$(mkinstalldirs) $(DESTDIR)$(appresdir)
++	$(INSTALL_DATA) $(srcdir)/GXditview.ad $(DESTDIR)$(appresdir)/GXditview
+ 
+ uninstall_sub:
+ 	-rm -f $(appresdir)/GXditview
+--- groff-1.19.2/contrib/pdfmark/Makefile.sub.orig	2005-06-17 09:01:15.000000000 +0200
++++ groff-1.19.2/contrib/pdfmark/Makefile.sub	2007-06-18 21:34:51.736657298 +0200
+@@ -84,22 +84,22 @@
+ 	chmod +x $@
+ 
+ install_data: $(make_install_pdfdoc)
+-	-test -d $(bindir) || $(mkinstalldirs) $(bindir)
++	$(mkinstalldirs) $(DESTDIR)$(bindir)
+ 	for f in $(CMDFILES); do \
+-	  $(RM) $(bindir)/$$f; \
+-	  $(INSTALL_SCRIPT) $$f $(bindir)/$$f; \
++	  $(RM) $(DESTDIR)$(bindir)/$$f; \
++	  $(INSTALL_SCRIPT) $$f $(DESTDIR)$(bindir)/$$f; \
+ 	done
+-	-test -d $(tmacdir) || $(mkinstalldirs) $(tmacdir)
++	$(mkinstalldirs) $(DESTDIR)$(tmacdir)
+ 	for f in $(TMACFILES); do \
+-	  $(RM) $(tmacdir)/$$f; \
+-	  $(INSTALL_DATA) $(srcdir)/$$f $(tmacdir)/$$f; \
++	  $(RM) $(DESTDIR)$(tmacdir)/$$f; \
++	  $(INSTALL_DATA) $(srcdir)/$$f $(DESTDIR)$(tmacdir)/$$f; \
+ 	done
+ 
+ install_pdfdoc:
+-	-test -d $(pdfdocdir) || $(mkinstalldirs) $(pdfdocdir)
++	$(mkinstalldirs) $(DESTDIR)$(pdfdocdir)
+ 	for f in $(PDFDOCFILES); do \
+-	  $(RM) $(pdfdocdir)/$$f; \
+-	  $(INSTALL_DATA) $$f $(pdfdocdir)/$$f; \
++	  $(RM) $(DESTDIR)$(pdfdocdir)/$$f; \
++	  $(INSTALL_DATA) $$f $(DESTDIR)$(pdfdocdir)/$$f; \
+ 	done
+ 
+ uninstall_sub:
+--- groff-1.19.2/contrib/gdiffmk/Makefile.sub.orig	2005-05-26 15:37:18.000000000 +0200
++++ groff-1.19.2/contrib/gdiffmk/Makefile.sub	2007-06-18 21:47:54.453261775 +0200
+@@ -39,9 +39,9 @@
+ 	chmod +x $@
+ 
+ install_data: gdiffmk
+-	-test -d $(bindir)  ||  $(mkinstalldirs) $(bindir)
+-	-rm -f $(bindir)/gdiffmk
+-	$(INSTALL_SCRIPT) gdiffmk $(bindir)/gdiffmk
++	$(mkinstalldirs) $(DESTDIR)$(bindir)
++	-rm -f $(DESTDIR)$(bindir)/gdiffmk
++	$(INSTALL_SCRIPT) gdiffmk $(DESTDIR)$(bindir)/gdiffmk
+ 
+ uninstall_sub:
+ 	-rm -f $(bindir)/gdiffmk
