@@ -234,7 +234,6 @@ makeinfo -E groff.texinfo2 groff.texinfo
 mv -f groff.texinfo2 groff.texinfo
 
 %build
-PATH=$PATH:/usr/X11R6/bin
 %{__autoconf}
 CXXFLAGS="%{rpmcflags} -fno-rtti -fno-exceptions"
 %configure \
@@ -251,7 +250,6 @@ xmkmf
 
 %install
 rm -rf $RPM_BUILD_ROOT
-PATH=$PATH:%{_prefix}/X11R6/bin
 
 %{__make} -j1 install \
 	DESTDIR=$RPM_BUILD_ROOT
