@@ -12,12 +12,12 @@ Summary(ru.UTF-8):	GNU groff - пакет для форматирования т
 Summary(tr.UTF-8):	GNU groff metin biçemleme paketi
 Summary(uk.UTF-8):	GNU groff - пакет для форматування тексту
 Name:		groff
-Version:	1.19.1
-Release:	3
+Version:	1.19.2
+Release:	0.1
 License:	GPL
 Group:		Applications/Publishing
-Source0:	ftp://ftp.ffii.org/pub/groff/%{name}-%{version}.tar.gz
-# Source0-md5:	57d155378640c12a80642664dfdfc892
+Source0:	ftp://ftp.gnu.org/gnu/groff/%{name}-%{version}.tar.gz
+# Source0-md5:	f7c9cf2e4b9967d3af167d7c9fadaae4
 Source1:	%{name}-trofftops.sh
 Source2:	http://www.mif.pg.gda.pl/homepages/ankry/man-PLD/%{name}-non-english-man-pages.tar.bz2
 # Source2-md5:	3f8b22cc1eefb53306c8c2acf31aca29
@@ -207,16 +207,9 @@ mv -f groff.texinfo2 groff.texinfo
 %build
 %{__autoconf}
 CXXFLAGS="%{rpmcflags} -fno-rtti -fno-exceptions"
-%configure
+%configure \
+	--with-appresdir=%{_appdefsdir}
 %{__make} -j1
-
-%if %{with xditview}
-cd src/xditview
-xmkmf
-%{__make} -j1 \
-	CC="%{__cc}" \
-	CDEBUGFLAGS="%{rpmcflags}"
-%endif
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -225,14 +218,6 @@ rm -rf $RPM_BUILD_ROOT
 	DESTDIR=$RPM_BUILD_ROOT
 
 install %{SOURCE1} $RPM_BUILD_ROOT%{_bindir}/trofftops
-
-%if %{with xditview}
-%{__make} -j1 -C src/xditview install install.man \
-	DESTDIR=$RPM_BUILD_ROOT \
-	BINDIR=%{_bindir} \
-	MANDIR=%{_mandir}/man1 \
-	XAPPLOADDIR=%{_appdefsdir}
-%endif
 
 ln -sf s.tmac	$RPM_BUILD_ROOT%{_datadir}/groff/%{version}/tmac/gs.tmac
 ln -sf mse.tmac	$RPM_BUILD_ROOT%{_datadir}/groff/%{version}/tmac/gmse.tmac
@@ -262,6 +247,8 @@ echo ".so troff.1" >   $RPM_BUILD_ROOT%{_mandir}/man1/gtroff.1
 bzip2 -dc %{SOURCE2} | tar xf - -C $RPM_BUILD_ROOT%{_mandir}
 mv -f $RPM_BUILD_ROOT%{_mandir}/ja/{man7/mmroff.7,man1/mmroff.1}
 
+rm -rf $RPM_BUILD_ROOT%{_datadir}/doc/groff
+
 %clean
 rm -rf $RPM_BUILD_ROOT
 
@@ -277,6 +264,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/addftinfo
 %attr(755,root,root) %{_bindir}/eqn
 %attr(755,root,root) %{_bindir}/eqn2graph
+%attr(755,root,root) %{_bindir}/gdiffmk
 %attr(755,root,root) %{_bindir}/geqn
 %attr(755,root,root) %{_bindir}/gindxbib
 %attr(755,root,root) %{_bindir}/glookbib
@@ -302,6 +290,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/lookbib
 %attr(755,root,root) %{_bindir}/neqn
 %attr(755,root,root) %{_bindir}/nroff
+%attr(755,root,root) %{_bindir}/pdfroff
 %attr(755,root,root) %{_bindir}/pfbtops
 %attr(755,root,root) %{_bindir}/pic
 %attr(755,root,root) %{_bindir}/pic2graph
@@ -312,6 +301,10 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/tbl
 %attr(755,root,root) %{_bindir}/tfmtodit
 %attr(755,root,root) %{_bindir}/troff
+%attr(755,root,root) %{_bindir}/xtotroff
+%dir %{_libdir}/groff
+%dir %{_libdir}/groff/groffer
+%attr(755,root,root) %{_libdir}/groff/groffer/groffer2.sh
 %{_datadir}/groff
 %{_mandir}/man1/addftinfo.1*
 %{_mandir}/man1/eqn.1*
@@ -404,7 +397,7 @@ rm -rf $RPM_BUILD_ROOT
 %if %{with xditview}
 %files gxditview
 %defattr(644,root,root,755)
-%doc src/xditview/{ChangeLog,README,TODO}
+%doc src/devices/xditview/{ChangeLog,README,TODO}
 %attr(755,root,root) %{_bindir}/gxditview
 %{_appdefsdir}/GXditview
 %{_mandir}/man1/*
