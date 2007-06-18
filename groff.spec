@@ -3,14 +3,14 @@
 %bcond_without	xditview	# disable xditview (which requires X11)
 #
 Summary:	A document formatting system
-Summary(de):	Ein Dokumentformatierungssystem
-Summary(es):	Paquete groff GNU - formateador de texto
-Summary(fr):	Paquetage de formatage de texte groff de GNU
-Summary(pl):	GNU groff - pakiet do formatowania tekstu
-Summary(pt_BR):	Pacote groff GNU - formatador de texto
-Summary(ru):	GNU groff - –¡À≈‘ ƒÃ— ∆œ“Õ¡‘…“œ◊¡Œ…— ‘≈À”‘¡
-Summary(tr):	GNU groff metin biÁemleme paketi
-Summary(uk):	GNU groff - –¡À≈‘ ƒÃ— ∆œ“Õ¡‘’◊¡ŒŒ— ‘≈À”‘’
+Summary(de.UTF-8):	Ein Dokumentformatierungssystem
+Summary(es.UTF-8):	Paquete groff GNU - formateador de texto
+Summary(fr.UTF-8):	Paquetage de formatage de texte groff de GNU
+Summary(pl.UTF-8):	GNU groff - pakiet do formatowania tekstu
+Summary(pt_BR.UTF-8):	Pacote groff GNU - formatador de texto
+Summary(ru.UTF-8):	GNU groff - –ø–∞–∫–µ—Ç –¥–ª—è —Ñ–æ—Ä–º–∞—Ç–∏—Ä–æ–≤–∞–Ω–∏—è —Ç–µ–∫—Å—Ç–∞
+Summary(tr.UTF-8):	GNU groff metin bi√ßemleme paketi
+Summary(uk.UTF-8):	GNU groff - –ø–∞–∫–µ—Ç –¥–ª—è —Ñ–æ—Ä–º–∞—Ç—É–≤–∞–Ω–Ω—è —Ç–µ–∫—Å—Ç—É
 Name:		groff
 Version:	1.19.1
 Release:	3
@@ -26,17 +26,21 @@ Patch1:		%{name}-info.patch
 Patch2:		%{name}-colours.patch
 Patch3:		%{name}-gcc4.patch
 URL:		http://www.gnu.org/software/groff/
-%{?with_xditview:BuildRequires:	XFree86-devel}
 BuildRequires:	autoconf
 BuildRequires:	libstdc++-devel
-%{?with_xditview:BuildRequires:	netpbm-progs}
 BuildRequires:	texinfo >= 4.5
+%if %{with xditview}
+BuildRequires:	netpbm-progs
+BuildRequires:	xorg-cf-files
+BuildRequires:	xorg-lib-libXaw-devel
+BuildRequires:	xorg-util-imake
+%endif
 Requires:	mktemp
 Obsoletes:	groff-tools
 Obsoletes:	groff-for-man
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
-%define		_appdefsdir	/usr/X11R6/lib/X11/app-defaults
+%define		_appdefsdir	/usr/share/X11/app-defaults
 
 %description
 Groff is a document formatting system. Groff takes standard text and
@@ -49,72 +53,73 @@ formatting system. Groff can also be used to format man pages. If you
 are going to use groff with the X Window System, you'll also need to
 install the groff-gxditview package.
 
-%description -l de
+%description -l de.UTF-8
 Groff ist ein Dokumentformatierungssystem. Groff liest Text und
 Formatierungskommandos ein, und gibt formatierte Ausgabe aus. Die
-erzeugten Dokumente kˆnnen angezeigt oder ausgedruckt werden. Groffs
-Formatierungsbefehle erlauben Ihnen, Schriftart und -grˆﬂe, Fettdruck,
+erzeugten Dokumente k√∂nnen angezeigt oder ausgedruckt werden. Groffs
+Formatierungsbefehle erlauben Ihnen, Schriftart und -gr√∂√üe, Fettdruck,
 Kursivdruck, und die Anzahl der Spalten pro Seite usw. zu setzen. Sie
 sollten groff installieren, wenn Sie es als
 Dokumentformatierungssystem benutzen wollen. Groff ann auch benutzt
 werden, um man-pages anzuziegen. Wenn Sie groff in X11 benutzen
 wollten, brauchen Sie auch das groff-gxditview-Paket.
 
-%description -l es
+%description -l es.UTF-8
 El sistema formateador de texto groff puede ser usado para crear
 documentos con apariencia profesional tanto en papel como en la
-pantalla. Todas las p·ginas de manuales son procesadas con groff,
-entonces este paquete es necesario para leer estas p·ginas.
+pantalla. Todas las p√°ginas de manuales son procesadas con groff,
+entonces este paquete es necesario para leer estas p√°ginas.
 
-%description -l fr
-Le systËme de formatage de texte groff peut Ítre utilisÈ pour crÈer
-des documents d'aspect professionnel sur papier et ‡ l'Ècran. Toutes
-les pages man sont traitÈes avec groff, vous avez donc besoin de ce
+%description -l fr.UTF-8
+Le syst√®me de formatage de texte groff peut √™tre utilis√© pour cr√©er
+des documents d'aspect professionnel sur papier et √† l'√©cran. Toutes
+les pages man sont trait√©es avec groff, vous avez donc besoin de ce
 paquetage pour les visualiser.
 
-%description -l pl
-System formatowania tekstu groff moøe byÊ uøywany do tworzenia
-profesjonalnie wygl±daj±cego dokumentu zarÛwno na papierze jak i na
-konsoli. Wszystkie podrÍczniki ekranowe (man) potrzebuj± groff'a do
-formatowania tekstu na ekranie. Tak wiÍc potrzebujesz tego pakietu do
-czytania podrÍcznikÛw ekranowych.
+%description -l pl.UTF-8
+System formatowania tekstu groff mo≈ºe byƒá u≈ºywany do tworzenia
+profesjonalnie wyglƒÖdajƒÖcego dokumentu zar√≥wno na papierze jak i na
+konsoli. Wszystkie podrƒôczniki ekranowe (man) potrzebujƒÖ groff'a do
+formatowania tekstu na ekranie. Tak wiƒôc potrzebujesz tego pakietu do
+czytania podrƒôcznik√≥w ekranowych.
 
-%description -l pt_BR
-O sistema de formataÁ„o groff pode ser usado para criar documentos com
-aparÍncia profissional tanto em papel como na tela do computador.
-Todas as p·ginas de manual on-line s„o processadas com groff, portanto
-este pacote È necess·rio para ler estas p·ginas.
+%description -l pt_BR.UTF-8
+O sistema de formata√ß√£o groff pode ser usado para criar documentos com
+apar√™ncia profissional tanto em papel como na tela do computador.
+Todas as p√°ginas de manual on-line s√£o processadas com groff, portanto
+este pacote √© necess√°rio para ler estas p√°ginas.
 
-%description -l ru
-Û…”‘≈Õ¡ ∆œ“Õ¡‘…“œ◊¡Œ…— ‘≈À”‘¡ groff Õœ÷≈‘ ¬Ÿ‘ÿ …”–œÃÿ⁄œ◊¡Œ¡ ƒÃ—
-–œƒ«œ‘œ◊À… –“œ∆≈””…œŒ¡ÃÿŒœ ◊Ÿ«Ã—ƒ—›…» ƒœÀ’Õ≈Œ‘œ◊ À¡À Œ¡ ¬’Õ¡«≈, ‘¡À …
-Œ¡ ‹À“¡Œ≈ ÀœÕ–ÿ¿‘≈“¡. ˜”≈ man-”‘“¡Œ…√Ÿ œ¬“¡¬¡‘Ÿ◊¡¿‘”— groff'œÕ, ‘¡À
-ﬁ‘œ ¬≈⁄ ‹‘œ«œ –¡À≈‘¡ ◊Ÿ Œ≈ ”Õœ÷≈‘≈ …» –“œ”Õ¡‘“…◊¡‘ÿ.
+%description -l ru.UTF-8
+–°–∏—Å—Ç–µ–º–∞ —Ñ–æ—Ä–º–∞—Ç–∏—Ä–æ–≤–∞–Ω–∏—è —Ç–µ–∫—Å—Ç–∞ groff –º–æ–∂–µ—Ç –±—ã—Ç—å –∏—Å–ø–æ–ª—å–∑–æ–≤–∞–Ω–∞ –¥–ª—è
+–ø–æ–¥–≥–æ—Ç–æ–≤–∫–∏ –ø—Ä–æ—Ñ–µ—Å—Å–∏–æ–Ω–∞–ª—å–Ω–æ –≤—ã–≥–ª—è–¥—è—â–∏—Ö –¥–æ–∫—É–º–µ–Ω—Ç–æ–≤ –∫–∞–∫ –Ω–∞ –±—É–º–∞–≥–µ, —Ç–∞–∫ –∏
+–Ω–∞ —ç–∫—Ä–∞–Ω–µ –∫–æ–º–ø—å—é—Ç–µ—Ä–∞. –í—Å–µ man-—Å—Ç—Ä–∞–Ω–∏—Ü—ã –æ–±—Ä–∞–±–∞—Ç—ã–≤–∞—é—Ç—Å—è groff'–æ–º, —Ç–∞–∫
+—á—Ç–æ –±–µ–∑ —ç—Ç–æ–≥–æ –ø–∞–∫–µ—Ç–∞ –≤—ã –Ω–µ —Å–º–æ–∂–µ—Ç–µ –∏—Ö –ø—Ä–æ—Å–º–∞—Ç—Ä–∏–≤–∞—Ç—å.
 
-%description -l tr
-groff metin biÁemleme sistemi ka˝t veya bilgisayar ekran˝ ¸zerinde
-profesyonel gˆr¸n¸me sahip belgeler yaratmaya yarar. B¸t¸n k˝lavuz
-(man) sayfalar˝ groff ile haz˝rlanm˝˛t˝r. man sayfalar˝n˝ okuyabilmek
-iÁin groff paketine gereksiniminiz olacakt˝r.
+%description -l tr.UTF-8
+groff metin bi√ßemleme sistemi kaƒüƒ±t veya bilgisayar ekranƒ± √ºzerinde
+profesyonel g√∂r√ºn√ºme sahip belgeler yaratmaya yarar. B√ºt√ºn kƒ±lavuz
+(man) sayfalarƒ± groff ile hazƒ±rlanmƒ±≈ütƒ±r. man sayfalarƒ±nƒ± okuyabilmek
+i√ßin groff paketine gereksiniminiz olacaktƒ±r.
 
-%description -l uk
-Û…”‘≈Õ¡ ∆œ“Õ¡‘’◊¡ŒŒ— ‘≈À”‘’ groff Õœ÷≈ ¬’‘… ◊…Àœ“…”‘¡Œ¡ ƒÃ— –¶ƒ«œ‘œ◊À…
-ƒœÀ’Õ≈Œ‘¶◊, ›œ –“œ∆≈”¶ Œœ ◊…«Ã—ƒ¡¿‘ÿ —À Œ¡ –¡–≈“¶, ‘¡À ¶ Œ¡ ≈À“¡Œ¶
-ÀœÕ–'¿‘≈“¡. ˜”¶ man-”‘œ“¶ŒÀ… œ¬“œ¬Ã—¿‘ÿ”— groff'œÕ, ‘¡À ›œ ¬≈⁄ √ÿœ«œ
-–¡À≈‘’ ◊… Œ≈ ⁄Õœ÷≈‘≈ ß» –≈“≈«Ã—ƒ¡‘….
+%description -l uk.UTF-8
+–°–∏—Å—Ç–µ–º–∞ —Ñ–æ—Ä–º–∞—Ç—É–≤–∞–Ω–Ω—è —Ç–µ–∫—Å—Ç—É groff –º–æ–∂–µ –±—É—Ç–∏ –≤–∏–∫–æ—Ä–∏—Å—Ç–∞–Ω–∞ –¥–ª—è –ø—ñ–¥–≥–æ—Ç–æ–≤–∫–∏
+–¥–æ–∫—É–º–µ–Ω—Ç—ñ–≤, —â–æ –ø—Ä–æ—Ñ–µ—Å—ñ–π–Ω–æ –≤–∏–≥–ª—è–¥–∞—é—Ç—å —è–∫ –Ω–∞ –ø–∞–ø–µ—Ä—ñ, —Ç–∞–∫ —ñ –Ω–∞ –µ–∫—Ä–∞–Ω—ñ
+–∫–æ–º–ø'—é—Ç–µ—Ä–∞. –í—Å—ñ man-—Å—Ç–æ—Ä—ñ–Ω–∫–∏ –æ–±—Ä–æ–±–ª—è—é—Ç—å—Å—è groff'–æ–º, —Ç–∞–∫ —â–æ –±–µ–∑ —Ü—å–æ–≥–æ
+–ø–∞–∫–µ—Ç—É –≤–∏ –Ω–µ –∑–º–æ–∂–µ—Ç–µ —ó—Ö –ø–µ—Ä–µ–≥–ª—è–¥–∞—Ç–∏.
 
 %package gxditview
 Summary:	An X previewer for groff text processor output
-Summary(de):	X-Anzeiger fuer groff Textprozessor-Ausgaben
-Summary(es):	Groff GNU para X
-Summary(fr):	Le visualiseur de fichier groff de GNU, sous X
-Summary(pl):	Groff pod X
-Summary(pt_BR):	Groff GNU para X
-Summary(ru):	GNU gxditview - –“œ«“¡ÕÕ¡ –“œ”Õœ‘“¡ ƒœÀ’Õ≈Œ‘œ◊ groff ƒÃ— X Window
-Summary(tr):	GNU groff X gˆr¸nt¸leyici
-Summary(uk):	GNU gxditview - –“œ«“¡Õ¡ –≈“≈«Ã—ƒ’ ƒœÀ’Õ≈Œ‘¶◊ groff ƒÃ— X Window
+Summary(de.UTF-8):	X-Anzeiger fuer groff Textprozessor-Ausgaben
+Summary(es.UTF-8):	Groff GNU para X
+Summary(fr.UTF-8):	Le visualiseur de fichier groff de GNU, sous X
+Summary(pl.UTF-8):	Groff pod X
+Summary(pt_BR.UTF-8):	Groff GNU para X
+Summary(ru.UTF-8):	GNU gxditview - –ø—Ä–æ–≥—Ä–∞–º–º–∞ –ø—Ä–æ—Å–º–æ—Ç—Ä–∞ –¥–æ–∫—É–º–µ–Ω—Ç–æ–≤ groff –¥–ª—è X Window
+Summary(tr.UTF-8):	GNU groff X g√∂r√ºnt√ºleyici
+Summary(uk.UTF-8):	GNU gxditview - –ø—Ä–æ–≥—Ä–∞–º–∞ –ø–µ—Ä–µ–≥–ª—è–¥—É –¥–æ–∫—É–º–µ–Ω—Ç—ñ–≤ groff –¥–ª—è X Window
 Group:		Applications/Publishing
 Requires:	%{name} = %{version}-%{release}
+Requires:	xorg-lib-libXt >= 1.0.0
 
 %description gxditview
 Gxditview displays the groff text processor's output on an X Window
@@ -123,52 +128,52 @@ should install gxditview so that you preview your processed text files
 in X. You'll also need to install the groff package and the X Window
 System.
 
-%description gxditview -l de
+%description gxditview -l de.UTF-8
 Gxditview zeigt groff-Ausgaben auf einem X-Window-Display an. Wenn Sie
 groff als Textprozessor benutzen wollen, und X11 benutzen, sollten Sie
 gxditview installieren.
 
-%description gxditview -l es
+%description gxditview -l es.UTF-8
 Este paquete contiene el programa gxditview, que se puede usar para
-formatear y visualizar documentos en X window. Por ejemplo: p·ginas
+formatear y visualizar documentos en X window. Por ejemplo: p√°ginas
 man se las puede leer utilizando gxditview.
 
-%description gxditview -l fr
-Ce paquetage contient le programme gxditview, qui peut servir ‡
+%description gxditview -l fr.UTF-8
+Ce paquetage contient le programme gxditview, qui peut servir √†
 formater et viusaliser les documents groff sous X Window. Les pages
-peuvent, par exemple, Ítre lues avec gxditview.
+peuvent, par exemple, √™tre lues avec gxditview.
 
-%description gxditview -l pl
-Pakiet ten zawiera program gxditview, ktÛry pozwoli Ci na formatowanie
-dokumentÛw pod X. Na przyk≥ad, do czytania podrÍcznikÛw ekranowych.
+%description gxditview -l pl.UTF-8
+Pakiet ten zawiera program gxditview, kt√≥ry pozwoli Ci na formatowanie
+dokument√≥w pod X. Na przyk≈Çad, do czytania podrƒôcznik√≥w ekranowych.
 
-%description gxditview -l pt_BR
-Este pacote contÈm o programa gxditview, que pode ser usado para
-formatar e visualizar documentos no X Window. Por exemplo: p·ginas man
+%description gxditview -l pt_BR.UTF-8
+Este pacote cont√©m o programa gxditview, que pode ser usado para
+formatar e visualizar documentos no X Window. Por exemplo: p√°ginas man
 podem ser lidas usando o gxditview.
 
-%description gxditview -l ru
-¸‘œ‘ –¡À≈‘ ”œƒ≈“÷…‘ –“œ«“¡ÕÕ’ gxditview, Àœ‘œ“¡— Õœ÷≈‘ ¬Ÿ‘ÿ
-…”–œÃÿ⁄œ◊¡Œ¡ ƒÃ— ∆œ“Õ¡‘…“œ◊¡Œ…— … –“œ”Õœ‘“¡ ƒœÀ’Õ≈Œ‘œ◊ ◊ ∆œ“Õ¡‘≈ groff
-–œƒ X Window. Ó¡–“…Õ≈“, –“… –œÕœ›… gxditview Õœ÷Œœ ”Õœ‘“≈‘ÿ
-man-”‘“¡Œ…√Ÿ –œƒ X Window.
+%description gxditview -l ru.UTF-8
+–≠—Ç–æ—Ç –ø–∞–∫–µ—Ç —Å–æ–¥–µ—Ä–∂–∏—Ç –ø—Ä–æ–≥—Ä–∞–º–º—É gxditview, –∫–æ—Ç–æ—Ä–∞—è –º–æ–∂–µ—Ç –±—ã—Ç—å
+–∏—Å–ø–æ–ª—å–∑–æ–≤–∞–Ω–∞ –¥–ª—è —Ñ–æ—Ä–º–∞—Ç–∏—Ä–æ–≤–∞–Ω–∏—è –∏ –ø—Ä–æ—Å–º–æ—Ç—Ä–∞ –¥–æ–∫—É–º–µ–Ω—Ç–æ–≤ –≤ —Ñ–æ—Ä–º–∞—Ç–µ groff
+–ø–æ–¥ X Window. –ù–∞–ø—Ä–∏–º–µ—Ä, –ø—Ä–∏ –ø–æ–º–æ—â–∏ gxditview –º–æ–∂–Ω–æ —Å–º–æ—Ç—Ä–µ—Ç—å
+man-—Å—Ç—Ä–∞–Ω–∏—Ü—ã –ø–æ–¥ X Window.
 
-%description gxditview -l tr
-Bu paket groff belgelerini gˆr¸nt¸leyip dei˛tirmeye yarayan gxditview
-program˝n˝ iÁerir. ÷rnein man sayfalar˝ gxditview kullan˝larak
+%description gxditview -l tr.UTF-8
+Bu paket groff belgelerini g√∂r√ºnt√ºleyip deƒüi≈ütirmeye yarayan gxditview
+programƒ±nƒ± i√ßerir. √ñrneƒüin man sayfalarƒ± gxditview kullanƒ±larak
 okunabilir.
 
-%description gxditview -l uk
-„≈  –¡À≈‘ Õ¶”‘…‘ÿ –“œ«“¡Õ’ gxditview, —À’ Õœ÷Œ¡ ◊…Àœ“…”‘œ◊’◊¡‘… ƒÃ—
-∆œ“Õ¡‘’◊¡ŒŒ— ‘¡ –≈“≈«Ã—ƒ’ ƒœÀ’Õ≈Œ‘¶◊ ’ ∆œ“Õ¡‘¶ groff –¶ƒ X Window.
-Ó¡–“…ÀÃ¡ƒ, ⁄¡ ƒœ–œÕœ«œ¿ gxditview Õœ÷Œ¡ –≈“≈«Ã—ƒ¡‘… man-”‘œ“¶ŒÀ… –¶ƒ X
+%description gxditview -l uk.UTF-8
+–¶–µ–π –ø–∞–∫–µ—Ç –º—ñ—Å—Ç–∏—Ç—å –ø—Ä–æ–≥—Ä–∞–º—É gxditview, —è–∫—É –º–æ–∂–Ω–∞ –≤–∏–∫–æ—Ä–∏—Å—Ç–æ–≤—É–≤–∞—Ç–∏ –¥–ª—è
+—Ñ–æ—Ä–º–∞—Ç—É–≤–∞–Ω–Ω—è —Ç–∞ –ø–µ—Ä–µ–≥–ª—è–¥—É –¥–æ–∫—É–º–µ–Ω—Ç—ñ–≤ —É —Ñ–æ—Ä–º–∞—Ç—ñ groff –ø—ñ–¥ X Window.
+–ù–∞–ø—Ä–∏–∫–ª–∞–¥, –∑–∞ –¥–æ–ø–æ–º–æ–≥–æ—é gxditview –º–æ–∂–Ω–∞ –ø–µ—Ä–µ–≥–ª—è–¥–∞—Ç–∏ man-—Å—Ç–æ—Ä—ñ–Ω–∫–∏ –ø—ñ–¥ X
 Window.
 
 %package perl
 Summary:	Parts of the groff formatting system that require Perl
-Summary(pl):	Cze∂Ê zasobÛw groff-a ktÛra wymaga Perla
-Summary(ru):	˛¡”‘ÿ ”…”‘≈ÕŸ ∆œ“Õ¡‘…“œ◊¡Œ…— ‘≈À”‘¡ groff, ‘“≈¬’¿›¡— Perl
-Summary(uk):	˛¡”‘…Œ¡ ”…”‘≈Õ… ∆œ“Õ¡‘’◊¡ŒŒ— ‘≈À”‘’ groff, —À¶  –œ‘“¶¬≈Œ Perl
+Summary(pl.UTF-8):	Cze≈õƒá zasob√≥w groff-a kt√≥ra wymaga Perla
+Summary(ru.UTF-8):	–ß–∞—Å—Ç—å —Å–∏—Å—Ç–µ–º—ã —Ñ–æ—Ä–º–∞—Ç–∏—Ä–æ–≤–∞–Ω–∏—è —Ç–µ–∫—Å—Ç–∞ groff, —Ç—Ä–µ–±—É—é—â–∞—è Perl
+Summary(uk.UTF-8):	–ß–∞—Å—Ç–∏–Ω–∞ —Å–∏—Å—Ç–µ–º–∏ —Ñ–æ—Ä–º–∞—Ç—É–≤–∞–Ω–Ω—è —Ç–µ–∫—Å—Ç—É groff, —è–∫—ñ–π –ø–æ—Ç—Ä—ñ–±–µ–Ω Perl
 Group:		Applications/Publishing
 Requires:	%{name} = %{version}-%{release}
 
@@ -179,12 +184,12 @@ PostScript font files, the grog utility that can be used to
 automatically determine groff command-line options, and the
 troff-to-ps print filter.
 
-%description perl -l pl
-groff-perl zawiera czÍ∂Ê zasobÛw groff-a ktÛra wymaga Perla. Skrypt
-afmtodit jest procesorem fontÛw uøywanym do tworzenia plikÛw fontÛw w
-formacie PostScript, a skrypt grok uøywany jest do automatycznego
-doboru parametrÛw dla groff przy konwersji troff -> PostScript (zwykle
-uøywany przy drukowaniu).
+%description perl -l pl.UTF-8
+groff-perl zawiera czƒô≈õƒá zasob√≥w groff-a kt√≥ra wymaga Perla. Skrypt
+afmtodit jest procesorem font√≥w u≈ºywanym do tworzenia plik√≥w font√≥w w
+formacie PostScript, a skrypt grok u≈ºywany jest do automatycznego
+doboru parametr√≥w dla groff przy konwersji troff -> PostScript (zwykle
+u≈ºywany przy drukowaniu).
 
 %prep
 %setup -q
@@ -200,7 +205,6 @@ makeinfo -E groff.texinfo2 groff.texinfo
 mv -f groff.texinfo2 groff.texinfo
 
 %build
-PATH=$PATH:/usr/X11R6/bin
 %{__autoconf}
 CXXFLAGS="%{rpmcflags} -fno-rtti -fno-exceptions"
 %configure
@@ -216,7 +220,6 @@ xmkmf
 
 %install
 rm -rf $RPM_BUILD_ROOT
-PATH=$PATH:%{_prefix}/X11R6/bin
 
 %{__make} -j1 install \
 	DESTDIR=$RPM_BUILD_ROOT
@@ -227,7 +230,8 @@ install %{SOURCE1} $RPM_BUILD_ROOT%{_bindir}/trofftops
 %{__make} -j1 -C src/xditview install install.man \
 	DESTDIR=$RPM_BUILD_ROOT \
 	BINDIR=%{_bindir} \
-	MANDIR=%{_mandir}/man1
+	MANDIR=%{_mandir}/man1 \
+	XAPPLOADDIR=%{_appdefsdir}
 %endif
 
 ln -sf s.tmac	$RPM_BUILD_ROOT%{_datadir}/groff/%{version}/tmac/gs.tmac
