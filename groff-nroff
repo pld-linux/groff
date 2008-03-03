@@ -17,18 +17,18 @@ do
       # ignore these options
       ;;
     -[mrnoT])
-      echo $"option $1 requires an argument" >&2
+      echo "option $1 requires an argument" >&2
       exit 1 ;;
     -[iptSUC] | -[mrno]*)
       opts="$opts $1" ;;
     -v | --version)
-      echo $"GNU nroff (groff) with Red Hat i18n/l10n support"
+      echo "GNU nroff (groff) with Red Hat i18n/l10n support"
       exit 0 ;;
     --legacy)
       shift
       charset_in=$1 ;;
     --help)
-      echo $"usage: $prog [-cChipt] [-mNAME] [-nNUM] [--legacy CHARSET] [-oLIST] [-rCN] [FILE...]"
+      echo "usage: $prog [-cChipt] [-mNAME] [-nNUM] [--legacy CHARSET] [-oLIST] [-rCN] [FILE...]"
       exit 0 ;;
     --)
       shift
@@ -36,7 +36,7 @@ do
     -)
       break ;;
     -*)
-      echo $"$prog: invalid option $1" >&2
+      echo "$prog: invalid option $1" >&2
       exit 1 ;;
     *)
       break ;;
@@ -52,10 +52,6 @@ cat ${1+"$@"} >| ${TMPFILE}
 if iconv -f utf-8 -t utf-8 -o /dev/null ${TMPFILE} 2>/dev/null
 then
   charset_in=utf-8  
-else
-  echo XXX
-  echo XXX $"WARNING: old character encoding and/or character set"
-  echo XXX
 fi
 
 # en_US is chosen arbitrarily; any UTF-8 locale should work
