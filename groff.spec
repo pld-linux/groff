@@ -20,7 +20,7 @@ Epoch:		1
 Release:	2
 License:	GPL
 Group:		Applications/Publishing
-Source0:	ftp://ftp.gnu.org/gnu/groff/%{name}-%{version}.tar.gz
+Source0:	http://ftp.gnu.org/gnu/groff/%{name}-%{version}.tar.gz
 # Source0-md5:	ceecb81533936d251ed015f40e5f7287
 Source1:	%{name}-trofftops.sh
 Source2:	http://www.mif.pg.gda.pl/homepages/ankry/man-PLD/%{name}-non-english-man-pages.tar.bz2
