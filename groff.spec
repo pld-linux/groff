@@ -16,8 +16,8 @@ Summary(tr.UTF-8):	GNU groff metin biçemleme paketi
 Summary(uk.UTF-8):	GNU groff - пакет для форматування тексту
 Name:		groff
 Version:	1.18.1.4
+Release:	3
 Epoch:		1
-Release:	2
 License:	GPL
 Group:		Applications/Publishing
 Source0:	http://ftp.gnu.org/gnu/groff/%{name}-%{version}.tar.gz
