@@ -1,10 +1,4 @@
 #
-# WARNING: Don't upgrade to 1.19 as that version does not support
-#	   UTF-8 input and no patches exist to solve this issue
-#
-# Conditional build:
-%bcond_without	xditview	# disable xditview (which requires X11)
-#
 Summary:	A document formatting system
 Summary(de.UTF-8):	Ein Dokumentformatierungssystem
 Summary(es.UTF-8):	Paquete groff GNU - formateador de texto
@@ -15,46 +9,31 @@ Summary(ru.UTF-8):	GNU groff - пакет для форматирования т
 Summary(tr.UTF-8):	GNU groff metin biçemleme paketi
 Summary(uk.UTF-8):	GNU groff - пакет для форматування тексту
 Name:		groff
-Version:	1.18.1.4
-Release:	5
+Version:	1.21
+Release:	1
 Epoch:		1
 License:	GPL
 Group:		Applications/Publishing
 Source0:	http://ftp.gnu.org/gnu/groff/%{name}-%{version}.tar.gz
-# Source0-md5:	ceecb81533936d251ed015f40e5f7287
+# Source0-md5:	8b8cd29385b97616a0f0d96d0951c5bf
 Source1:	%{name}-trofftops.sh
 Source2:	http://www.mif.pg.gda.pl/homepages/ankry/man-PLD/%{name}-non-english-man-pages.tar.bz2
 # Source2-md5:	3f8b22cc1eefb53306c8c2acf31aca29
-Source3:	groff-nroff
-Patch0:		%{name}-safer.patch
-Patch1:		%{name}-DESTDIR.patch
-Patch2:		%{name}-info.patch
-Patch3:		%{name}-colours.patch
-Patch4:		%{name}-gcc4.patch
-Patch5:		%{name}-ac.patch
-Patch6:		%{name}-multibyte.patch
-Patch7:		%{name}-fix15.patch
-Patch8:		%{name}-devutf8.patch
-Patch9:		%{name}-bigendian.patch
-Patch10:	%{name}-do_char.patch
-Patch11:	%{name}-fixminus.patch
-Patch12:	%{name}-gzext.patch
-Patch13:	%{name}-gzip.patch
-Patch14:	%{name}-sectmp.patch
-Patch15:	%{name}-spacefix.patch
+Source3:	%{name}-nroff
+Patch0:		%{name}-makefile-typo.patch
+Patch1:		%{name}-grotty-wc-no-sgr.patch
+Patch2:		%{name}-grofferdir-auto.patch
 URL:		http://www.gnu.org/software/groff/
 BuildRequires:	autoconf
 BuildRequires:	libstdc++-devel
-BuildRequires:	texinfo >= 4.5
-%if %{with xditview}
 BuildRequires:	netpbm-progs
+BuildRequires:	texinfo >= 4.5
 BuildRequires:	xorg-cf-files
 BuildRequires:	xorg-lib-libXaw-devel
 BuildRequires:	xorg-util-imake
-%endif
 Requires:	mktemp
-Obsoletes:	groff-tools
 Obsoletes:	groff-for-man
+Obsoletes:	groff-tools
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		_appdefsdir	/usr/share/X11/app-defaults
@@ -213,19 +192,6 @@ używany przy drukowaniu).
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
-%patch3 -p1
-%patch4 -p1
-%patch5 -p1
-%patch6 -p1
-%patch7 -p1
-%patch8 -p1
-%patch9 -p1
-%patch10 -p1
-%patch11 -p1
-%patch12 -p1
-%patch13 -p1
-%patch14 -p1
-%patch15 -p1
 
 # makeinfo 4.7 has some problems when generating info without
 # saving macro expanded file???
@@ -235,18 +201,12 @@ mv -f groff.texinfo2 groff.texinfo
 
 %build
 %{__autoconf}
-CXXFLAGS="%{rpmcflags} -fno-rtti -fno-exceptions"
+CXXFLAGS="%{rpmcxxflags} -fno-rtti -fno-exceptions"
 %configure \
-	--enable-multibyte
+	--docdir=%{_docdir}/%{name}-%{version} \
+	--with-appresdir=%{_datadir}/X11/app-defaults \
+	--with-grofferdir=%{_datadir}/%{name}/%{version}/groffer
 %{__make} -j1
-
-%if %{with xditview}
-cd src/xditview
-xmkmf
-%{__make} -j1 \
-	CC="%{__cc}" \
-	CDEBUGFLAGS="%{rpmcflags}"
-%endif
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -256,14 +216,6 @@ rm -rf $RPM_BUILD_ROOT
 
 install %{SOURCE1} $RPM_BUILD_ROOT%{_bindir}/trofftops
 install %{SOURCE3} $RPM_BUILD_ROOT%{_bindir}/nroff
-
-%if %{with xditview}
-%{__make} -j1 -C src/xditview install install.man \
-	DESTDIR=$RPM_BUILD_ROOT \
-	BINDIR=%{_bindir} \
-	MANDIR=%{_mandir}/man1 \
-	XAPPLOADDIR=%{_appdefsdir}
-%endif
 
 ln -sf s.tmac	$RPM_BUILD_ROOT%{_datadir}/groff/%{version}/tmac/gs.tmac
 ln -sf mse.tmac	$RPM_BUILD_ROOT%{_datadir}/groff/%{version}/tmac/gmse.tmac
@@ -306,14 +258,17 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %doc BUG-REPORT ChangeLog NEWS PROBLEMS PROJECTS README TODO
 %attr(755,root,root) %{_bindir}/addftinfo
+%attr(755,root,root) %{_bindir}/chem
 %attr(755,root,root) %{_bindir}/eqn
 %attr(755,root,root) %{_bindir}/eqn2graph
+%attr(755,root,root) %{_bindir}/gdiffmk
 %attr(755,root,root) %{_bindir}/geqn
 %attr(755,root,root) %{_bindir}/gindxbib
 %attr(755,root,root) %{_bindir}/glookbib
 %attr(755,root,root) %{_bindir}/gneqn
 %attr(755,root,root) %{_bindir}/gnroff
 %attr(755,root,root) %{_bindir}/gpic
+%attr(755,root,root) %{_bindir}/grap2graph
 %attr(755,root,root) %{_bindir}/grefer
 %attr(755,root,root) %{_bindir}/grn
 %attr(755,root,root) %{_bindir}/grodvi
@@ -332,26 +287,38 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/lookbib
 %attr(755,root,root) %{_bindir}/neqn
 %attr(755,root,root) %{_bindir}/nroff
+%attr(755,root,root) %{_bindir}/pdfroff
 %attr(755,root,root) %{_bindir}/pfbtops
 %attr(755,root,root) %{_bindir}/pic
 %attr(755,root,root) %{_bindir}/pic2graph
 %attr(755,root,root) %{_bindir}/post-grohtml
 %attr(755,root,root) %{_bindir}/pre-grohtml
+%attr(755,root,root) %{_bindir}/preconv
 %attr(755,root,root) %{_bindir}/refer
+%attr(755,root,root) %{_bindir}/roff2dvi
+%attr(755,root,root) %{_bindir}/roff2html
+%attr(755,root,root) %{_bindir}/roff2pdf
+%attr(755,root,root) %{_bindir}/roff2ps
+%attr(755,root,root) %{_bindir}/roff2text
+%attr(755,root,root) %{_bindir}/roff2x
 %attr(755,root,root) %{_bindir}/soelim
 %attr(755,root,root) %{_bindir}/tbl
 %attr(755,root,root) %{_bindir}/tfmtodit
 %attr(755,root,root) %{_bindir}/troff
+%attr(755,root,root) %{_bindir}/xtotroff
 %{_datadir}/groff
 %{_mandir}/man1/addftinfo.1*
+%{_mandir}/man1/chem.1*
 %{_mandir}/man1/eqn.1*
 %{_mandir}/man1/eqn2graph.1*
+%{_mandir}/man1/gdiffmk.1*
 %{_mandir}/man1/geqn.1*
 %{_mandir}/man1/gindxbib.1*
 %{_mandir}/man1/glookbib.1*
 %{_mandir}/man1/gneqn.1*
 %{_mandir}/man1/gnroff.1*
 %{_mandir}/man1/gpic.1*
+%{_mandir}/man1/grap2graph.1*
 %{_mandir}/man1/grefer.1*
 %{_mandir}/man1/grn.1*
 %{_mandir}/man1/grodvi.1*
@@ -371,14 +338,22 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/lookbib.1*
 %{_mandir}/man1/neqn.1*
 %{_mandir}/man1/nroff.1*
+%{_mandir}/man1/pdfroff.1*
 %{_mandir}/man1/pfbtops.1*
 %{_mandir}/man1/pic.1*
 %{_mandir}/man1/pic2graph.1*
 %{_mandir}/man1/refer.1*
+%{_mandir}/man1/roff2dvi.1*
+%{_mandir}/man1/roff2html.1*
+%{_mandir}/man1/roff2pdf.1*
+%{_mandir}/man1/roff2ps.1*
+%{_mandir}/man1/roff2text.1*
+%{_mandir}/man1/roff2x.1*
 %{_mandir}/man1/soelim.1*
 %{_mandir}/man1/tbl.1*
 %{_mandir}/man1/tfmtodit.1*
 %{_mandir}/man1/troff.1*
+%{_mandir}/man1/xtotroff.1*
 %{_mandir}/man5/*
 %{_mandir}/man7/[!m]*
 
@@ -431,14 +406,13 @@ rm -rf $RPM_BUILD_ROOT
 
 %{_infodir}/*info*
 
-%if %{with xditview}
 %files gxditview
 %defattr(644,root,root,755)
-%doc src/xditview/{ChangeLog,README,TODO}
+%doc src/devices/xditview/{ChangeLog,README,TODO}
 %attr(755,root,root) %{_bindir}/gxditview
 %{_appdefsdir}/GXditview
+%{_appdefsdir}/GXditview-color
 %{_mandir}/man1/*
-%endif
 
 %files perl
 %defattr(644,root,root,755)
