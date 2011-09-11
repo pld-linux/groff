@@ -1,4 +1,3 @@
-#
 Summary:	A document formatting system
 Summary(de.UTF-8):	Ein Dokumentformatierungssystem
 Summary(es.UTF-8):	Paquete groff GNU - formateador de texto
@@ -12,7 +11,7 @@ Name:		groff
 Version:	1.21
 Release:	1
 Epoch:		1
-License:	GPL
+License:	GPL v3+
 Group:		Applications/Publishing
 Source0:	http://ftp.gnu.org/gnu/groff/%{name}-%{version}.tar.gz
 # Source0-md5:	8b8cd29385b97616a0f0d96d0951c5bf
@@ -24,12 +23,15 @@ Patch0:		%{name}-makefile-typo.patch
 Patch1:		%{name}-grotty-wc-no-sgr.patch
 Patch2:		%{name}-grofferdir-auto.patch
 URL:		http://www.gnu.org/software/groff/
-BuildRequires:	autoconf
+BuildRequires:	autoconf >= 2.62
 BuildRequires:	libstdc++-devel
 BuildRequires:	netpbm-progs
-BuildRequires:	texinfo >= 4.5
+BuildRequires:	perl-base
+BuildRequires:	sed >= 4.0
+BuildRequires:	texinfo >= 4.8
 BuildRequires:	xorg-cf-files
 BuildRequires:	xorg-lib-libXaw-devel
+BuildRequires:	xorg-lib-libXmu-devel
 BuildRequires:	xorg-util-imake
 Requires:	mktemp
 Obsoletes:	groff-for-man
@@ -193,18 +195,12 @@ używany przy drukowaniu).
 %patch1 -p1
 %patch2 -p1
 
-# makeinfo 4.7 has some problems when generating info without
-# saving macro expanded file???
-cd doc
-makeinfo -E groff.texinfo2 groff.texinfo
-mv -f groff.texinfo2 groff.texinfo
-
 %build
 %{__autoconf}
 CXXFLAGS="%{rpmcxxflags} -fno-rtti -fno-exceptions"
 %configure \
 	--docdir=%{_docdir}/%{name}-%{version} \
-	--with-appresdir=%{_datadir}/X11/app-defaults \
+	--with-appresdir=%{_appdefsdir} \
 	--with-grofferdir=%{_datadir}/%{name}/%{version}/groffer
 %{__make} -j1
 
@@ -242,23 +238,28 @@ echo ".so soelim.1" >  $RPM_BUILD_ROOT%{_mandir}/man1/gsoelim.1
 echo ".so tbl.1" >     $RPM_BUILD_ROOT%{_mandir}/man1/gtbl.1
 echo ".so troff.1" >   $RPM_BUILD_ROOT%{_mandir}/man1/gtroff.1
 
+for f in %{_bindir}/{chem,grog,groffer,roff2dvi,roff2html,roff2pdf,roff2ps,roff2text,roff2x} \
+	%{_datadir}/%{name}/%{version}/groffer/{func,man,perl_test}.pl ; do
+	grep -q '^#! /usr/bin/env perl' $RPM_BUILD_ROOT$f || exit 1
+	sed -i -e '1s,#! /usr/bin/env perl,#!/usr/bin/perl,' $RPM_BUILD_ROOT$f
+done
+
 bzip2 -dc %{SOURCE2} | tar xf - -C $RPM_BUILD_ROOT%{_mandir}
 mv -f $RPM_BUILD_ROOT%{_mandir}/ja/{man7/mmroff.7,man1/mmroff.1}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
-%post	-p	/sbin/postshell
+%post	-p /sbin/postshell
 -/usr/sbin/fix-info-dir -c %{_infodir}
 
-%postun	-p	/sbin/postshell
+%postun	-p /sbin/postshell
 -/usr/sbin/fix-info-dir -c %{_infodir}
 
 %files
 %defattr(644,root,root,755)
-%doc BUG-REPORT ChangeLog NEWS PROBLEMS PROJECTS README TODO
+%doc BUG-REPORT ChangeLog LICENSES NEWS PROBLEMS PROJECTS README TODO
 %attr(755,root,root) %{_bindir}/addftinfo
-%attr(755,root,root) %{_bindir}/chem
 %attr(755,root,root) %{_bindir}/eqn
 %attr(755,root,root) %{_bindir}/eqn2graph
 %attr(755,root,root) %{_bindir}/gdiffmk
@@ -273,7 +274,6 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/grn
 %attr(755,root,root) %{_bindir}/grodvi
 %attr(755,root,root) %{_bindir}/groff
-%attr(755,root,root) %{_bindir}/groffer
 %attr(755,root,root) %{_bindir}/grolbp
 %attr(755,root,root) %{_bindir}/grolj4
 %attr(755,root,root) %{_bindir}/grops
@@ -295,20 +295,21 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/pre-grohtml
 %attr(755,root,root) %{_bindir}/preconv
 %attr(755,root,root) %{_bindir}/refer
-%attr(755,root,root) %{_bindir}/roff2dvi
-%attr(755,root,root) %{_bindir}/roff2html
-%attr(755,root,root) %{_bindir}/roff2pdf
-%attr(755,root,root) %{_bindir}/roff2ps
-%attr(755,root,root) %{_bindir}/roff2text
-%attr(755,root,root) %{_bindir}/roff2x
 %attr(755,root,root) %{_bindir}/soelim
 %attr(755,root,root) %{_bindir}/tbl
 %attr(755,root,root) %{_bindir}/tfmtodit
 %attr(755,root,root) %{_bindir}/troff
-%attr(755,root,root) %{_bindir}/xtotroff
-%{_datadir}/groff
+%dir %{_datadir}/groff
+%dir %{_datadir}/groff/%{version}
+%{_datadir}/groff/%{version}/eign
+%{_datadir}/groff/%{version}/font
+%{_datadir}/groff/%{version}/oldfont
+%{_datadir}/groff/%{version}/pic
+%{_datadir}/groff/%{version}/tmac
+%{_datadir}/groff/current
+%{_datadir}/groff/site-font
+%{_datadir}/groff/site-tmac
 %{_mandir}/man1/addftinfo.1*
-%{_mandir}/man1/chem.1*
 %{_mandir}/man1/eqn.1*
 %{_mandir}/man1/eqn2graph.1*
 %{_mandir}/man1/gdiffmk.1*
@@ -323,7 +324,6 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/grn.1*
 %{_mandir}/man1/grodvi.1*
 %{_mandir}/man1/groff.1*
-%{_mandir}/man1/groffer.1*
 %{_mandir}/man1/grohtml.1*
 %{_mandir}/man1/grolbp.1*
 %{_mandir}/man1/grolj4.1*
@@ -342,20 +342,17 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/pfbtops.1*
 %{_mandir}/man1/pic.1*
 %{_mandir}/man1/pic2graph.1*
+%{_mandir}/man1/preconv.1*
 %{_mandir}/man1/refer.1*
-%{_mandir}/man1/roff2dvi.1*
-%{_mandir}/man1/roff2html.1*
-%{_mandir}/man1/roff2pdf.1*
-%{_mandir}/man1/roff2ps.1*
-%{_mandir}/man1/roff2text.1*
-%{_mandir}/man1/roff2x.1*
 %{_mandir}/man1/soelim.1*
 %{_mandir}/man1/tbl.1*
 %{_mandir}/man1/tfmtodit.1*
 %{_mandir}/man1/troff.1*
-%{_mandir}/man1/xtotroff.1*
-%{_mandir}/man5/*
-%{_mandir}/man7/[!m]*
+%{_mandir}/man5/groff_*.5*
+%{_mandir}/man5/lj4_font.5*
+%{_mandir}/man7/ditroff.7*
+%{_mandir}/man7/groff*.7*
+%{_mandir}/man7/roff.7*
 
 %lang(de) %{_mandir}/de/man1/groff.1*
 
@@ -393,8 +390,9 @@ rm -rf $RPM_BUILD_ROOT
 %lang(ja) %{_mandir}/ja/man1/tbl.1*
 %lang(ja) %{_mandir}/ja/man1/tfmtodit.1*
 %lang(ja) %{_mandir}/ja/man1/troff.1*
-%lang(ja) %{_mandir}/ja/man5/*
-%lang(ja) %{_mandir}/ja/man7/[!m]*
+%lang(ja) %{_mandir}/ja/man5/groff_*.5*
+%lang(ja) %{_mandir}/ja/man7/groff*.7*
+%lang(ja) %{_mandir}/ja/man7/roff.7*
 
 %lang(pl) %{_mandir}/pl/man1/gnroff.1*
 %lang(pl) %{_mandir}/pl/man1/groff.1*
@@ -404,27 +402,46 @@ rm -rf $RPM_BUILD_ROOT
 %lang(pl) %{_mandir}/pl/man1/soelim.1*
 %lang(pl) %{_mandir}/pl/man1/tbl.1*
 
-%{_infodir}/*info*
+%{_infodir}/groff.info*
 
 %files gxditview
 %defattr(644,root,root,755)
 %doc src/devices/xditview/{ChangeLog,README,TODO}
 %attr(755,root,root) %{_bindir}/gxditview
+%attr(755,root,root) %{_bindir}/xtotroff
 %{_appdefsdir}/GXditview
 %{_appdefsdir}/GXditview-color
-%{_mandir}/man1/*
+%{_mandir}/man1/gxditview.1*
+%{_mandir}/man1/xtotroff.1*
 
 %files perl
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/afmtodit
+%attr(755,root,root) %{_bindir}/chem
+%attr(755,root,root) %{_bindir}/groffer
 %attr(755,root,root) %{_bindir}/grog
 %attr(755,root,root) %{_bindir}/mmroff
+%attr(755,root,root) %{_bindir}/roff2dvi
+%attr(755,root,root) %{_bindir}/roff2html
+%attr(755,root,root) %{_bindir}/roff2pdf
+%attr(755,root,root) %{_bindir}/roff2ps
+%attr(755,root,root) %{_bindir}/roff2text
+%attr(755,root,root) %{_bindir}/roff2x
 %attr(755,root,root) %{_bindir}/trofftops
-%{_mandir}/man1/afmtodit.*
-%{_mandir}/man1/grog.*
-%{_mandir}/man1/mmroff.*
+%{_datadir}/groff/%{version}/groffer
+%{_mandir}/man1/afmtodit.1*
+%{_mandir}/man1/chem.1*
+%{_mandir}/man1/grog.1*
+%{_mandir}/man1/groffer.1*
+%{_mandir}/man1/mmroff.1*
+%{_mandir}/man1/roff2dvi.1*
+%{_mandir}/man1/roff2html.1*
+%{_mandir}/man1/roff2pdf.1*
+%{_mandir}/man1/roff2ps.1*
+%{_mandir}/man1/roff2text.1*
+%{_mandir}/man1/roff2x.1*
 
-%lang(fi) %{_mandir}/fi/man1/afmtodit.*
+%lang(fi) %{_mandir}/fi/man1/afmtodit.1*
 
-%lang(ja) %{_mandir}/ja/man1/grog.*
-%lang(ja) %{_mandir}/ja/man1/mmroff.*
+%lang(ja) %{_mandir}/ja/man1/grog.1*
+%lang(ja) %{_mandir}/ja/man1/mmroff.1*
