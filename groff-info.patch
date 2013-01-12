@@ -1,0 +1,14 @@
+--- groff-1.22.1/doc/groff.texinfo.orig	2012-12-30 09:40:29.000000000 +0100
++++ groff-1.22.1/doc/groff.texinfo	2013-01-12 18:52:31.060191713 +0100
+@@ -472,9 +472,9 @@
+ @c Note: We say `Roman numerals' but `roman font'.
+ 
+ 
+-@dircategory Typesetting
++@dircategory Typesetting:
+ @direntry
+-* Groff: (groff).               The GNU troff document formatting system.
++* Groff: (groff).			The GNU troff document formatting system
+ @end direntry
+ 
+ 

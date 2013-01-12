@@ -8,20 +8,18 @@ Summary(ru.UTF-8):	GNU groff - пакет для форматирования т
 Summary(tr.UTF-8):	GNU groff metin biçemleme paketi
 Summary(uk.UTF-8):	GNU groff - пакет для форматування тексту
 Name:		groff
-Version:	1.21
-Release:	2
+Version:	1.22.1
+Release:	1
 Epoch:		1
 License:	GPL v3+
 Group:		Applications/Publishing
 Source0:	http://ftp.gnu.org/gnu/groff/%{name}-%{version}.tar.gz
-# Source0-md5:	8b8cd29385b97616a0f0d96d0951c5bf
+# Source0-md5:	875c9c628b8b78a0c325000a43ebb964
 Source1:	%{name}-trofftops.sh
 Source2:	http://www.mif.pg.gda.pl/homepages/ankry/man-PLD/%{name}-non-english-man-pages.tar.bz2
 # Source2-md5:	3f8b22cc1eefb53306c8c2acf31aca29
 Source3:	%{name}-nroff
-Patch0:		%{name}-makefile-typo.patch
-Patch1:		%{name}-grotty-wc-no-sgr.patch
-Patch2:		%{name}-grofferdir-auto.patch
+Patch0:		%{name}-info.patch
 URL:		http://www.gnu.org/software/groff/
 BuildRequires:	autoconf >= 2.62
 BuildRequires:	libstdc++-devel
@@ -29,10 +27,10 @@ BuildRequires:	netpbm-progs
 BuildRequires:	perl-base
 BuildRequires:	sed >= 4.0
 BuildRequires:	texinfo >= 4.8
-BuildRequires:	xorg-cf-files
+BuildRequires:	xorg-lib-libX11-devel
 BuildRequires:	xorg-lib-libXaw-devel
 BuildRequires:	xorg-lib-libXmu-devel
-BuildRequires:	xorg-util-imake
+BuildRequires:	xorg-lib-libXt-devel
 Requires:	mktemp
 Obsoletes:	groff-for-man
 Obsoletes:	groff-tools
@@ -192,8 +190,6 @@ używany przy drukowaniu).
 %prep
 %setup -q
 %patch0 -p1
-%patch1 -p1
-%patch2 -p1
 
 %build
 %{__autoconf}
@@ -276,6 +272,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/groff
 %attr(755,root,root) %{_bindir}/grolbp
 %attr(755,root,root) %{_bindir}/grolj4
+%attr(755,root,root) %{_bindir}/gropdf
 %attr(755,root,root) %{_bindir}/grops
 %attr(755,root,root) %{_bindir}/grotty
 %attr(755,root,root) %{_bindir}/gsoelim
@@ -287,6 +284,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/lookbib
 %attr(755,root,root) %{_bindir}/neqn
 %attr(755,root,root) %{_bindir}/nroff
+%attr(755,root,root) %{_bindir}/pdfmom
 %attr(755,root,root) %{_bindir}/pdfroff
 %attr(755,root,root) %{_bindir}/pfbtops
 %attr(755,root,root) %{_bindir}/pic
@@ -327,6 +325,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/grohtml.1*
 %{_mandir}/man1/grolbp.1*
 %{_mandir}/man1/grolj4.1*
+%{_mandir}/man1/gropdf.1*
 %{_mandir}/man1/grops.1*
 %{_mandir}/man1/grotty.1*
 %{_mandir}/man1/gsoelim.1*
@@ -338,6 +337,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/lookbib.1*
 %{_mandir}/man1/neqn.1*
 %{_mandir}/man1/nroff.1*
+%{_mandir}/man1/pdfmom.1*
 %{_mandir}/man1/pdfroff.1*
 %{_mandir}/man1/pfbtops.1*
 %{_mandir}/man1/pic.1*
