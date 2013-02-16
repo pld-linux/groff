@@ -243,6 +243,9 @@ done
 bzip2 -dc %{SOURCE2} | tar xf - -C $RPM_BUILD_ROOT%{_mandir}
 mv -f $RPM_BUILD_ROOT%{_mandir}/ja/{man7/mmroff.7,man1/mmroff.1}
 
+# clean docdir
+%{__rm} -r $RPM_BUILD_ROOT%{_datadir}/doc/%{name}-%{version}
+
 %clean
 rm -rf $RPM_BUILD_ROOT
 
