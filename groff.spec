@@ -226,7 +226,6 @@ ln -sf soelim	$RPM_BUILD_ROOT%{_bindir}/gsoelim
 echo ".so eqn.1" >     $RPM_BUILD_ROOT%{_mandir}/man1/geqn.1
 echo ".so indxbib.1" > $RPM_BUILD_ROOT%{_mandir}/man1/gindxbib.1
 echo ".so lookbib.1" > $RPM_BUILD_ROOT%{_mandir}/man1/glookbib.1
-echo ".so neqn.1" >    $RPM_BUILD_ROOT%{_mandir}/man1/gneqn.1
 echo ".so nroff.1" >   $RPM_BUILD_ROOT%{_mandir}/man1/gnroff.1
 echo ".so pic.1" >     $RPM_BUILD_ROOT%{_mandir}/man1/gpic.1
 echo ".so refer.1" >   $RPM_BUILD_ROOT%{_mandir}/man1/grefer.1
@@ -242,6 +241,9 @@ done
 
 bzip2 -dc %{SOURCE2} | tar xf - -C $RPM_BUILD_ROOT%{_mandir}
 mv -f $RPM_BUILD_ROOT%{_mandir}/ja/{man7/mmroff.7,man1/mmroff.1}
+
+%{__rm} $RPM_BUILD_ROOT%{_mandir}/ja/man1/geqn.1
+%{__rm} $RPM_BUILD_ROOT%{_mandir}/ja/man1/gneqn.1
 
 # clean docdir
 %{__rm} -r $RPM_BUILD_ROOT%{_docdir}/%{name}-%{version}
@@ -317,7 +319,6 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/geqn.1*
 %{_mandir}/man1/gindxbib.1*
 %{_mandir}/man1/glookbib.1*
-%{_mandir}/man1/gneqn.1*
 %{_mandir}/man1/gnroff.1*
 %{_mandir}/man1/gpic.1*
 %{_mandir}/man1/grap2graph.1*
@@ -363,10 +364,8 @@ rm -rf $RPM_BUILD_ROOT
 
 %lang(ja) %{_mandir}/ja/man1/addftinfo.1*
 %lang(ja) %{_mandir}/ja/man1/eqn.1*
-%lang(ja) %{_mandir}/ja/man1/geqn.1*
 %lang(ja) %{_mandir}/ja/man1/gindxbib.1*
 %lang(ja) %{_mandir}/ja/man1/glookbib.1*
-%lang(ja) %{_mandir}/ja/man1/gneqn.1*
 %lang(ja) %{_mandir}/ja/man1/gnroff.1*
 %lang(ja) %{_mandir}/ja/man1/gpic.1*
 %lang(ja) %{_mandir}/ja/man1/grefer.1*
