@@ -312,7 +312,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/tfmtodit
 %attr(755,root,root) %{_bindir}/troff
 %dir %{_libdir}/groff
-%dir %{_libdir}/groff/groff_opts_*.txt
+%{_libdir}/groff/groff_opts_*.txt
 %dir %{_datadir}/groff
 %dir %{_datadir}/groff/%{version}
 %{_datadir}/groff/%{version}/eign
