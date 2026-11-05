@@ -8,26 +8,30 @@ Summary(ru.UTF-8):	GNU groff - пакет для форматирования т
 Summary(tr.UTF-8):	GNU groff metin biçemleme paketi
 Summary(uk.UTF-8):	GNU groff - пакет для форматування тексту
 Name:		groff
-Version:	1.22.4
-Release:	2
+Version:	1.24.2
+Release:	1
 Epoch:		1
 License:	GPL v3+
 Group:		Applications/Publishing
 Source0:	https://ftp.gnu.org/gnu/groff/%{name}-%{version}.tar.gz
-# Source0-md5:	08fb04335e2f5e73f23ea4c3adbf0c5f
+# Source0-md5:	4568a9c35000784246cfebff8e93121a
 Source1:	%{name}-trofftops.sh
 Source2:	http://www.mif.pg.gda.pl/homepages/ankry/man-PLD/%{name}-non-english-man-pages.tar.bz2
 # Source2-md5:	3f8b22cc1eefb53306c8c2acf31aca29
 Source3:	%{name}-nroff
 Patch0:		%{name}-info.patch
+Patch1:		%{name}-assert.patch
 URL:		http://www.gnu.org/software/groff/
-BuildRequires:	autoconf >= 2.62
+BuildRequires:	autoconf >= 2.64
+BuildRequires:	automake
 BuildRequires:	libstdc++-devel
+BuildRequires:	m4
+# pamcut, pnmcrop, pnmtopng
 BuildRequires:	netpbm-progs
-BuildRequires:	perl-base >= 1:5.6.1
+BuildRequires:	perl-base >= 1:5.8
 BuildRequires:	pkgconfig
 BuildRequires:	sed >= 4.0
-BuildRequires:	texinfo >= 4.8
+BuildRequires:	texinfo >= 5.0
 BuildRequires:	uchardet-devel >= 0.0.1
 BuildRequires:	xorg-lib-libX11-devel
 BuildRequires:	xorg-lib-libXaw-devel
@@ -175,7 +179,7 @@ Summary(ru.UTF-8):	Часть системы форматирования тек
 Summary(uk.UTF-8):	Частина системи форматування тексту groff, якій потрібен Perl
 Group:		Applications/Publishing
 Requires:	%{name} = %{epoch}:%{version}-%{release}
-Requires:	perl-base >= 1:5.6.1
+Requires:	perl-base >= 1:5.8
 
 %description perl
 groff-perl contains the parts of the groff text processor package that
@@ -193,19 +197,20 @@ używany przy drukowaniu).
 
 %prep
 %setup -q
-%patch -P 0 -p1
+%patch -P0 -p1
+%patch -P1 -p1
 
 %build
 %{__aclocal} -I m4 -I gnulib_m4
 %{__autoconf}
+%{__autoheader}
 %{__automake}
-CXXFLAGS="%{rpmcxxflags} -fno-rtti -fno-exceptions"
 %configure \
 	--docdir=%{_docdir}/%{name}-%{version} \
 	--disable-silent-rules \
-	--with-appresdir=%{_appdefsdir} \
-	--with-grofferdir=%{_datadir}/%{name}/%{version}/groffer \
+	--with-appdefdir=%{_appdefsdir} \
 	--with-urw-fonts=%{_fontsdir}/Type1
+
 %{__make} -j1
 
 %install
@@ -241,11 +246,9 @@ echo ".so soelim.1" >  $RPM_BUILD_ROOT%{_mandir}/man1/gsoelim.1
 echo ".so tbl.1" >     $RPM_BUILD_ROOT%{_mandir}/man1/gtbl.1
 echo ".so troff.1" >   $RPM_BUILD_ROOT%{_mandir}/man1/gtroff.1
 
-for f in %{_bindir}/{chem,glilypond,gperl,gpinyin,groffer,roff2dvi,roff2html,roff2pdf,roff2ps,roff2text,roff2x} \
-	%{_libdir}/%{name}/{gpinyin,grog}/subs.pl \
-	%{_datadir}/%{name}/%{version}/groffer/{main_subs,man,subs}.pl ; do
-	grep -q '^#! /usr/bin/env perl' $RPM_BUILD_ROOT$f || exit 1
-	sed -i -e '1s,#! /usr/bin/env perl,#!/usr/bin/perl,' $RPM_BUILD_ROOT$f
+for f in %{_bindir}/{glilypond,gperl,gpinyin} ; do \
+	grep -q '^#!/usr/bin/env perl' $RPM_BUILD_ROOT$f || exit 1
+	sed -i -e '1s,#!/usr/bin/env perl,#!/usr/bin/perl,' $RPM_BUILD_ROOT$f
 done
 
 bzip2 -dc %{SOURCE2} | tar xf - -C $RPM_BUILD_ROOT%{_mandir}
@@ -299,7 +302,6 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/neqn
 %attr(755,root,root) %{_bindir}/nroff
 %attr(755,root,root) %{_bindir}/pdfmom
-%attr(755,root,root) %{_bindir}/pdfroff
 %attr(755,root,root) %{_bindir}/pfbtops
 %attr(755,root,root) %{_bindir}/pic
 %attr(755,root,root) %{_bindir}/pic2graph
@@ -312,13 +314,12 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/tfmtodit
 %attr(755,root,root) %{_bindir}/troff
 %dir %{_libdir}/groff
-%{_libdir}/groff/groff_opts_*.txt
+%dir %{_libdir}/groff/site-tmac
 %dir %{_datadir}/groff
 %dir %{_datadir}/groff/%{version}
 %{_datadir}/groff/%{version}/eign
 %{_datadir}/groff/%{version}/font
 %{_datadir}/groff/%{version}/oldfont
-%{_datadir}/groff/%{version}/pic
 %{_datadir}/groff/%{version}/tmac
 %{_datadir}/groff/current
 %{_datadir}/groff/site-font
@@ -353,7 +354,6 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/neqn.1*
 %{_mandir}/man1/nroff.1*
 %{_mandir}/man1/pdfmom.1*
-%{_mandir}/man1/pdfroff.1*
 %{_mandir}/man1/pfbtops.1*
 %{_mandir}/man1/pic.1*
 %{_mandir}/man1/pic2graph.1*
@@ -364,8 +364,6 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/tfmtodit.1*
 %{_mandir}/man1/troff.1*
 %{_mandir}/man5/groff_*.5*
-%{_mandir}/man5/lj4_font.5*
-%{_mandir}/man7/ditroff.7*
 %{_mandir}/man7/groff*.7*
 %{_mandir}/man7/roff.7*
 
@@ -434,34 +432,16 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/glilypond
 %attr(755,root,root) %{_bindir}/gperl
 %attr(755,root,root) %{_bindir}/gpinyin
-%attr(755,root,root) %{_bindir}/groffer
 %attr(755,root,root) %{_bindir}/grog
 %attr(755,root,root) %{_bindir}/mmroff
-%attr(755,root,root) %{_bindir}/roff2dvi
-%attr(755,root,root) %{_bindir}/roff2html
-%attr(755,root,root) %{_bindir}/roff2pdf
-%attr(755,root,root) %{_bindir}/roff2ps
-%attr(755,root,root) %{_bindir}/roff2text
-%attr(755,root,root) %{_bindir}/roff2x
 %attr(755,root,root) %{_bindir}/trofftops
-%{_libdir}/groff/glilypond
-%{_libdir}/groff/gpinyin
-%{_libdir}/groff/grog
-%{_datadir}/groff/%{version}/groffer
 %{_mandir}/man1/afmtodit.1*
 %{_mandir}/man1/chem.1*
 %{_mandir}/man1/glilypond.1*
 %{_mandir}/man1/gperl.1*
 %{_mandir}/man1/gpinyin.1*
 %{_mandir}/man1/grog.1*
-%{_mandir}/man1/groffer.1*
 %{_mandir}/man1/mmroff.1*
-%{_mandir}/man1/roff2dvi.1*
-%{_mandir}/man1/roff2html.1*
-%{_mandir}/man1/roff2pdf.1*
-%{_mandir}/man1/roff2ps.1*
-%{_mandir}/man1/roff2text.1*
-%{_mandir}/man1/roff2x.1*
 
 %lang(fi) %{_mandir}/fi/man1/afmtodit.1*
 

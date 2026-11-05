@@ -1,0 +1,13 @@
+Fix invalid use of assert()
+--- groff-1.24.2/src/roff/troff/node.cpp.orig	2026-11-05 21:33:39.401789907 +0100
++++ groff-1.24.2/src/roff/troff/node.cpp	2026-11-05 21:33:45.398424087 +0100
+@@ -4599,7 +4599,8 @@ static int get_register(const char *p)
+   reg *r = static_cast<reg *>(register_dictionary.lookup(p));
+   assert(r != 0 /* nullptr */);
+   units value;
+-  assert(r->get_value(&value));
++  bool res = r->get_value(&value);
++  assert(res);
+   return int(value);
+ }
+ 
