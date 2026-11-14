@@ -206,6 +206,7 @@ używany przy drukowaniu).
 %{__autoheader}
 %{__automake}
 %configure \
+	PROG_TEX=missing \
 	--docdir=%{_docdir}/%{name}-%{version} \
 	--disable-silent-rules \
 	--with-appdefdir=%{_appdefsdir} \
