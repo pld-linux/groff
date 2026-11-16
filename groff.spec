@@ -8,19 +8,18 @@ Summary(ru.UTF-8):	GNU groff - пакет для форматирования т
 Summary(tr.UTF-8):	GNU groff metin biçemleme paketi
 Summary(uk.UTF-8):	GNU groff - пакет для форматування тексту
 Name:		groff
-Version:	1.24.2
+Version:	1.25.0
 Release:	1
 Epoch:		1
 License:	GPL v3+
 Group:		Applications/Publishing
 Source0:	https://ftp.gnu.org/gnu/groff/%{name}-%{version}.tar.gz
-# Source0-md5:	4568a9c35000784246cfebff8e93121a
+# Source0-md5:	d75ab76a307f35ed24fb4845a8f0595a
 Source1:	%{name}-trofftops.sh
 Source2:	http://www.mif.pg.gda.pl/homepages/ankry/man-PLD/%{name}-non-english-man-pages.tar.bz2
 # Source2-md5:	3f8b22cc1eefb53306c8c2acf31aca29
 Source3:	%{name}-nroff
 Patch0:		%{name}-info.patch
-Patch1:		%{name}-assert.patch
 URL:		http://www.gnu.org/software/groff/
 BuildRequires:	autoconf >= 2.64
 BuildRequires:	automake
@@ -198,7 +197,6 @@ używany przy drukowaniu).
 %prep
 %setup -q
 %patch -P0 -p1
-%patch -P1 -p1
 
 %build
 %{__aclocal} -I m4 -I gnulib_m4
